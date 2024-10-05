@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    Tile[,] board;
+    public Tile[,] board;
 
-    private readonly int height = 8;
-    private readonly int width = 8;
+    public readonly int height = 8;
+    public readonly int width = 8;
 
     private bool isDragging = false;
     private bool isAttached = false;

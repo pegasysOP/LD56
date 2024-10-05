@@ -21,7 +21,9 @@ public class BoardUtils : MonoBehaviour
     {
         Tile[,] board = BM.GetBoard();
 
-        if (board[x,y].unit != null)
+        Tile t = GetTileAt(x, y, BM);
+
+        if (t.unit != null)
         {
             return board[x,y].unit;
         }
@@ -30,12 +32,27 @@ public class BoardUtils : MonoBehaviour
 
     public static Tile GetTileAt(int x, int y, BoardManager BM)
     {
-        GetNearestTile(x, y);
-        return null;
+        Tile t = GetNearestTile(x, y, BM);
+        return t;
     }
 
-    public static Tile GetNearestTile(int x, int y)
+    public static Tile GetNearestTile(int x, int y, BoardManager BM)
     {
+        for (int i = 0; i < BM.width; i++)
+        {
+            for (int j = 0; j < BM.height; j++)
+            {
+                if (Mathf.Abs(x - i) > 1 || Mathf.Abs(y - j) > 1)
+                {
+                    //The closest tile will be at most 1 unit away. So this can't be the closest.
+                    continue;
+                }
+                return BM.board[i, j];
+            }
+        }
+        //TODO: How should we handle trying to place outside the board. Currently this will just place at the closest
+
+        //We didn't find any tile that is closest. So return null
         return null;
     }
 }
