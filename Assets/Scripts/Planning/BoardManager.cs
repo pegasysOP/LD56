@@ -30,8 +30,8 @@ public class BoardManager : MonoBehaviour
         GenerateBoard();
 
         //Place two units on the board
-        SpawnUnit(2, 2);
-        SpawnUnit(7, 7);
+        SpawnUnit(1, 3);
+        SpawnUnit(1, 1);
     }
 
     // Update is called once per frame

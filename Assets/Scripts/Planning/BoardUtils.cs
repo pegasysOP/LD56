@@ -51,10 +51,15 @@ public class BoardUtils : MonoBehaviour
 
     public static bool PlaceUnit(Unit unit, float x, float y, BoardManager BM)
     {
-        // Bounds check should include `>=` to avoid overflow
-        if (x < 0 || y < 0 || x >= BM.width || y >= BM.height)  // Updated here
+        if (x < 0 || y < 0 || x >= BM.width || y >= BM.height)  
         {
             Debug.Log("Invalid coordinate");
+            return false;
+        }
+
+        if(x > 3)
+        {
+            Debug.Log("Outside player zone");
             return false;
         }
 
@@ -65,18 +70,14 @@ public class BoardUtils : MonoBehaviour
             return false;
         }
 
-        // Place unit on the board
         Debug.Log(unit.gameObject.name + ": " + x + ", " + y);
 
-        unit.transform.position = new Vector3(x, 0f, y); // Set unit position
+        unit.transform.position = new Vector3(x, 0f, y); 
 
-        // Clear previous tile
         BM.board[(int)unit.previousPosition.x, (int)unit.previousPosition.z].unit = null;
 
-        // Update the new position as the previous position
         unit.previousPosition = new Vector3(x, 0, y);
 
-        // Assign unit to the new tile
         BM.board[(int)x, (int)y].unit = unit;
 
         return true;
