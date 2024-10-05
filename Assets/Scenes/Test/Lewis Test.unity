@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4247503296649911327, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4247503296649911327, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4247503296649911327, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4247503296649911327, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -508,7 +509,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 5.9, z: -4.6}
+  m_LocalPosition: {x: 3.5, y: 5.9, z: -0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -535,6 +536,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc06f718593921b429c9a63b4f893ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fe5d55b7d8e444b990a220bfa415b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileGO: {fileID: 4678482537070024382, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
 --- !u!1 &1030540221
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,9 +930,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Board
       objectReference: {fileID: 0}
+    - target: {fileID: 2547434688658817867, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
+      propertyPath: tileGO
+      value: 
+      objectReference: {fileID: 4678482537070024382, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
     - target: {fileID: 2770344073955403849, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 2770344073955403849, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
       propertyPath: m_LocalPosition.y
@@ -926,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2770344073955403849, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2770344073955403849, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
       propertyPath: m_LocalRotation.w
