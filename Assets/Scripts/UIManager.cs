@@ -11,10 +11,12 @@ public class UIManager : MonoBehaviour
     public const string CREDIT_SCENE = "Credits";
     public const string INSTRUCTION_SCENE = "Instructions";
 
+    private BoardManager BM;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        BM = FindObjectOfType<BoardManager>(); 
     }
 
     // Update is called once per frame
@@ -50,6 +52,8 @@ public class UIManager : MonoBehaviour
 
     public void StartRoundPressed()
     {
+        
+        Debug.Log(BM.units.Count);
         Debug.Log("Next Round not implemented yet");
     }
 }
