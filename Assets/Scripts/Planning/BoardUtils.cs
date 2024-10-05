@@ -61,10 +61,13 @@ public class BoardUtils : MonoBehaviour
         Debug.Log("Utils: " + x + ", " + y);
         //Tile t = GetNearestTile(x, y, BM);
 
+        //If tile has a unit on then don't place unit on the same tile
         //if(t.unit != null)
         //{
         //    return false;
         //}
+
+        //If tile is out of bounds then don't place unit on tile
         if(x < 0 || y < 0 || x > 8 || y > 8)
         {
             Debug.Log("Invalid coordinate");
@@ -72,13 +75,15 @@ public class BoardUtils : MonoBehaviour
         }
         //else
         //{
+
+        //Otherwise place unit on time
             Debug.Log(unit.gameObject.name + ": " + x + ", " + y );
            // t.unit = unit;
             unit.GetComponentInParent<Transform>().transform.position = new Vector3(x, 0.11f, y + 0.5f);
-            //unit.gameObject.GetComponentInChildren<Transform>().position = new Vector3(0, 0.11f, 0);
-            
-            //unit.gameObject.GetComponentInChildren<Transform>().rotation = Quaternion.Euler(new Vector3(80, 0, 0));
+        //unit.gameObject.GetComponentInChildren<Transform>().position = new Vector3(0, 0.11f, 0);
 
+        //unit.gameObject.GetComponentInChildren<Transform>().rotation = Quaternion.Euler(new Vector3(80, 0, 0));
+            BM.board[(int)x,(int)y].unit = unit;
         
             return true;
         //}

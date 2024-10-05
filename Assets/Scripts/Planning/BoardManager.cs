@@ -23,7 +23,10 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         board = new Tile[width,height];
+        //Create the game objects for each tile. Currently each tile has no unit attatched. 
         GenerateBoard();
+
+        //Place two units on the board
         PlaceUnit(2, 2);
         PlaceUnit(7, 7);
     }
@@ -53,12 +56,15 @@ public class BoardManager : MonoBehaviour
         GameObject GO = Instantiate(unitGO);
         GO.name = "Unit" + x + ", " + y;
         //Tile t = BoardUtils.GetNearestTile(x, y, this);
+
+        //Assign the unit to the tile it is currently occupying 
         board[x, y].unit = GO.GetComponent<Unit>();
         units.Add(GO.GetComponent<Unit>());
         Debug.Log(x + ", " + y);
         bool successful = BoardUtils.PlaceUnit(board[x,y].unit, x, y, this);
         if (successful)
         {
+            //Use previousPosition later on to return the unit to it's previous position if the move was unsuccessful 
             board[x,y].unit.previousPosition = board[x,y].unit.transform.position;
         } 
     }
@@ -119,11 +125,17 @@ public class BoardManager : MonoBehaviour
                 bool successful = BoardUtils.PlaceUnit(unitHit.GetComponent<Unit>(), t.transform.position.x, t.transform.position.z, this);
                 if (successful)
                 {
+                    //If this tile is valid then place the unit on that tile
                     t.unit = unitHit.GetComponent<Unit>();
-                    BoardUtils.GetNearestTile(unitHit.GetComponent<Unit>().previousPosition.x, unitHit.GetComponent<Unit>().previousPosition.z, this).unit = null;
+                    Tile nearest = BoardUtils.GetNearestTile(unitHit.GetComponent<Unit>().previousPosition.x, unitHit.GetComponent<Unit>().previousPosition.z, this);
+                    nearest.unit = unitHit.GetComponent<Unit>();
+                    BoardUtils.PlaceUnit(unitHit.GetComponent<Unit>(), nearest.transform.position.x, nearest.transform.position.z, this);
+                    board[(int)nearest.unit.previousPosition.x, (int)nearest.unit.previousPosition.z].unit = null;
+                    
                 }
                 else
                 {
+                    //If this tile isn't valid then place unit back on previous tile
                     BoardUtils.PlaceUnit(unitHit.GetComponent<Unit>(), unitHit.GetComponent<Unit>().previousPosition.x, unitHit.GetComponent<Unit>().previousPosition.z, this);
                 }
                 
@@ -132,10 +144,5 @@ public class BoardManager : MonoBehaviour
             unitHit = null;
 
         }
-
-
-        //If we hit an object then attatch it to the mouse until we stop dragging
-
-        //Find the nearest tile using util class and "plop" the unit in that tile assuming no enemy there
     }
 }
