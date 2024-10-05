@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
 
-    public const string GAME_SCENE = "Test";
+    public const string GAME_SCENE = "Lewis Test";
     public const string MENU_SCENE = "Menu";
     public const string CREDIT_SCENE = "Credits";
     public const string INSTRUCTION_SCENE = "Instructions";
