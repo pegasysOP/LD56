@@ -55,4 +55,32 @@ public class BoardUtils : MonoBehaviour
         //We didn't find any tile that is closest. So return null
         return null;
     }
+
+    public static bool PlaceUnit(Unit unit, float x, float y, BoardManager BM)
+    {
+        Debug.Log("Utils: " + x + ", " + y);
+        //Tile t = GetNearestTile(x, y, BM);
+
+        //if(t.unit != null)
+        //{
+        //    return false;
+        //}
+        if(x < 0 || y < 0 || x > 8 || y > 8)
+        {
+            Debug.Log("Invalid coordinate");
+            return false;
+        }
+        //else
+        //{
+            Debug.Log(unit.gameObject.name + ": " + x + ", " + y );
+           // t.unit = unit;
+            unit.GetComponentInParent<Transform>().transform.position = new Vector3(x, 0.11f, y + 0.5f);
+            //unit.gameObject.GetComponentInChildren<Transform>().position = new Vector3(0, 0.11f, 0);
+            
+            //unit.gameObject.GetComponentInChildren<Transform>().rotation = Quaternion.Euler(new Vector3(80, 0, 0));
+
+        
+            return true;
+        //}
+    }
 }
