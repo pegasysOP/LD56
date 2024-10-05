@@ -7,10 +7,14 @@ using UnityEngine;
 
 public class Simulation : MonoBehaviour
 {
-    public float tps = 5f;
+    public float tps = 3f;
+
+    [Header("TEMP VISUALISATION")]
     public TempSimUnitUIElement uiElementPrefab;
     public Transform playerUiContainer;
     public Transform enemyUiContainer;
+    public TempUnitObject unitObjectPrefab;
+    public Transform unitObjectContainer;
 
     private SimulationGrid grid;
 
@@ -26,13 +30,12 @@ public class Simulation : MonoBehaviour
         SimulationUnit[,] initialUnitGrid = new SimulationUnit[8, 8];
 
         // example units
-        initialUnitGrid[3, 3] = new SimulationUnitDemo(true); // player demo
-        initialUnitGrid[3, 4] = new SimulationUnitDemo(true);
-        initialUnitGrid[3, 5] = new SimulationUnitDemo(true);
-
-        initialUnitGrid[4, 3] = new SimulationUnitDemo(false); // enemy demo
-        initialUnitGrid[4, 4] = new SimulationUnitDemo(false);
-        initialUnitGrid[4, 5] = new SimulationUnitDemo(false);
+        initialUnitGrid[0, 7] = new SimulationUnitDemo(true); // player demos
+        initialUnitGrid[0, 4] = new SimulationUnitDemo(true);
+        initialUnitGrid[0, 0] = new SimulationUnitDemo(true);
+        initialUnitGrid[7, 6] = new SimulationUnitDemo(false); // enemy demos
+        initialUnitGrid[7, 4] = new SimulationUnitDemo(false);
+        initialUnitGrid[7, 1] = new SimulationUnitDemo(false);
 
         grid = new SimulationGrid(initialUnitGrid);
         StartCoroutine (DoSimulation());
@@ -60,25 +63,33 @@ public class Simulation : MonoBehaviour
             // stop simulation if game over
             bool gameOver = DoTick();            
 
-            // UPDATE UI ELEMENTS (TEMP)
-            for (int i = playerUiContainer.childCount - 1; i >= 0; i--)
-                DestroyImmediate(playerUiContainer.GetChild(i).gameObject);
-            for (int i = enemyUiContainer.childCount - 1; i >= 0; i--)
-                DestroyImmediate(enemyUiContainer.GetChild(i).gameObject);
-
-            List<SimulationUnit> sortedUnits = grid.GetUnits();
-            sortedUnits.Sort((SimulationUnit a, SimulationUnit b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
-            foreach (SimulationUnit unit in sortedUnits)
-            {
-                Transform targetContainer = unit.IsPlayerUnit() ? playerUiContainer : enemyUiContainer;
-                Instantiate(uiElementPrefab, targetContainer).SetUnit(grid, unit);
-            }
+            UpdateTempVisualisations();
 
             if (gameOver)
                 break;
         }
 
         yield return null;
+    }
+
+    private void UpdateTempVisualisations()
+    {
+        for (int i = playerUiContainer.childCount - 1; i >= 0; i--)
+            DestroyImmediate(playerUiContainer.GetChild(i).gameObject);
+        for (int i = enemyUiContainer.childCount - 1; i >= 0; i--)
+            DestroyImmediate(enemyUiContainer.GetChild(i).gameObject);
+
+        for (int i = unitObjectContainer.childCount - 1; i >= 0; i--)
+            DestroyImmediate(unitObjectContainer.GetChild(i).gameObject);
+
+        List<SimulationUnit> sortedUnits = grid.GetUnits();
+        sortedUnits.Sort((SimulationUnit a, SimulationUnit b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
+        foreach (SimulationUnit unit in sortedUnits)
+        {
+            Transform targetContainer = unit.IsPlayerUnit() ? playerUiContainer : enemyUiContainer;
+            Instantiate(uiElementPrefab, targetContainer).SetUnit(grid, unit);
+            Instantiate(unitObjectPrefab, unitObjectContainer).SetUnit(grid, unit);
+        }
     }
 
     /// <summary>

@@ -6,8 +6,6 @@ using UnityEngine;
 
 public abstract class SimulationUnit
 {
-    protected bool isPlayerUnit;
-
     // base stats
     protected int maxHp;
     protected int attack;
@@ -20,6 +18,9 @@ public abstract class SimulationUnit
     protected int currentHp;
     protected int attackCounter;
     protected int specialCounter;
+
+    protected bool isPlayerUnit;
+    protected SimulationUnit currentTarget;
 
     public SimulationUnit(bool playerUnit)
     {
@@ -105,4 +106,13 @@ public abstract class SimulationUnit
     public int GetCurrentHp() { return currentHp; }
 
     public bool IsPlayerUnit() { return isPlayerUnit; }
+
+    /// <summary>
+    /// Get's the units current target
+    /// </summary>
+    /// <returns>Returns null if has no target</returns>
+    public SimulationUnit GetCurrentTarget()
+    {
+        return currentTarget;
+    }
 }

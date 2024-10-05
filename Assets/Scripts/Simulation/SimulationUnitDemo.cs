@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SimulationUnitDemo : SimulationUnit
 {
-    protected SimulationUnit currentTarget;
-
     public SimulationUnitDemo(bool playerUnit) : base(playerUnit)
     {
     }
@@ -39,11 +37,24 @@ public class SimulationUnitDemo : SimulationUnit
             currentTarget = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
             return;
         }
+                
+        if (Pathfinding.FindClosestTargetByPathfinding(currentGrid, this, out SimulationUnit newTarget, out Vector2Int moveLocation))
+        {
+            currentTarget = newTarget;
 
-        // TODO: DEFAULT PATHFINDING + DECIDE ON MOVEMENT AMOUNT (PROBABLY JUST 1 ADJACENT TILE)
-        currentTarget = null;
+            currentGrid.MoveUnit(currentPos, moveLocation);
 
-        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > MOVE");
+
+            // ALSO ADD NEW METHOD TO PATHFINDING TO KEEP CURRENT TARGET IF POSSIBLE
+
+
+
+            Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > PATHFINDING TO: {moveLocation}");
+        }
+        else
+        {
+            Debug.LogWarning((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > PATHFINDING FAILED");
+        }
     }
     protected override void DoAttack(ref SimulationGrid currentGrid)
     {
@@ -53,7 +64,7 @@ public class SimulationUnitDemo : SimulationUnit
         if (currentTarget.TakeDamage(attack))
             currentGrid.RemoveUnit(currentTarget);
 
-        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > ATTACK");
+        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > ATTACK");
     }
 
     protected override void DoSpecial(ref SimulationGrid currentGrid)
@@ -66,15 +77,14 @@ public class SimulationUnitDemo : SimulationUnit
         if (currentTarget.TakeDamage(attack * 2))
             currentGrid.RemoveUnit(currentTarget);
 
-        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > SPECIAL");
+        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > SPECIAL");
     }
 
     protected bool CanAttackCurrentTarget(SimulationGrid currentGrid)
     {
-        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-
         if (currentTarget != null && currentTarget.GetCurrentHp() > 0)
         {
+            Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
             Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
             if (currentGrid.IsValidGridCoordinates(targetPos) && SimulationUtils.GetManhattenDistance(currentPos, targetPos) <= range)
                 return true;

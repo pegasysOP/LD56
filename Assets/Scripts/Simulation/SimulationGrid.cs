@@ -166,4 +166,28 @@ public class SimulationGrid
 
         return units;
     }
+
+    public void MoveUnit(Vector2Int start, Vector2Int end)
+    {
+        if (!IsValidGridCoordinates(start) || !IsValidGridCoordinates(end))
+            return;
+
+        // only work if unit exists in space and is moving into an empty space
+        if (TryGetUnitAt(start, out SimulationUnit unit) && !TryGetUnitAt(end, out _))
+        {
+            grid[start.x, start.y] = null;
+            grid[end.x, end.y] = unit;
+
+            Debug.LogWarning($"Moving unit from {start} into {end}");
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid movement from {start} into {end}");
+        }
+    }
+
+    public SimulationUnit[,] GetGridData()
+    {
+        return grid;
+    }
 }
