@@ -5,9 +5,9 @@ using UnityEngine;
 public class Tile: MonoBehaviour
 {
     public Unit unit;
-    
-    public Tile(Vector2 tilePosition)
+
+    private void Start()
     {
-        unit = null; 
+        unit = null;
     }
 }
