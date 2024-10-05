@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebfeb80c6ed2f0a428a1fb2c3187826b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 7139085052071998491}
   PlanningPhaseClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
 --- !u!82 &7139085052071998491
 AudioSource:
