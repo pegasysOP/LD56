@@ -71,7 +71,7 @@ public class Simulation : MonoBehaviour
             foreach (SimulationUnit unit in sortedUnits)
             {
                 Transform targetContainer = unit.IsPlayerUnit() ? playerUiContainer : enemyUiContainer;
-                Instantiate(uiElementPrefab, targetContainer).SetUnit(unit);
+                Instantiate(uiElementPrefab, targetContainer).SetUnit(grid, unit);
             }
 
             if (gameOver)

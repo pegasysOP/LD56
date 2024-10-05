@@ -9,11 +9,11 @@ public class TempSimUnitUIElement : MonoBehaviour
     public TextMeshProUGUI specialText;
     public Image background;
 
-    public void SetUnit(SimulationUnit unit)
+    public void SetUnit(SimulationGrid grid, SimulationUnit unit)
     {
         background.color = unit.IsPlayerUnit() ? new Color(0f, 0f, 1f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
 
-        nameText.text = unit.GetUnitType().ToString();
+        nameText.text = unit.GetUnitType().ToString() + " " + grid.GetGridCoordinates(unit);
         hpText.text = "HP: " + Mathf.CeilToInt(unit.GetCurrentHpPortion() * 100) + "%";
         specialText.text = "SP: " + Mathf.CeilToInt(unit.GetSpecialProgress() * 100) + "%";
     }
