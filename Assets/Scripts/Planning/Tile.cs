@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Tile
 {
-    Vector2 tilePosition;
+    public Vector2 tilePosition;
+    public Unit unit;
     
     public Tile(Vector2 tilePosition)
     {
         this.tilePosition = tilePosition;
+        unit = null; 
     }
 
 
