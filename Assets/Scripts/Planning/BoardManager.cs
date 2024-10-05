@@ -59,12 +59,10 @@ public class BoardManager : MonoBehaviour
     {
         GameObject GO = Instantiate(unitGO);
         GO.name = "Unit" + x + ", " + y;
-        //Tile t = BoardUtils.GetNearestTile(x, y, this);
 
         //Assign the unit to the tile it is currently occupying 
         board[x, y].unit = GO.GetComponent<Unit>();
         units.Add(GO.GetComponent<Unit>());
-        Debug.Log(x + ", " + y);
         bool successful = BoardUtils.PlaceUnit(board[x,y].unit, x + 0.5f, y + 0.5f, this);
         if (successful)
         {
@@ -93,7 +91,9 @@ public class BoardManager : MonoBehaviour
                 Vector3 mouseWorldPosition = hit.point;
                 offset = unitHit.transform.position - mouseWorldPosition;
 
-                //Get the tile this unit was attatched to and remove it from that tile. 
+                //Get the tile this unit was attatched to and remove it from that tile.
+                Tile t = BoardUtils.GetNearestTile(unitHit.transform.position.x, unitHit.transform.position.z, this);
+                t.unit = null; 
             }
         }
 
