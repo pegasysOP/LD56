@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Tile: MonoBehaviour
 {
-    public Unit unit;
+    public Unit unit = null;
 
     private void Start()
     {
-        unit = null;
     }
 }
