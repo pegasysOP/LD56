@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SimulationUnitDemo : SimulationUnit
 {
+    protected SimulationUnit currentTarget;
+
     public SimulationUnitDemo(bool playerUnit) : base(playerUnit)
     {
     }
@@ -25,51 +27,59 @@ public class SimulationUnitDemo : SimulationUnit
 
     protected override void DoMovement(ref SimulationGrid currentGrid)
     {
-        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        if (!currentGrid.IsValidGridCoordinates(currentPos))
+        // if our current target is both alive, and still in range then there no need to move
+        if (CanAttackCurrentTarget(currentGrid))
             return;
 
-        // if there are opposing team units in range, no need to move
+        // if there are opposing team units in range then there no need to move, instead select a target unit
+        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
         List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
         if (unitsInRange.Count > 0)
+        {
+            currentTarget = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
             return;
+        }
 
         // TODO: DEFAULT PATHFINDING + DECIDE ON MOVEMENT AMOUNT (PROBABLY JUST 1 ADJACENT TILE)
+        currentTarget = null;
 
         Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > MOVE");
     }
     protected override void DoAttack(ref SimulationGrid currentGrid)
     {
-        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        if (!currentGrid.IsValidGridCoordinates(currentPos))
+        if (!CanAttackCurrentTarget(currentGrid))
             return;
 
-        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
-        if (unitsInRange.Count < 1)
-            return;
-
-        SimulationUnit targetUnit = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
-        if (targetUnit.TakeDamage(attack))
-            currentGrid.RemoveUnit(targetUnit);
+        if (currentTarget.TakeDamage(attack))
+            currentGrid.RemoveUnit(currentTarget);
 
         Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > ATTACK");
     }
 
     protected override void DoSpecial(ref SimulationGrid currentGrid)
     {
-        // TODO: Have different logic for the special or make code reusable
-        
-        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        if (!currentGrid.IsValidGridCoordinates(currentPos))
+        // TODO: Have different logic for the special or make code reusable, currently just double damage
+
+        if (!CanAttackCurrentTarget(currentGrid))
             return;
 
-        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
-        if (unitsInRange.Count < 1)
-            return;
-
-        SimulationUnit targetUnit = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
-        targetUnit.TakeDamage(attack);
+        if (currentTarget.TakeDamage(attack * 2))
+            currentGrid.RemoveUnit(currentTarget);
 
         Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > SPECIAL");
+    }
+
+    protected bool CanAttackCurrentTarget(SimulationGrid currentGrid)
+    {
+        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
+
+        if (currentTarget != null && currentTarget.GetCurrentHp() > 0)
+        {
+            Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
+            if (currentGrid.IsValidGridCoordinates(targetPos) && SimulationUtils.GetManhattenDistance(currentPos, targetPos) <= range)
+                return true;
+        }
+
+        return false;
     }
 }
