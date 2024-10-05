@@ -52,8 +52,6 @@ public class UIManager : MonoBehaviour
 
     public void StartRoundPressed()
     {
-        
-        Debug.Log(BM.units.Count);
-        Debug.Log("Next Round not implemented yet");
+        BM.SaveBoard();
     }
 }

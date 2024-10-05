@@ -64,8 +64,6 @@ public class BoardUtils : MonoBehaviour
             return false;
         }
 
-        Debug.Log(unit.gameObject.name + ": " + x + ", " + y);
-
         unit.transform.position = new Vector3(x, 0f, y); 
 
         BM.board[(int)unit.previousPosition.x, (int)unit.previousPosition.z].unit = null;

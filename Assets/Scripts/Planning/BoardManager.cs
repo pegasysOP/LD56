@@ -22,6 +22,10 @@ public class BoardManager : MonoBehaviour
     public GameObject tileGO;
     public GameObject unitGO;
 
+    public Tile[,] savedBoard;
+
+    public Dictionary<Vector3, Unit> PositionToUnitDictionary = new Dictionary<Vector3, Unit>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +36,8 @@ public class BoardManager : MonoBehaviour
         //Place two units on the board
         SpawnUnit(1, 3);
         SpawnUnit(1, 1);
+
+        SaveBoard();
     }
 
     // Update is called once per frame
@@ -142,5 +148,24 @@ public class BoardManager : MonoBehaviour
             isAttached = false;
             unitHit = null;
         }
+    }
+
+    public void SaveBoard()
+    {
+        savedBoard = board;
+
+        PositionToUnitDictionary.Clear();
+        //Save Units and positions
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if(board[x, y].unit != null)
+                {
+                    PositionToUnitDictionary.Add(new Vector3(x, 0, y), board[x, y].unit);
+                }
+            }
+        }
+
     }
 }
