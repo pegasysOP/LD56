@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile
 {
+    //FIXME: We have a circular reference and tight coupling here. 
     public Vector2 tilePosition;
     public Unit unit;
     

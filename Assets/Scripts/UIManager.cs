@@ -47,4 +47,9 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void StartRoundPressed()
+    {
+        Debug.Log("Next Round not implemented yet");
+    }
 }

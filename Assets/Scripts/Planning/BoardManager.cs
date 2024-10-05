@@ -69,6 +69,8 @@ public class BoardManager : MonoBehaviour
 
                     Vector3 mouseWorldPosition = hit.point;
                     offset = unitHit.transform.position - mouseWorldPosition;
+
+                    //Get the tile this unit was attatched to and remove it from that tile. 
                 }
             }
         }
@@ -92,7 +94,9 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isAttached = false;   
-            unitHit = null;        
+            unitHit = null;      
+            
+            //Find the closest tile to the mouse and attach the unit to that tile. 
         }
 
 
