@@ -51,15 +51,9 @@ public class BoardUtils : MonoBehaviour
 
     public static bool PlaceUnit(Unit unit, float x, float y, BoardManager BM)
     {
-        if (x < 0 || y < 0 || x >= BM.width || y >= BM.height)  
+        if (x < 0 || y < 0 || x > 3 || y >= BM.height)  
         {
             Debug.Log("Invalid coordinate");
-            return false;
-        }
-
-        if(x > 3)
-        {
-            Debug.Log("Outside player zone");
             return false;
         }
 
