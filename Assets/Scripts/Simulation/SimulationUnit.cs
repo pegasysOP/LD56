@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 public abstract class SimulationUnit
 {
-    bool playerUnit;
+    protected bool isPlayerUnit;
 
     // base stats
     protected int maxHp;
@@ -22,7 +23,7 @@ public abstract class SimulationUnit
 
     public SimulationUnit(bool playerUnit)
     {
-        this.playerUnit = playerUnit;
+        this.isPlayerUnit = playerUnit;
 
         Init();
     }
@@ -39,13 +40,15 @@ public abstract class SimulationUnit
     /// <summary>
     /// Executes 1 game tick for this unit
     /// </summary>
-    public void DoTick(SimulationGrid currentGrid)
+    public void DoTick(ref SimulationGrid currentGrid)
     {
+        DoMovement(ref currentGrid);
+
         // special overrides attack
         specialCounter++;
         if (specialCounter > specialTime)
         {
-            DoSpecial(currentGrid);
+            DoSpecial(ref currentGrid);
             specialCounter = 0;
             attackCounter = 0;
             return;
@@ -54,7 +57,7 @@ public abstract class SimulationUnit
         attackCounter++;
         if (attackCounter > attackTime)
         {
-            DoAttack(currentGrid);
+            DoAttack(ref currentGrid);
             attackCounter = 0;
         }
     }
@@ -76,8 +79,9 @@ public abstract class SimulationUnit
     /// Should be used to set up any base stats
     /// </summary>
     protected abstract void OnInit();
-    protected abstract void DoAttack(SimulationGrid currentGrid);
-    protected abstract void DoSpecial(SimulationGrid currentGrid);
+    protected abstract void DoMovement(ref SimulationGrid currentGrid);
+    protected abstract void DoAttack(ref SimulationGrid currentGrid);
+    protected abstract void DoSpecial(ref SimulationGrid currentGrid);
     public abstract UnitType GetUnitType();
 
     /// <summary>
@@ -93,12 +97,12 @@ public abstract class SimulationUnit
     /// Gets the portion (0-1) that special has charged up
     /// </summary>
     /// <returns></returns>
-    public float GetSpecialCounter()
+    public float GetSpecialProgress()
     {
         return (float)specialCounter / specialTime;
     }
 
     public int GetCurrentHp() { return currentHp; }
 
-    public bool IsPlayerUnit() { return playerUnit; }
+    public bool IsPlayerUnit() { return isPlayerUnit; }
 }

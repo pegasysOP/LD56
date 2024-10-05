@@ -14,8 +14,8 @@ public class SimulationUnitDemo : SimulationUnit
         attack = 5;
         defence = 2;
         range = 1;
-        attackTime = 2;
-        specialTime = 4;
+        attackTime = 3;
+        specialTime = 12;
     }
 
     public override UnitType GetUnitType()
@@ -23,13 +23,53 @@ public class SimulationUnitDemo : SimulationUnit
         return UnitType.Basic;
     }
 
-    protected override void DoAttack(SimulationGrid currentGrid)
+    protected override void DoMovement(ref SimulationGrid currentGrid)
     {
-        Debug.Log($"Unit doing Attack [player={IsPlayerUnit()}]");
+        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
+        if (!currentGrid.IsValidGridCoordinates(currentPos))
+            return;
+
+        // if there are opposing team units in range, no need to move
+        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        if (unitsInRange.Count > 0)
+            return;
+
+        // TODO: DEFAULT PATHFINDING + DECIDE ON MOVEMENT AMOUNT (PROBABLY JUST 1 ADJACENT TILE)
+
+        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > MOVE");
+    }
+    protected override void DoAttack(ref SimulationGrid currentGrid)
+    {
+        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
+        if (!currentGrid.IsValidGridCoordinates(currentPos))
+            return;
+
+        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        if (unitsInRange.Count < 1)
+            return;
+
+        SimulationUnit targetUnit = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
+        if (targetUnit.TakeDamage(attack))
+            currentGrid.RemoveUnit(targetUnit);
+
+        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > ATTACK");
     }
 
-    protected override void DoSpecial(SimulationGrid currentGrid)
+    protected override void DoSpecial(ref SimulationGrid currentGrid)
     {
-        Debug.Log($"Unit doing Special [player={IsPlayerUnit()}]");
+        // TODO: Have different logic for the special or make code reusable
+        
+        Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
+        if (!currentGrid.IsValidGridCoordinates(currentPos))
+            return;
+
+        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        if (unitsInRange.Count < 1)
+            return;
+
+        SimulationUnit targetUnit = unitsInRange[Random.Range(0, unitsInRange.Count - 1)];
+        targetUnit.TakeDamage(attack);
+
+        Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType()} > SPECIAL");
     }
 }
