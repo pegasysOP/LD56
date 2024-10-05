@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7856342945696289153}
   - component: {fileID: 2224844285458951306}
   - component: {fileID: 2547434688658817867}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,5 +119,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fe5d55b7d8e444b990a220bfa415b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardMask:
+    serializedVersion: 2
+    m_Bits: 512
+  unitMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  units: []
   tileGO: {fileID: 4678482537070024382, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
   unitGO: {fileID: 8668100356704540198, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
