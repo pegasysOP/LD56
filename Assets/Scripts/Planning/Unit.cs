@@ -5,10 +5,13 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     Tile tile;
+    BoardManager BM;
+    public Vector3 previousPosition; 
+
     // Start is called before the first frame update
     void Start()
     {
-        //this.transform.position = tile.tilePosition;
+        
     }
 
     // Update is called once per frame
