@@ -7,6 +7,7 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     public Tile[,] board;
+    public List<Unit> units;
 
     public readonly int height = 8;
     public readonly int width = 8;
@@ -15,11 +16,16 @@ public class BoardManager : MonoBehaviour
     private bool isAttached = false;
     GameObject unitHit = null;
     private Vector3 offset;
+    public GameObject tileGO;
+    public GameObject unitGO;
+
     // Start is called before the first frame update
     void Start()
     {
         board = new Tile[width,height];
         GenerateBoard();
+        PlaceUnit(2, 2);
+        PlaceUnit(7, 7);
     }
 
     // Update is called once per frame
@@ -28,22 +34,33 @@ public class BoardManager : MonoBehaviour
         DragUnit();
     }
 
+
     void GenerateBoard()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
-            {
-                board[x, y] = new Tile(new Vector2(x, y));
+            {     
+                GameObject GO = Instantiate(tileGO, new Vector3(x, 0.1f, y), Quaternion.identity);
+                board[x, y] = GO.GetComponent<Tile>();
+                GO.name = "Tile" + x + ", " + y;  
             }
         }
     }
 
     void PlaceUnit(int x, int y)
     {
-        Unit unit = new();
-        //TODO: Bounds checking
-        board[x,y].unit = unit;
+        GameObject GO = Instantiate(unitGO);
+        GO.name = "Unit" + x + ", " + y;
+        //Tile t = BoardUtils.GetNearestTile(x, y, this);
+        board[x, y].unit = GO.GetComponent<Unit>();
+        units.Add(GO.GetComponent<Unit>());
+        Debug.Log(x + ", " + y);
+        bool successful = BoardUtils.PlaceUnit(board[x,y].unit, x, y, this);
+        if (successful)
+        {
+            board[x,y].unit.previousPosition = board[x,y].unit.transform.position;
+        } 
     }
 
     public Tile[,] GetBoard()
@@ -91,12 +108,29 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && isAttached)
         {
-            isAttached = false;   
-            unitHit = null;      
-            
             //Find the closest tile to the mouse and attach the unit to that tile. 
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Tile t = BoardUtils.GetNearestTile(mousePos.x, mousePos.z, this);
+            if (t.unit == null)
+            {
+                bool successful = BoardUtils.PlaceUnit(unitHit.GetComponent<Unit>(), t.transform.position.x, t.transform.position.z, this);
+                if (successful)
+                {
+                    t.unit = unitHit.GetComponent<Unit>();
+                    BoardUtils.GetNearestTile(unitHit.GetComponent<Unit>().previousPosition.x, unitHit.GetComponent<Unit>().previousPosition.z, this).unit = null;
+                }
+                else
+                {
+                    BoardUtils.PlaceUnit(unitHit.GetComponent<Unit>(), unitHit.GetComponent<Unit>().previousPosition.x, unitHit.GetComponent<Unit>().previousPosition.z, this);
+                }
+                
+            }
+            isAttached = false;
+            unitHit = null;
+
         }
 
 
