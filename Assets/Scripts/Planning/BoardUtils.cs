@@ -30,13 +30,13 @@ public class BoardUtils : MonoBehaviour
         return null; 
     }
 
-    public static Tile GetTileAt(int x, int y, BoardManager BM)
+    public static Tile GetTileAt(float x, float y, BoardManager BM)
     {
         Tile t = GetNearestTile(x, y, BM);
         return t;
     }
 
-    public static Tile GetNearestTile(int x, int y, BoardManager BM)
+    public static Tile GetNearestTile(float x, float y, BoardManager BM)
     {
         for (int i = 0; i < BM.width; i++)
         {
