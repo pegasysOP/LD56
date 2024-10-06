@@ -39,20 +39,20 @@ public class BoardManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        { 
             Instance = this;
+        }
         else
+        {
             Destroy(Instance.gameObject);
-    }
+            return;
+        }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         board = new Tile[width, height];
         GenerateBoard();
         SaveBoard();
     }
 
-    // Update is called once per frame
     void Update()
     {
         DragUnit();
@@ -197,23 +197,27 @@ public class BoardManager : MonoBehaviour
 
     public bool PlaceUnit(Unit unit, float x, float y)
     {
-        if (x < 0 || y < 0 || x > width || y >= height)
+        if (x < 0 || y < 0 || x > width || y >= height) // TODO: ADD BACK VALIDATION TO DRAGGING
         {
             Debug.Log("Invalid coordinate");
             return false;
         }
 
+        Tile tile = GetNearestTile(x, y);
+        if (tile == null)
+            return false;
+
         // Check if the target tile already has a unit
-        if (board[(int)x, (int)y].unit != null)
+        if (tile.unit != null)
         {
             Debug.Log("There is already a unit here");
             return false;
         }
 
         unit.transform.position = new Vector3(x, 0f, y);
-        board[(int)unit.previousPosition.x, (int)unit.previousPosition.z].unit = null;
+        GetNearestTile(unit.previousPosition.x, unit.previousPosition.z).unit = null;
         unit.previousPosition = new Vector3(x, 0, y);
-        board[(int)x, (int)y].unit = unit;
+        tile.unit = unit;
 
         return true;
     }
@@ -232,7 +236,7 @@ public class BoardManager : MonoBehaviour
             DestroyImmediate(unitContainer.GetChild(i).gameObject);
     }
 
-    public void OnStartRoundPressed()
+    public void StartRound()
     {
         SaveBoard();
 

@@ -471,9 +471,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2547434688658817867, guid: 2e87beee6bd466442ad02acaf0243846, type: 3}
-        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: OnStartRoundPressed
+      - m_Target: {fileID: 7575531800671644712}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

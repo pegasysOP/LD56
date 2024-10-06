@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            startLevel();
+            StartLevel();
         }
     }
 
@@ -100,9 +100,11 @@ public class GameManager : MonoBehaviour
         //Pass that to the simulation
     }
 
-    void startLevel()
+    public void StartLevel()
     {
         Debug.Log("Start Level"); 
+
+        BM.StartRound();
 
         //Play the attack phase music 
         AM.PlaySimulationPhaseClip();
