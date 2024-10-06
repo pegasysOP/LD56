@@ -197,7 +197,7 @@ public class BoardManager : MonoBehaviour
 
     public bool PlaceUnit(Unit unit, float x, float y)
     {
-        if (x < 0 || y < 0 || x > 3 || y >= height)
+        if (x < 0 || y < 0 || x > width || y >= height)
         {
             Debug.Log("Invalid coordinate");
             return false;

@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
         Dictionary<Vector2Int, Unit> SecondLevelEnemyUnits = new Dictionary<Vector2Int, Unit>();
 
         // example enemy units
-        FirstLevelEnemyUnits[new Vector2Int(6, 3)] = new Unit();
-        FirstLevelEnemyUnits[new Vector2Int(6, 2)] = new Unit();
-        FirstLevelEnemyUnits[new Vector2Int(6, 1)] = new Unit();
+        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = new Unit();
+        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = new Unit();
+        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = new Unit();
 
         levelEnemyStartStates[1] = SecondLevelEnemyUnits;
     }
