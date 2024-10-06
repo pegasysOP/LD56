@@ -178,11 +178,15 @@ public class SimulationGrid
             grid[start.x, start.y] = null;
             grid[end.x, end.y] = unit;
 
-            Debug.LogWarning($"Moving unit from {start} into {end}");
+            // TODO: REMOVE THIS -> JUST FOR TESTING AS ENEMIES DON'T YET HAVE REAL BOARD UNITS 
+            if (unit.IsPlayerUnit())
+                BoardUtils.MoveUnit(start, end);
+
+            Debug.Log($"Moving unit from {start} into {end}");
         }
         else
         {
-            Debug.LogWarning($"Invalid movement from {start} into {end}");
+            Debug.LogError($"Invalid movement from {start} into {end}");
         }
     }
 

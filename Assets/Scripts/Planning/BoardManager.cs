@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -25,7 +26,17 @@ public class BoardManager : MonoBehaviour
 
     private Dictionary<Vector2Int, Unit> playerUnitsStartState = new Dictionary<Vector2Int, Unit>();
 
+    public Dictionary<Vector2Int, Unit> ActiveUnits;
 
+    public static BoardManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(Instance.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -166,11 +177,9 @@ public class BoardManager : MonoBehaviour
     public Unit GetUnitAtTile(int x, int y)
     {
         Tile t = GetNearestTile(x, y);
-
         if (t.unit != null)
-        {
-            return board[x, y].unit;
-        }
+            return t.unit;// board[x, y].unit;
+
         return null;
     }
 
@@ -218,6 +227,10 @@ public class BoardManager : MonoBehaviour
         enemyUnitsStartState[new Vector2Int(7, 6)] = new Unit();
         enemyUnitsStartState[new Vector2Int(7, 4)] = new Unit();
         enemyUnitsStartState[new Vector2Int(7, 1)] = new Unit();
+
+        ActiveUnits = new Dictionary<Vector2Int, Unit>();
+        ActiveUnits.AddRange(playerUnitsStartState);
+        ActiveUnits.AddRange(enemyUnitsStartState);
 
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
     }

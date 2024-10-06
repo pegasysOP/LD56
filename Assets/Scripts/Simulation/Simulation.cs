@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Simulation : MonoBehaviour
 {
-    public float tps = 3f;
+    public static float TPS { get { return 2f; } }
+    public static float TickDuration { get {  return 1f / TPS; } }
 
     [Header("TEMP VISUALISATION")]
     public TempSimUnitUIElement uiElementPrefab;
@@ -35,14 +34,16 @@ public class Simulation : MonoBehaviour
 
     private IEnumerator DoSimulation()
     {
-        float tickTime = 1f / tps;
+        UpdateTempVisualisations();
+        yield return new WaitForSeconds(0.5f);
+
         float timer = 0;
 
         while (true)
         {
             // wait until time for tick
             timer += Time.deltaTime;
-            if (timer < tickTime)
+            if (timer < TickDuration)
             {
                 yield return null;
                 continue;
