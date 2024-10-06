@@ -48,7 +48,7 @@ MonoBehaviour:
   audioSource: {fileID: 7139085052071998491}
   planningPhaseClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
   simulationPhaseClip: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
-  victoryFanfareClip: {fileID: 0}
+  victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}
   failureFanfareClip: {fileID: 0}
 --- !u!82 &7139085052071998491
 AudioSource:
@@ -59,7 +59,7 @@ AudioSource:
   m_GameObject: {fileID: 4653648900268378029}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1021842318570742991, guid: f4a48b61064926c43937ec1ea88865b7, type: 2}
   m_audioClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.2
@@ -71,9 +71,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 1000
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -91,7 +91,7 @@ AudioSource:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 0.9920654
       inSlope: 0
       outSlope: 0
       tangentMode: 0
