@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
 
     UnitType[] upgradeTypes;
+    List<UnitType[]> levelUpgradeTypes;
 
     public Sprite[] unitSprites;
 
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        upgradeTypes = new UnitType[3];
+        levelUpgradeTypes = new List<UnitType[]>();
         UM = FindObjectOfType<UIManager>();
         BM = FindObjectOfType<BoardManager>();
         AM = FindObjectOfType<AudioManager>();
@@ -64,13 +67,22 @@ public class GameManager : MonoBehaviour
         upgradeTypes[1] = UnitType.Moth;
         upgradeTypes[2] = UnitType.Stag;
 
-        UM.Unit1Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[0].ToString();
-        UM.Unit2Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[1].ToString();
-        UM.Unit3Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[2].ToString();
+        levelUpgradeTypes.Add(upgradeTypes);
 
-        UM.Image1.sprite = UnitTypeToSprite[upgradeTypes[0]];
-        UM.Image2.sprite = UnitTypeToSprite[upgradeTypes[1]];
-        UM.Image3.sprite = UnitTypeToSprite[upgradeTypes[2]];
+        upgradeTypes = new UnitType[3];
+        upgradeTypes[0] = UnitType.Queen;
+        upgradeTypes[1] = UnitType.Stag;
+        upgradeTypes[2] = UnitType.Bee;
+
+        levelUpgradeTypes.Add(upgradeTypes);
+
+        UM.Unit1Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][0].ToString(); 
+        UM.Unit2Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][1].ToString();
+        UM.Unit3Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][2].ToString();
+
+        UM.Image1.sprite = UnitTypeToSprite[levelUpgradeTypes[level][0]];
+        UM.Image2.sprite = UnitTypeToSprite[levelUpgradeTypes[level][1]];
+        UM.Image3.sprite = UnitTypeToSprite[levelUpgradeTypes[level][2]];
     }
 
     public void PickUpgradeUnit(Button buttonPressed)
@@ -79,17 +91,17 @@ public class GameManager : MonoBehaviour
         if (buttonPressed.name == UM.Unit1Button.name)
         {
             Debug.Log("Upgrade picked 1");
-            BM.SpawnNewPlayerUnit(upgradeTypes[0]);
+            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][0]);
         }
         if (buttonPressed.name == UM.Unit2Button.name)
         {
             Debug.Log("Upgrade picked 2");
-            BM.SpawnNewPlayerUnit(upgradeTypes[1]);
+            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][1]);
         }
         if (buttonPressed.name == UM.Unit3Button.name)
         {
             Debug.Log("Upgrade picked 3");
-            BM.SpawnNewPlayerUnit(upgradeTypes[2]);
+            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][2]);
         }
 
         UM.SetActiveUpgradePanel(false);
