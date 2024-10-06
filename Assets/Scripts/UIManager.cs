@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     public const string CREDIT_SCENE = "Credits";
     public const string INSTRUCTION_SCENE = "Instructions";
 
+    [SerializeField] GameObject UpgradePanel;
+
     private BoardManager BM;
 
     // Start is called before the first frame update
@@ -48,5 +50,16 @@ public class UIManager : MonoBehaviour
     public void QuitButtonPressed()
     {
         Application.Quit();
+    }
+
+    public void PickUnitPressed(UnitType type)
+    {
+        //Spawn a unit in the next avaialble space based on UnitType. Maybe this should be in BM
+        UpgradePanel.SetActive(false);
+    }
+
+    public void SetActiveUpgradePanel(bool isActive)
+    {
+        UpgradePanel.SetActive(isActive);
     }
 }

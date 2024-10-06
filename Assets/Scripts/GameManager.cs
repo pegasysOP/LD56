@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         BM = FindObjectOfType<BoardManager>();
         AM = FindObjectOfType<AudioManager>();
 
+        UM.SetActiveUpgradePanel(false);
+
         //Spawn player units 
         BM.SpawnUnit(new Vector2Int(0, 0), UnitType.Basic, true);
         BM.SpawnUnit(new Vector2Int(1, 1), UnitType.Basic, true);
@@ -64,14 +66,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            onRoundWon();
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartLevel();
-        }
     }
 
     void onRoundWon()
@@ -131,6 +125,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
+        //Display upgrade panel 
+        UM.SetActiveUpgradePanel(true);
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
 
