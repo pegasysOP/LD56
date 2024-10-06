@@ -16,7 +16,7 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
 
     public override UnitType GetUnitType()
     {
-        return UnitType.Queen;
+        return UnitType.QueenBee;
     }
 
     protected override bool DoMovement(ref SimulationGrid currentGrid)

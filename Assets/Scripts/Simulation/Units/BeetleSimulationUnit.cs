@@ -20,7 +20,7 @@ public class BeetleSimulationUnit : SimulationUnitBase
 
     public override UnitType GetUnitType()
     {
-        return UnitType.Stag;
+        return UnitType.Beetle;
     }
 
     protected override bool DoMovement(ref SimulationGrid currentGrid)

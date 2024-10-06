@@ -16,7 +16,7 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
 
     public override UnitType GetUnitType()
     {
-        return UnitType.Bee;
+        return UnitType.WorkerBee;
     }
 
     protected override bool DoMovement(ref SimulationGrid currentGrid)

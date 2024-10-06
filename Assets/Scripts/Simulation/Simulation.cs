@@ -132,11 +132,11 @@ public class Simulation : MonoBehaviour
     {
         switch (unitType)
         {
-            case UnitType.Bee:
+            case UnitType.WorkerBee:
                 return new WorkerBeeSimulationUnit(player);
-            case UnitType.Queen:
+            case UnitType.QueenBee:
                 return new QueenBeeSimulationUnit(player);
-            case UnitType.Stag:
+            case UnitType.Beetle:
                 return new BeetleSimulationUnit(player);
             case UnitType.Spider:
                 return new SpiderSimulationUnit(player);

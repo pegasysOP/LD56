@@ -1,8 +1,8 @@
 public enum UnitType
 {
-    Bee,
+    WorkerBee,
+    QueenBee,
+    Beetle,
     Spider,
-    Moth, 
-    Stag,
-    Queen
+    Moth
 }
