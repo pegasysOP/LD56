@@ -30,6 +30,14 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
 
     protected override void DoSpecial(ref SimulationGrid currentGrid)
     {
-        //currentGrid.DoSpecial(this, );
+        if (!CanAttackCurrentTarget(ref currentGrid))
+            return;
+
+        currentGrid.DoSpecial(this, currentTarget);
+
+        if (currentTarget.TakeDamage(attack))
+            currentGrid.RemoveUnit(currentTarget);
+        else
+            currentGrid.DamageUnit(currentTarget);
     }
 }

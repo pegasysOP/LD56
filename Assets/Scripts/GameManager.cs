@@ -222,7 +222,6 @@ public class GameManager : MonoBehaviour
 
     void onRoundOver(bool playerWon)
     {
-        UM.StartRoundButton.SetActive(true);
         if (playerWon)
         {
             onRoundWon();
@@ -265,6 +264,7 @@ public class GameManager : MonoBehaviour
         {
             UM.SetActiveUpgradePanel(true);
         }
+
         setUpgradeUnits();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
@@ -277,6 +277,8 @@ public class GameManager : MonoBehaviour
 
         //Spawn players from current save state
         BM.LoadPlayerUnits();
+
+        UM.StartRoundButton.SetActive(true);
     }
 
     public void StartLevel()
