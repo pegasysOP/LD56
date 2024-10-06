@@ -171,6 +171,32 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //Now this is epic
+    void CrazyMode()
+    {
+        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
+        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
+        BM.SpawnNewPlayerUnit(UnitType.Beetle);
+        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
+        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
+        BM.SpawnNewPlayerUnit(UnitType.Beetle);
+        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
+        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
+        BM.SpawnNewPlayerUnit(UnitType.Beetle);
+        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
+        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
+        BM.SpawnNewPlayerUnit(UnitType.Beetle);
+        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SavePlayerUnitStartPositions();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -228,6 +254,10 @@ public class GameManager : MonoBehaviour
         else
         {
             LoadLevel();
+            if(level == finalLevel)
+            {
+                CrazyMode();
+            }
         }   
     }
 
