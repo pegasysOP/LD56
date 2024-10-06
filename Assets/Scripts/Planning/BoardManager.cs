@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class BoardManager : MonoBehaviour
 {
-
     [Header("Layer Masks")]
     public LayerMask boardMask;
     public LayerMask unitMask;
@@ -39,6 +38,8 @@ public class BoardManager : MonoBehaviour
     public static BoardManager Instance;
 
     public EventHandler<bool> GameOver;
+
+    private bool selectionEnabled = true;
 
     private void Awake()
     {
@@ -91,7 +92,7 @@ public class BoardManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0))
+        if (selectionEnabled && Input.GetMouseButtonDown(0))
         {
             //Check that we are clicking on a unit and not just the board
             if (Physics.Raycast(ray, out RaycastHit hit, 20f, unitMask))
@@ -267,6 +268,8 @@ public class BoardManager : MonoBehaviour
     {
         foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in playerUnitsStartState)
             ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, true);
+
+        selectionEnabled = true;
     }
 
     public void LoadEnemyUnits(Dictionary<Vector2Int, UnitType> enemyUnitsStartState)
@@ -287,6 +290,8 @@ public class BoardManager : MonoBehaviour
 
         if (enemyUnitsStartState == null || enemyUnitsStartState.Count < 1)
             return;
+
+        selectionEnabled = false;
 
         simulation.GameOver += OnGameOver;
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
