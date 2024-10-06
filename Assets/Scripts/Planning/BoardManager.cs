@@ -176,7 +176,7 @@ public class BoardManager : MonoBehaviour
             {
                 if(board[x, y].currentUnit != null)
                 {
-                    playerUnitsStartState.Add(new Vector2Int(x, y), board[x, y].currentUnit.unitType);
+                    playerUnitsStartState[new Vector2Int(x, y)] = board[x, y].currentUnit.unitType;
                     ActiveUnits[new Vector2Int(x, y)] = board[x, y].currentUnit; // TODO: Possibly need to remove this once proper player unit flow is established
                 }
             }
@@ -251,7 +251,7 @@ public class BoardManager : MonoBehaviour
 
         foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in enemyUnitsStartState)
         {
-            this.enemyUnitsStartState.Add(unitLocation.Key, unitLocation.Value);
+            this.enemyUnitsStartState[unitLocation.Key] = unitLocation.Value;
             ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, false);
         }
     }    
