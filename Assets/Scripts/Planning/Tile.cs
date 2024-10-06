@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Tile: MonoBehaviour
 {
-    public Unit unit = null;
+    public bool IsPlayerSpace = false;
+    public Unit currentUnit = null;
 
     private void Start()
     {

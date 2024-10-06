@@ -42,7 +42,7 @@ public static class BoardUtils
 
         if (BoardManager.Instance.ActiveUnits.TryGetValue(unitLocation, out Unit movingUnit))
         {
-            BoardManager.Instance.GetNearestTile(unitLocation.x, unitLocation.y).unit = null;
+            BoardManager.Instance.GetNearestTile(unitLocation.x, unitLocation.y).currentUnit = null;
             BoardManager.Instance.ActiveUnits.Remove(unitLocation);
             movingUnit.Die();
         }

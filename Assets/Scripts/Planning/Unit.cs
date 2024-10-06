@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
         colorTweenID = gameObject.GetInstanceID() + "_ColorChange";
     }
 
-    public void Init(UnitType unitType)
+    public void Init(UnitType unitType, bool player)
     {
         // set up sprite etc.
     }
