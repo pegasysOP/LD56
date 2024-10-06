@@ -32,12 +32,12 @@ public class GameManager : MonoBehaviour
         UM.SetActiveUpgradePanel(false);
 
         //Spawn starting player units 
-        BM.SpawnNewPlayerUnit(UnitType.Basic);
+        BM.SpawnNewPlayerUnit(UnitType.Bee);
         BM.SpawnNewPlayerUnit(UnitType.Spider);
         BM.SpawnNewPlayerUnit(UnitType.Stag);
         BM.SpawnNewPlayerUnit(UnitType.Queen);
         BM.SpawnNewPlayerUnit(UnitType.Moth);
-        BM.SpawnNewPlayerUnit(UnitType.Basic);
+        BM.SpawnNewPlayerUnit(UnitType.Bee);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         UnitTypeToSprite[UnitType.Stag] = unitSprites[1];
         UnitTypeToSprite[UnitType.Spider] = unitSprites[2];
         UnitTypeToSprite[UnitType.Moth] = unitSprites[3];
-        UnitTypeToSprite[UnitType.Basic] = unitSprites[4];
+        UnitTypeToSprite[UnitType.Bee] = unitSprites[4];
     }
 
     void setUpgradeUnits()
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         Dictionary<Vector2Int, UnitType> FirstLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
 
         // example enemy units
-        FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.Basic;
+        FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.Bee;
         FirstLevelEnemyUnits[new Vector2Int(7, 4)] = UnitType.Moth;
         FirstLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Queen;
 
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         Dictionary<Vector2Int, UnitType> SecondLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
 
         // example enemy units
-        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.Basic;
+        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.Bee;
         SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Stag;
         SecondLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
 

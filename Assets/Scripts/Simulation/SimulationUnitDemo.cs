@@ -20,7 +20,7 @@ public class SimulationUnitDemo : SimulationUnit
 
     public override UnitType GetUnitType()
     {
-        return UnitType.Basic;
+        return UnitType.Bee;
     }
 
     protected override void DoMovement(ref SimulationGrid currentGrid)

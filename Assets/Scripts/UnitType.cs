@@ -1,6 +1,6 @@
 public enum UnitType
 {
-    Basic,
+    Bee,
     Spider,
     Moth, 
     Stag,
