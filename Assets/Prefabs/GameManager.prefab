@@ -71,6 +71,7 @@ MonoBehaviour:
   Image1: {fileID: 7145127550630485539}
   Image2: {fileID: 3368078865953322370}
   Image3: {fileID: 6471844747866594925}
+  StartRoundButton: {fileID: 8038576867303857556}
 --- !u!1 &901035414394863393
 GameObject:
   m_ObjectHideFlags: 0

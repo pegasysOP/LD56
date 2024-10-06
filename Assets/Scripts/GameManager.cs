@@ -222,6 +222,7 @@ public class GameManager : MonoBehaviour
 
     void onRoundOver(bool playerWon)
     {
+        UM.StartRoundButton.SetActive(true);
         if (playerWon)
         {
             onRoundWon();
@@ -234,6 +235,7 @@ public class GameManager : MonoBehaviour
 
     void onGameWon()
     {
+        UM.StartRoundButton.SetActive(false);
         Debug.Log("You won!");
         UM.LoadCreditScene();
     }
@@ -279,6 +281,8 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
+        //Disable the start level button
+        UM.StartRoundButton.SetActive(false);
         //Save the player positions
         BM.SavePlayerUnitStartPositions();
         Debug.Log("Start Level"); 

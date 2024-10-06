@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public Image Image1;
     public Image Image2;
     public Image Image3;
+    public GameObject StartRoundButton;
 
     private BoardManager BM;
 
