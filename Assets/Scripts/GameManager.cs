@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     int level = 0;
-    int finalLevel = 1;
+    int finalLevel = 4;
 
     private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
 
@@ -38,10 +38,6 @@ public class GameManager : MonoBehaviour
         //Spawn starting player units 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
         BM.SpawnNewPlayerUnit(UnitType.Spider);
-        BM.SpawnNewPlayerUnit(UnitType.Beetle);
-        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
-        BM.SpawnNewPlayerUnit(UnitType.Moth);
-        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -72,6 +68,27 @@ public class GameManager : MonoBehaviour
         upgradeTypes = new UnitType[3];
         upgradeTypes[0] = UnitType.QueenBee;
         upgradeTypes[1] = UnitType.Beetle;
+        upgradeTypes[2] = UnitType.WorkerBee;
+
+        levelUpgradeTypes.Add(upgradeTypes);
+
+        upgradeTypes = new UnitType[3];
+        upgradeTypes[0] = UnitType.Moth;
+        upgradeTypes[1] = UnitType.Spider;
+        upgradeTypes[2] = UnitType.Beetle;
+
+        levelUpgradeTypes.Add(upgradeTypes);
+
+        upgradeTypes = new UnitType[3];
+        upgradeTypes[0] = UnitType.QueenBee;
+        upgradeTypes[1] = UnitType.Moth;
+        upgradeTypes[2] = UnitType.Spider;
+
+        levelUpgradeTypes.Add(upgradeTypes);
+
+        upgradeTypes = new UnitType[3];
+        upgradeTypes[0] = UnitType.Beetle;
+        upgradeTypes[1] = UnitType.QueenBee;
         upgradeTypes[2] = UnitType.WorkerBee;
 
         levelUpgradeTypes.Add(upgradeTypes);
@@ -115,8 +132,6 @@ public class GameManager : MonoBehaviour
 
         // example enemy units
         FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.WorkerBee;
-        FirstLevelEnemyUnits[new Vector2Int(7, 4)] = UnitType.Moth;
-        FirstLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.QueenBee;
 
         levelEnemyStartStates[0] = FirstLevelEnemyUnits;
 
@@ -125,9 +140,35 @@ public class GameManager : MonoBehaviour
         // example enemy units
         SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
         SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
-        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
 
         levelEnemyStartStates[1] = SecondLevelEnemyUnits;
+
+        Dictionary<Vector2Int, UnitType> ThirdLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
+
+        // example enemy units
+        ThirdLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.QueenBee;
+        ThirdLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
+
+        levelEnemyStartStates[2] = ThirdLevelEnemyUnits;
+
+        Dictionary<Vector2Int, UnitType> FourthLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
+
+        // example enemy units
+        FourthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
+        FourthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
+        FourthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Moth;
+
+        levelEnemyStartStates[3] = FourthLevelEnemyUnits;
+
+        Dictionary<Vector2Int, UnitType> FifthLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
+
+        // example enemy units
+        FifthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
+        FifthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
+        FifthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
+
+        levelEnemyStartStates[4] = FifthLevelEnemyUnits;
+
     }
 
     // Update is called once per frame
