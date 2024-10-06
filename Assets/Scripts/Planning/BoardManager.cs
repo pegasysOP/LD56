@@ -132,31 +132,55 @@ public class BoardManager : MonoBehaviour
         {
             if (Physics.Raycast(ray, out RaycastHit hit, 20f, boardMask))
             {
-                Tile t = GetNearestTile(hit.point.x, hit.point.z);
+                Tile newTile = GetNearestTile(hit.point.x, hit.point.z);
 
-                if (t.currentUnit == null && t.IsPlayerSpace)
+                if (newTile != null && newTile.IsPlayerSpace)
                 {
-                    bool successful = PlaceUnit(selectedUnit.GetComponent<Unit>(), t.transform.position.x, t.transform.position.z);
-                    if (successful)
+                    if (newTile.currentUnit == null) // just place
                     {
-                        Debug.Log("Successfully placed unit.");
-                        t.currentUnit = selectedUnit.GetComponent<Unit>();
+                        if (PlaceUnit(selectedUnit, newTile.transform.position.x, newTile.transform.position.z))
+                        {
+                            Debug.Log("Successfully placed unit.");
+                            newTile.currentUnit = selectedUnit;
+                        }
+                        else
+                        {
+                            Debug.Log("Could not place unit on tile. Reverting to previous position.");
+                            PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
+                        }
                     }
-                    else
+                    else // otherwise swap
                     {
-                        Debug.Log("Could not place unit on tile. Reverting to previous position.");
-                        PlaceUnit(selectedUnit.GetComponent<Unit>(), selectedUnit.GetComponent<Unit>().previousPosition.x, selectedUnit.GetComponent<Unit>().previousPosition.z);
+                        Unit otherUnit = newTile.currentUnit;
+                        Tile originalTile = GetNearestTile(selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
+
+                        //newTile.currentUnit = null;
+                        //originalTile.currentUnit = null;
+
+                        //if (PlaceUnit(selectedUnit, newTile.transform.position.x, newTile.transform.position.z))
+                        //    Debug.LogError("PLACED UNIT 1");
+                        //if (PlaceUnit(otherUnit, originalTile.transform.position.x, originalTile.transform.position.z))
+                        //    Debug.LogError("PLACED UNIT 2");
+
+                        selectedUnit.transform.position = newTile.transform.position;
+                        selectedUnit.previousPosition = newTile.transform.position;
+
+                        otherUnit.transform.position = originalTile.transform.position;
+                        otherUnit.previousPosition = originalTile.transform.position;
+
+                        newTile.currentUnit = selectedUnit;
+                        originalTile.currentUnit = otherUnit;
                     }
                 }
                 else
                 {
                     Debug.Log("Tile is already occupied. Reverting to previous position.");
-                    PlaceUnit(selectedUnit.GetComponent<Unit>(), selectedUnit.GetComponent<Unit>().previousPosition.x, selectedUnit.GetComponent<Unit>().previousPosition.z);
+                    PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
                 }
             }
             else
             {
-                PlaceUnit(selectedUnit.GetComponent<Unit>(), selectedUnit.GetComponent<Unit>().previousPosition.x, selectedUnit.GetComponent<Unit>().previousPosition.z);
+                PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
             }
 
             isAttached = false;
@@ -206,7 +230,7 @@ public class BoardManager : MonoBehaviour
 
     public bool PlaceUnit(Unit unit, float x, float y)
     {
-        if (x < 0 || y < 0 || x > width || y >= height) // TODO: ADD BACK VALIDATION TO DRAGGING
+        if (x < 0 || y < 0 || x > width || y >= height)
         {
             Debug.Log("Invalid coordinate");
             return false;
@@ -225,7 +249,7 @@ public class BoardManager : MonoBehaviour
 
         unit.transform.position = new Vector3(x, 0f, y);
         GetNearestTile(unit.previousPosition.x, unit.previousPosition.z).currentUnit = null;
-        unit.previousPosition = new Vector3(x, 0, y);
+        unit.previousPosition = new Vector3(x, 0f, y);
         tile.currentUnit = unit;
 
         return true;
