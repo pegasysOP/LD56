@@ -158,7 +158,10 @@ public class GameManager : MonoBehaviour
     public void LoadLevel()
     {
         //Display upgrade panel 
-        UM.SetActiveUpgradePanel(true);
+        if (level != 0)
+        {
+            UM.SetActiveUpgradePanel(true);
+        }
         setUpgradeUnits();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
