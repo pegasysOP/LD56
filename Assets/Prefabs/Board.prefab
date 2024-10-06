@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4678482537070024382, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
-  unitPrefab: {fileID: 8668100356704540198, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
+  unitPrefab: {fileID: -7132568056895487309, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
   boardMask:
     serializedVersion: 2
     m_Bits: 512
