@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
     int finalLevel = 1;
 
     private Dictionary<Vector2Int, Unit>[] levelEnemyStartStates;
+
+    //public EventHandler<bool> GameOver;
 
     UIManager UM;
     BoardManager BM;
@@ -23,10 +26,15 @@ public class GameManager : MonoBehaviour
         //Spawn player units 
         BM.SpawnUnit(new Vector2Int(0, 0));
         BM.SpawnUnit(new Vector2Int(1, 1));
+        BM.SpawnUnit(new Vector2Int(1, 0));
+        BM.SpawnUnit(new Vector2Int(2, 1));
+        BM.SpawnUnit(new Vector2Int(0, 1));
+        BM.SpawnUnit(new Vector2Int(1, 2));
 
         BM.SavePlayerUnitStartPositions();
 
         PopulateEnemyStartStates();
+        BM.GameOver += OnGameOver;
         LoadLevel();
     }
 
@@ -86,6 +94,19 @@ public class GameManager : MonoBehaviour
         //Get board from saved board and use that to reset the board. Then pass in the same levels enemy dict
 
         //When exit is pressed return to main menu 
+        LoadLevel();
+    }
+
+    void onRoundOver(bool playerWon)
+    {
+        if (playerWon)
+        {
+            onRoundWon();
+        }
+        else
+        {
+            onRoundLost();
+        }
     }
 
     void onGameWon()
@@ -96,20 +117,22 @@ public class GameManager : MonoBehaviour
 
     void getNextLevel()
     {
-        Debug.Log("Getting next level");
         level++;
+
         if(level > finalLevel)
         {
             onGameWon();
         }
-        //Get dictioary of next level. 
-
-        //Pass that to the simulation
+        else
+        {
+            LoadLevel();
+        }   
     }
 
     public void LoadLevel()
     {
         //Load into planning phase 
+        AM.PlayPlanningPhaseClip();
 
         //Reset the board
         BM.ClearBoardUnits();
@@ -131,5 +154,10 @@ public class GameManager : MonoBehaviour
         //Play the attack phase music 
         AM.PlaySimulationPhaseClip();
         //call onStartRoundPressed on boardManager and pass along the enemy configuration   
+    }
+
+    private void OnGameOver(object sender, bool playerWon)
+    {
+        onRoundOver(playerWon);
     }
 }
