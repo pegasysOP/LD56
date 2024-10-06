@@ -774,6 +774,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpgradePanel: {fileID: 343849831}
+  Unit1Button: {fileID: 531358459}
+  Unit2Button: {fileID: 1280692232}
+  Unit3Button: {fileID: 1431949272}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0

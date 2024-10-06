@@ -843,6 +843,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpgradePanel: {fileID: 1275832024}
+  Unit1Button: {fileID: 1272933886}
+  Unit2Button: {fileID: 352745807}
+  Unit3Button: {fileID: 986608473}
 --- !u!1 &986608473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1030,10 @@ PrefabInstance:
     - target: {fileID: 3403503654426791095, guid: db49cf742ea7c314a8364114c5233ea5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8038576867303857556, guid: db49cf742ea7c314a8364114c5233ea5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

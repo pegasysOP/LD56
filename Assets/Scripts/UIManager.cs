@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     public const string INSTRUCTION_SCENE = "Instructions";
 
     public GameObject UpgradePanel;
+    public GameObject Unit1Button;
+    public GameObject Unit2Button;
+    public GameObject Unit3Button;
 
     private BoardManager BM;
 
