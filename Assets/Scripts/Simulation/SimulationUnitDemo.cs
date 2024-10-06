@@ -59,6 +59,8 @@ public class SimulationUnitDemo : SimulationUnit
 
         if (currentTarget.TakeDamage(attack))
             currentGrid.RemoveUnit(currentTarget);
+        else
+            currentGrid.DamageUnit(currentTarget);
 
         Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > ATTACK");
     }

@@ -53,6 +53,19 @@ public class SimulationGrid
     }
 
     /// <summary>
+    /// Damages a unit on the grid (if it exists on the grid)
+    /// </summary>
+    /// <param name="unit"></param>
+    public void DamageUnit(SimulationUnit unit)
+    {
+        Vector2Int gridCoordinates = GetGridCoordinates(unit);
+        if (IsValidGridCoordinates(gridCoordinates))
+        {
+            BoardUtils.DamageUnit(gridCoordinates);
+        }
+    }
+
+    /// <summary>
     /// Checks if the space at the given coordinates is empty or not
     /// </summary>
     /// <param name="x"></param>
