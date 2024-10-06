@@ -49,8 +49,7 @@ public class Simulation : MonoBehaviour
                 continue;
             }
 
-            Debug.Log(("Running Game Tick"));
-
+            // reset timer
             timer = 0;
 
             // stop simulation if game over
