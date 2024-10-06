@@ -120,11 +120,31 @@ public abstract class SimulationUnitBase
 
         // if there are opposing team units in range then there no need to move, instead select a target unit
         Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        List<SimulationUnitBase> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        Dictionary<SimulationUnitBase, int> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
         if (unitsInRange.Count > 0)
         {
-            currentTarget = unitsInRange[UnityEngine.Random.Range(0, unitsInRange.Count - 1)];
-            return true;
+            // get closest range only
+            List<SimulationUnitBase> closestUnits = new List<SimulationUnitBase>();
+            int minRange = int.MaxValue;
+            foreach (KeyValuePair<SimulationUnitBase, int> unit in unitsInRange)
+            {
+                if (unit.Value == minRange)
+                {
+                    closestUnits.Add(unit.Key);
+                }
+                if (unit.Value < minRange)
+                {
+                    minRange = unit.Value;
+                    closestUnits.Clear();
+                    closestUnits.Add(unit.Key);
+                }
+            }
+
+            if (closestUnits.Count > 0)
+            {
+                currentTarget = closestUnits[Random.Range(0, closestUnits.Count - 1)];
+                return true;
+            }
         }
 
         return false;
