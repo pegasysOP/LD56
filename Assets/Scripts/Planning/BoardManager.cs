@@ -83,13 +83,29 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public Unit SpawnUnit(Vector2Int location, UnitType unitType, bool player)
+    public Unit SpawnNewPlayerUnit(UnitType unitType)
+    {
+        // spawn in next free slot
+        for (int x = 0; x < 3; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (board[x, y].currentUnit == null)
+                    return SpawnUnit(new Vector2Int(x, y), unitType, true);
+            }
+        }
+
+        Debug.LogError("No free slots found for spawning player unit");
+        return null;
+    }
+
+    private Unit SpawnUnit(Vector2Int location, UnitType unitType, bool player)
     {
         Unit unit = Instantiate(unitPrefab, unitContainer);
         unit.name = "Unit" + location.x + ", " + location.y;
+        unit.Init(unitType, player);
 
         unit.transform.position = new Vector3(location.x + 0.5f, 0f, location.y + 0.5f);
-        //PlaceUnit(unit, location.x + 0.5f, location.y + 0.5f); // Sam - was setting the tiles unit to null for some reason
         board[location.x, location.y].currentUnit = unit;
 
         return unit;

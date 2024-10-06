@@ -22,7 +22,10 @@ public class Unit : MonoBehaviour
 
     public void Init(UnitType unitType, bool player)
     {
-        // set up sprite etc.
+        this.unitType = unitType;
+
+        spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
+        spriteRenderer.flipX = !player;
     }
 
     public void MoveTo(Vector3 targetPosition)

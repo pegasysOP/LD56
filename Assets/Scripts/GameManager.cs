@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Sprite[] unitSprites;
 
-    public Dictionary<UnitType, Sprite> UnitTypeToSprite;
+    public static Dictionary<UnitType, Sprite> UnitTypeToSprite;
 
     //public EventHandler<bool> GameOver;
 
@@ -31,13 +31,13 @@ public class GameManager : MonoBehaviour
 
         UM.SetActiveUpgradePanel(false);
 
-        //Spawn player units 
-        BM.SpawnUnit(new Vector2Int(0, 0), UnitType.Basic, true);
-        BM.SpawnUnit(new Vector2Int(1, 1), UnitType.Spider, true);
-        BM.SpawnUnit(new Vector2Int(1, 0), UnitType.Stag, true);
-        BM.SpawnUnit(new Vector2Int(2, 1), UnitType.Queen, true);
-        BM.SpawnUnit(new Vector2Int(0, 1), UnitType.Moth, true);
-        BM.SpawnUnit(new Vector2Int(1, 2), UnitType.Basic, true);
+        //Spawn starting player units 
+        BM.SpawnNewPlayerUnit(UnitType.Basic);
+        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Stag);
+        BM.SpawnNewPlayerUnit(UnitType.Queen);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SpawnNewPlayerUnit(UnitType.Basic);
 
         BM.SavePlayerUnitStartPositions();
 
