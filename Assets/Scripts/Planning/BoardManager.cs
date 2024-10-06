@@ -15,6 +15,11 @@ public class BoardManager : MonoBehaviour
     [Header("Simulation")]
     public Simulation simulation;
 
+    [Header("Units")]
+    public Transform unitContainer;
+    public Dictionary<Vector2Int, Unit> ActiveUnits;
+
+
     private Tile[,] board;
 
     private readonly int height = 8;
@@ -25,8 +30,9 @@ public class BoardManager : MonoBehaviour
     private Vector3 offset;
 
     private Dictionary<Vector2Int, Unit> playerUnitsStartState = new Dictionary<Vector2Int, Unit>();
+    private Dictionary<Vector2Int, Unit> enemyUnitsStartState;
 
-    public Dictionary<Vector2Int, Unit> ActiveUnits;
+
 
     public static BoardManager Instance;
 
@@ -42,13 +48,7 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         board = new Tile[width, height];
-        //Create the game objects for each tile. Currently each tile has no unit attatched. 
         GenerateBoard();
-
-        //Place two units on the board
-        SpawnUnit(1, 3);
-        SpawnUnit(1, 1);
-
         SaveBoard();
     }
 
@@ -72,14 +72,14 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void SpawnUnit(int x, int y)
+    void SpawnUnit(Vector2Int location)
     {
-        GameObject GO = Instantiate(unitPrefab);
+        GameObject GO = Instantiate(unitPrefab, unitContainer);
         Unit unit = GO.GetComponent<Unit>();
-        GO.name = "Unit" + x + ", " + y;
+        GO.name = "Unit" + location.x + ", " + location.y;
 
-        PlaceUnit(unit, x + 0.5f, y + 0.5f);
-        board[x, y].unit = unit;
+        PlaceUnit(unit, location.x + 0.5f, location.y + 0.5f);
+        board[location.x, location.y].unit = unit;
     }
 
     void DragUnit()
@@ -218,25 +218,34 @@ public class BoardManager : MonoBehaviour
         return true;
     }
 
+    public void LoadEnemyUnits(Dictionary<Vector2Int, Unit> enemyUnitsStartState)
+    {
+        this.enemyUnitsStartState = enemyUnitsStartState;
+
+        foreach (KeyValuePair<Vector2Int, Unit> unitLocation in enemyUnitsStartState)
+            SpawnUnit(unitLocation.Key);
+    }
+
+    private void ClearBoardUnits()
+    {
+        for (int i = unitContainer.childCount - 1; i >= 0; i--)
+            DestroyImmediate(unitContainer.GetChild(i).gameObject);
+    }
+
     public void OnStartRoundPressed()
     {
         SaveBoard();
-        Dictionary<Vector2Int, Unit> enemyUnitsStartState = new Dictionary<Vector2Int, Unit>();
 
-        // example enemy units
-        enemyUnitsStartState[new Vector2Int(7, 6)] = new Unit();
-        enemyUnitsStartState[new Vector2Int(7, 4)] = new Unit();
-        enemyUnitsStartState[new Vector2Int(7, 1)] = new Unit();
+        if (playerUnitsStartState == null || playerUnitsStartState.Count < 1)
+            return;
+
+        if (enemyUnitsStartState == null || enemyUnitsStartState.Count < 1)
+            return;
 
         ActiveUnits = new Dictionary<Vector2Int, Unit>();
         ActiveUnits.AddRange(playerUnitsStartState);
         ActiveUnits.AddRange(enemyUnitsStartState);
 
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
-    }
-
-    public void LoadEnemyUnits(Dictionary<Vector2Int, Unit> enemyUnitsStartState)
-    {
-
-    }
+    }    
 }
