@@ -59,14 +59,26 @@ public static class BoardUtils
 
         if (BoardManager.Instance.ActiveUnits.TryGetValue(unitLocation, out Unit damagedUnit))
         {
-            if (special)
-                damagedUnit.TakeSpecialDamage();
-            else
-                damagedUnit.TakeDamage();
+            damagedUnit.TakeDamage(special);
         }
         else
         {
             Debug.LogWarning($"Failed to find physical unit at {unitLocation}");
+        }
+    }
+
+    public static void DoAttack(Vector2Int attacker, Vector2Int target)
+    {
+        if (BoardManager.Instance.ActiveUnits == null)
+            return;
+
+        if (BoardManager.Instance.ActiveUnits.TryGetValue(attacker, out Unit attackingUnit))
+        {
+            attackingUnit.DoAttack(BoardToRealCoordinates(target));
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to find physical unit at {attacker}");
         }
     }
 }

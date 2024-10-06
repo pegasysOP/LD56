@@ -72,8 +72,8 @@ public class Simulation : MonoBehaviour
         for (int i = enemyUiContainer.childCount - 1; i >= 0; i--)
             DestroyImmediate(enemyUiContainer.GetChild(i).gameObject);
 
-        for (int i = unitObjectContainer.childCount - 1; i >= 0; i--)
-            DestroyImmediate(unitObjectContainer.GetChild(i).gameObject);
+        //for (int i = unitObjectContainer.childCount - 1; i >= 0; i--)
+        //    DestroyImmediate(unitObjectContainer.GetChild(i).gameObject);
 
         List<SimulationUnit> sortedUnits = grid.GetUnits();
         sortedUnits.Sort((SimulationUnit a, SimulationUnit b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
@@ -81,7 +81,7 @@ public class Simulation : MonoBehaviour
         {
             Transform targetContainer = unit.IsPlayerUnit() ? playerUiContainer : enemyUiContainer;
             Instantiate(uiElementPrefab, targetContainer).SetUnit(grid, unit);
-            Instantiate(unitObjectPrefab, unitObjectContainer).SetUnit(grid, unit);
+            //Instantiate(unitObjectPrefab, unitObjectContainer).SetUnit(grid, unit);
         }
     }
 

@@ -57,6 +57,8 @@ public class SimulationUnitDemo : SimulationUnit
         if (!CanAttackCurrentTarget(currentGrid))
             return;
 
+        currentGrid.DoAttack(this, currentTarget);
+
         if (currentTarget.TakeDamage(attack))
             currentGrid.RemoveUnit(currentTarget);
         else
@@ -71,6 +73,8 @@ public class SimulationUnitDemo : SimulationUnit
 
         if (!CanAttackCurrentTarget(currentGrid))
             return;
+
+        currentGrid.DoAttack(this, currentTarget);
 
         if (currentTarget.TakeDamage(attack * 2))
             currentGrid.RemoveUnit(currentTarget);

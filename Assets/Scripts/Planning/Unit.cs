@@ -3,33 +3,68 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public SpriteRenderer spriteRenderer;
+    
     public Vector3 previousPosition; 
 
-    public SpriteRenderer spriteRenderer;
+    private bool dead = false;
+    private bool moving = false;
+
+    private string movementTweenID;
+    private string colorTweenID;
+
+    private void Awake()
+    {
+        movementTweenID = gameObject.GetInstanceID() + "_Movement";
+        colorTweenID = gameObject.GetInstanceID() + "_ColorChange";
+    }
 
     public void MoveTo(Vector3 targetPosition)
     {
-        transform.DOMove(targetPosition, Simulation.TickDuration);
+        if (dead)
+            return;
+
+        moving = true;
+
+        DOTween.Kill(movementTweenID);
+
+        transform.DOMove(targetPosition, Simulation.TickDuration)
+            .OnComplete(() => moving = false)
+            .SetId(movementTweenID);
     }
 
     public void Die()
     {
-        spriteRenderer.DOColor(Color.clear, Simulation.TickDuration);
+        dead = true;
+        DOTween.Kill(colorTweenID);
+
+        spriteRenderer.color = Color.white;
+        spriteRenderer.DOColor(Color.clear, Simulation.TickDuration)
+            .SetId(colorTweenID);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(bool special)
     {
-        spriteRenderer.DOColor(Color.red, Simulation.TickDuration / 2f).OnComplete
-        (() => 
-            spriteRenderer.DOColor(Color.white, Simulation.TickDuration /2f)
-        );
+        if (dead)
+            return;
+
+        spriteRenderer.DOColor(special ? Color.blue : Color.red, Simulation.TickDuration / 2f)
+            .OnComplete(() => spriteRenderer.DOColor(Color.white, Simulation.TickDuration /2f))
+            .SetId(colorTweenID);
     }
 
-    public void TakeSpecialDamage()
+    public void DoAttack(Vector3 targetPosition)
     {
-        spriteRenderer.DOColor(Color.blue, Simulation.TickDuration / 2f).OnComplete
-        (() =>
-            spriteRenderer.DOColor(Color.white, Simulation.TickDuration / 2f)
-        );
+        if (dead || moving)
+            return;
+
+        Vector3 startPos = transform.position;
+        Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
+
+        transform.DOMove(joltTarget, Simulation.TickDuration / 4f)
+            .SetEase(Ease.InQuad)
+            .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
+            .SetEase(Ease.OutQuad))
+            .SetId(movementTweenID);
     }
 }

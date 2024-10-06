@@ -66,6 +66,20 @@ public class SimulationGrid
     }
 
     /// <summary>
+    /// Causes the attacker to do an attack animation towards the target (if both exist)
+    /// </summary>
+    /// <param name="unit"></param>
+    public void DoAttack(SimulationUnit attacker, SimulationUnit target)
+    {
+        Vector2Int attackerCoordinates = GetGridCoordinates(attacker);
+        Vector2Int targetCoordinates = GetGridCoordinates(target);
+        if (IsValidGridCoordinates(attackerCoordinates) && IsValidGridCoordinates(targetCoordinates))
+        {
+            BoardUtils.DoAttack(attackerCoordinates, targetCoordinates);
+        }
+    }
+
+    /// <summary>
     /// Checks if the space at the given coordinates is empty or not
     /// </summary>
     /// <param name="x"></param>
