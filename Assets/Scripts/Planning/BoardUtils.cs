@@ -98,7 +98,9 @@ public static class BoardUtils
     {
         foreach (KeyValuePair<Vector2Int, (float, float)> unitData in unitDatas)
         {
-            BoardManager.Instance.ActiveUnits[unitData.Key].UpdateData(unitData.Value.Item1, unitData.Value.Item2);
+            // protection in case units get destroyed while running this loop (i.e. round ends)
+            if (BoardManager.Instance.ActiveUnits.TryGetValue(unitData.Key, out Unit unit))
+                unit.UpdateData(unitData.Value.Item1, unitData.Value.Item2);
         }
     }
 }
