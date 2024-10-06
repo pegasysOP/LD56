@@ -1,4 +1,8 @@
 public enum UnitType
 {
-    Basic
+    Basic,
+    Spider,
+    Moth, 
+    Stag,
+    Queen
 }
