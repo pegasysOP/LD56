@@ -8,6 +8,7 @@ public class BoardManager : MonoBehaviour
 {
     public LayerMask boardMask;
     public LayerMask unitMask;
+    public LayerMask outOfBoundsMask;
 
     public Tile[,] board;
     public List<Unit> units;
@@ -102,7 +103,7 @@ public class BoardManager : MonoBehaviour
 
         if (isAttached && unitHit != null)
         {
-            if (Physics.Raycast(ray, out RaycastHit hit, 20f, boardMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, 20f, boardMask | outOfBoundsMask))
             {
                 //Update the unit position as we drag, with offset correction
                 Vector3 boardPosition = hit.point;
