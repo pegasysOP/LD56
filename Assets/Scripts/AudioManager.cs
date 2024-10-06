@@ -9,6 +9,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip simulationPhaseClip;
     public AudioClip victoryFanfareClip;
     public AudioClip failureFanfareClip;
+    public AudioClip pickupClip;
+    public AudioClip putdownClip;
+    public AudioClip invalidPlaceClip;
+    public AudioClip damangeClip;
+    public AudioClip deathClip;
+    public AudioClip specialAttackClip;
+    public AudioClip movementClip;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,5 +50,40 @@ public class AudioManager : MonoBehaviour
     {
         audioSource.clip = failureFanfareClip;
         audioSource.Play();
+    }
+
+    public void PlayPickUpClip()
+    {
+        audioSource.PlayOneShot(pickupClip);
+    }
+
+    public void PlayPutDownClip()
+    {
+        audioSource.PlayOneShot(putdownClip);
+    }
+
+    public void PlayInvalidPlacementClip()
+    {
+        audioSource.PlayOneShot(invalidPlaceClip);
+    }
+
+    public void PlayDamageClip()
+    {
+        audioSource.PlayOneShot(damangeClip);
+    }
+
+    public void PlayDeathClip()
+    {
+        audioSource.PlayOneShot(deathClip);
+    }
+
+    public void PlaySpecialAttackClip()
+    {
+        audioSource.PlayOneShot(specialAttackClip);
+    }
+
+    public void PlayMovementClip()
+    {
+        audioSource.PlayOneShot(movementClip);
     }
 }

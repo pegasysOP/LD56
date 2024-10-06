@@ -25,6 +25,8 @@ public class BoardManager : MonoBehaviour
 
     private Tile[,] board;
 
+    private AudioManager AM;
+
     private readonly int height = 8;
     private readonly int width = 8;
 
@@ -60,6 +62,11 @@ public class BoardManager : MonoBehaviour
     void Update()
     {
         DragUnit();
+    }
+
+    private void Start()
+    {
+        AM = FindObjectOfType<AudioManager>();
     }
 
     void GenerateBoard()
@@ -110,6 +117,8 @@ public class BoardManager : MonoBehaviour
                     //offset = selectedUnit.transform.position - hit.point;
 
                     ShowTileIndicators(true);
+
+                    AM.PlayPickUpClip();
                 }
             }
         }
@@ -143,11 +152,13 @@ public class BoardManager : MonoBehaviour
                         {
                             Debug.Log("Successfully placed unit.");
                             newTile.currentUnit = selectedUnit;
+                            AM.PlayPutDownClip();
                         }
                         else
                         {
                             Debug.Log("Could not place unit on tile. Reverting to previous position.");
                             PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
+                            AM.PlayInvalidPlacementClip();
                         }
                     }
                     else // otherwise swap
@@ -171,17 +182,20 @@ public class BoardManager : MonoBehaviour
 
                         newTile.currentUnit = selectedUnit;
                         originalTile.currentUnit = otherUnit;
+                        AM.PlayPutDownClip();
                     }
                 }
                 else
                 {
                     Debug.Log("Tile is already occupied. Reverting to previous position.");
                     PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
+                    AM.PlayInvalidPlacementClip();
                 }
             }
             else
             {
                 PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
+                AM.PlayInvalidPlacementClip();
             }
 
             isAttached = false;
@@ -239,11 +253,14 @@ public class BoardManager : MonoBehaviour
 
         Tile tile = GetNearestTile(x, y);
         if (tile == null)
+        {
             return false;
-
+        }
+            
         // Check if the target tile already has a unit
         if (tile.currentUnit != null)
         {
+            //TODO: Do we want invalid clip here. If they should be swapped
             Debug.Log("There is already a unit here");
             return false;
         }

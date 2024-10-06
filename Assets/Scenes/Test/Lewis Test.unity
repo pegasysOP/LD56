@@ -1644,14 +1644,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8444829915101457972, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
-      propertyPath: planningPhaseClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
-    - target: {fileID: 8444829915101457972, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
-      propertyPath: simulationPhaseClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
     - target: {fileID: 9076446250599386013, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

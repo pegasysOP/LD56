@@ -50,6 +50,13 @@ MonoBehaviour:
   simulationPhaseClip: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
   victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}
   failureFanfareClip: {fileID: 0}
+  pickupClip: {fileID: 8300000, guid: 7c82b4c60acb9e84b9dab4beb229fbde, type: 3}
+  putdownClip: {fileID: 8300000, guid: a770e6d6a78803547825821c9c97c825, type: 3}
+  invalidPlaceClip: {fileID: 8300000, guid: e70a1ba8a9ac82447bce4f5b6c7db6b3, type: 3}
+  damangeClip: {fileID: 8300000, guid: 92fe6f622a5fcbd4f8004b7d226bf1b0, type: 3}
+  deathClip: {fileID: 8300000, guid: 6e9e023a522fb8143bcf82e50985b82c, type: 3}
+  specialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
+  movementClip: {fileID: 8300000, guid: a7920ec79ab50594b97927bc7b4edb62, type: 3}
 --- !u!82 &7139085052071998491
 AudioSource:
   m_ObjectHideFlags: 0
