@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousPosition: {x: 0, y: 0, z: 0}
+  spriteRenderer: {fileID: 2216534023019648398}
 --- !u!65 &3815199161387776965
 BoxCollider:
   m_ObjectHideFlags: 0

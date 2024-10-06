@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class BoardUtils
@@ -30,6 +29,26 @@ public static class BoardUtils
             BoardManager.Instance.ActiveUnits.Remove(start);
             BoardManager.Instance.ActiveUnits.Add(end, movingUnit);
         }
+        else
+        {
+            Debug.LogWarning($"Failed to find physical unit at {start}");
+        }
+    }
 
+    public static void KillUnit(Vector2Int unitLocation)
+    {
+        if (BoardManager.Instance.ActiveUnits == null)
+            return;
+
+        if (BoardManager.Instance.ActiveUnits.TryGetValue(unitLocation, out Unit movingUnit))
+        {
+            BoardManager.Instance.GetNearestTile(unitLocation.x, unitLocation.y).unit = null;
+            BoardManager.Instance.ActiveUnits.Remove(unitLocation);
+            movingUnit.Die();
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to find physical unit at {unitLocation}");
+        }
     }
 }
