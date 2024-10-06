@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,10 +33,10 @@ public class GameManager : MonoBehaviour
 
         //Spawn player units 
         BM.SpawnUnit(new Vector2Int(0, 0), UnitType.Basic, true);
-        BM.SpawnUnit(new Vector2Int(1, 1), UnitType.Basic, true);
-        BM.SpawnUnit(new Vector2Int(1, 0), UnitType.Basic, true);
-        BM.SpawnUnit(new Vector2Int(2, 1), UnitType.Basic, true);
-        BM.SpawnUnit(new Vector2Int(0, 1), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(1, 1), UnitType.Spider, true);
+        BM.SpawnUnit(new Vector2Int(1, 0), UnitType.Stag, true);
+        BM.SpawnUnit(new Vector2Int(2, 1), UnitType.Queen, true);
+        BM.SpawnUnit(new Vector2Int(0, 1), UnitType.Moth, true);
         BM.SpawnUnit(new Vector2Int(1, 2), UnitType.Basic, true);
 
         BM.SavePlayerUnitStartPositions();
@@ -84,8 +80,8 @@ public class GameManager : MonoBehaviour
 
         // example enemy units
         FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.Basic;
-        FirstLevelEnemyUnits[new Vector2Int(7, 4)] = UnitType.Basic;
-        FirstLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Basic;
+        FirstLevelEnemyUnits[new Vector2Int(7, 4)] = UnitType.Moth;
+        FirstLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Queen;
 
         levelEnemyStartStates[0] = FirstLevelEnemyUnits;
 
@@ -93,8 +89,8 @@ public class GameManager : MonoBehaviour
 
         // example enemy units
         SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.Basic;
-        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Basic;
-        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Basic;
+        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Stag;
+        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
 
         levelEnemyStartStates[1] = SecondLevelEnemyUnits;
     }
