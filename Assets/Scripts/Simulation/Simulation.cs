@@ -20,11 +20,6 @@ public class Simulation : MonoBehaviour
 
     public EventHandler<bool> GameOver;
 
-    private void Start()
-    {
-        StartSimulation();
-    }
-
     public void StartSimulation()
     {
         SimulationUnit[,] initialUnitGrid = new SimulationUnit[8, 8];

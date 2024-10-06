@@ -11,6 +11,9 @@ public class BoardManager : MonoBehaviour
     public LayerMask unitMask;
     public LayerMask outOfBoundsMask;
 
+    [Header("Simulation")]
+    public Simulation simulation;
+
     private Tile[,] board;
 
     private readonly int height = 8;
