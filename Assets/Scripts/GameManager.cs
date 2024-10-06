@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
     void onGameWon()
     {
         Debug.Log("You won!");
-        UM.LoadMenuScene();
+        UM.LoadCreditScene();
     }
 
     void getNextLevel()

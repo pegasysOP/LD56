@@ -510,6 +510,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6286720632543419422, guid: 91323abadb36f884c93140f5af1df968, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8288169179230526521, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
