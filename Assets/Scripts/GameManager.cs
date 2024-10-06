@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     void setUpgradeUnits()
     {
-        UnitType[] upgradeTypes = new UnitType[3];
+        upgradeTypes = new UnitType[3];
         upgradeTypes[0] = UnitType.Spider;
         upgradeTypes[1] = UnitType.Moth;
         upgradeTypes[2] = UnitType.Stag;
@@ -70,6 +71,28 @@ public class GameManager : MonoBehaviour
         UM.Image1.sprite = UnitTypeToSprite[upgradeTypes[0]];
         UM.Image2.sprite = UnitTypeToSprite[upgradeTypes[1]];
         UM.Image3.sprite = UnitTypeToSprite[upgradeTypes[2]];
+    }
+
+    public void PickUpgradeUnit(Button buttonPressed)
+    {
+        
+        if (buttonPressed.name == UM.Unit1Button.name)
+        {
+            Debug.Log("Upgrade picked 1");
+            BM.SpawnNewPlayerUnit(upgradeTypes[0]);
+        }
+        if (buttonPressed.name == UM.Unit2Button.name)
+        {
+            Debug.Log("Upgrade picked 2");
+            BM.SpawnNewPlayerUnit(upgradeTypes[1]);
+        }
+        if (buttonPressed.name == UM.Unit3Button.name)
+        {
+            Debug.Log("Upgrade picked 3");
+            BM.SpawnNewPlayerUnit(upgradeTypes[2]);
+        }
+
+        UM.SetActiveUpgradePanel(false);
     }
 
     void PopulateEnemyStartStates()
@@ -174,11 +197,6 @@ public class GameManager : MonoBehaviour
 
         //Spawn players from current save state
         BM.LoadPlayerUnits();
-    }
-
-    public void PickUpgradeUnit()
-    {
-
     }
 
     public void StartLevel()

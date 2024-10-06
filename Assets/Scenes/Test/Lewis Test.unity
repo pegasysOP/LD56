@@ -133,6 +133,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &121130629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7575531800671644712, guid: db49cf742ea7c314a8364114c5233ea5, type: 3}
+  m_PrefabInstance: {fileID: 166829797}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bfa84eb57b0ac4187485bb09b36f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &166829797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -531,11 +542,11 @@ PrefabInstance:
     - target: {fileID: 97215371478423340, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 963194230}
+      objectReference: {fileID: 121130629}
     - target: {fileID: 3081889398305047021, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 963194230}
+      objectReference: {fileID: 121130629}
     - target: {fileID: 6286720632543419422, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_Name
       value: UpgradePanel
@@ -627,7 +638,7 @@ PrefabInstance:
     - target: {fileID: 8714378723476316293, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 963194230}
+      objectReference: {fileID: 121130629}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
