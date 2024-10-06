@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public abstract class SimulationUnit
+public abstract class SimulationUnitBase
 {
     // base stats
     protected int maxHp;
@@ -20,9 +17,9 @@ public abstract class SimulationUnit
     protected int specialCounter;
 
     protected bool isPlayerUnit;
-    protected SimulationUnit currentTarget;
+    protected SimulationUnitBase currentTarget;
 
-    public SimulationUnit(bool playerUnit)
+    public SimulationUnitBase(bool playerUnit)
     {
         this.isPlayerUnit = playerUnit;
 
@@ -123,7 +120,7 @@ public abstract class SimulationUnit
 
         // if there are opposing team units in range then there no need to move, instead select a target unit
         Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        List<SimulationUnit> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        List<SimulationUnitBase> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
         if (unitsInRange.Count > 0)
         {
             currentTarget = unitsInRange[UnityEngine.Random.Range(0, unitsInRange.Count - 1)];
@@ -141,7 +138,7 @@ public abstract class SimulationUnit
     protected bool SimplePathFind(ref SimulationGrid currentGrid)
     {
         // find target and make 1 move towards it
-        if (Pathfinding.FindClosestTargetByPathfinding(currentGrid, this, out SimulationUnit newTarget, out Vector2Int moveLocation))
+        if (Pathfinding.FindClosestTargetByPathfinding(currentGrid, this, out SimulationUnitBase newTarget, out Vector2Int moveLocation))
         {
             currentTarget = newTarget;
             currentGrid.MoveUnit(currentGrid.GetGridCoordinates(this), moveLocation);
@@ -209,7 +206,7 @@ public abstract class SimulationUnit
     /// Get's the units current target
     /// </summary>
     /// <returns>Returns null if has no target</returns>
-    public SimulationUnit GetCurrentTarget()
+    public SimulationUnitBase GetCurrentTarget()
     {
         return currentTarget;
     }

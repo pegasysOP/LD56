@@ -37,20 +37,20 @@ public static class Pathfinding
         }
     }
 
-    public static bool FindClosestTargetByPathfinding(SimulationGrid grid, SimulationUnit currentUnit, out SimulationUnit targetUnit, out Vector2Int moveLocation)
+    public static bool FindClosestTargetByPathfinding(SimulationGrid grid, SimulationUnitBase currentUnit, out SimulationUnitBase targetUnit, out Vector2Int moveLocation)
     {
         Vector2Int startPos = grid.GetGridCoordinates(currentUnit);
 
         // set up data
-        Dictionary<Vector2Int, SimulationUnit> targets = new Dictionary<Vector2Int, SimulationUnit>();
+        Dictionary<Vector2Int, SimulationUnitBase> targets = new Dictionary<Vector2Int, SimulationUnitBase>();
         HashSet<Vector2Int> blockedCells = new HashSet<Vector2Int>();
 
-        SimulationUnit[,] gridData = grid.GetGridData();
+        SimulationUnitBase[,] gridData = grid.GetGridData();
         for (int i = 0; i < gridData.GetLength(0); i++)
         {
             for (int j = 0; j < gridData.GetLength(1); j++)
             {
-                SimulationUnit unit = gridData[i, j];
+                SimulationUnitBase unit = gridData[i, j];
                 if (unit == null)
                     continue;
 
@@ -65,7 +65,7 @@ public static class Pathfinding
         targetUnit = null;
         moveLocation = default;
         List<Vector2Int> shortestPath = null;
-        foreach (KeyValuePair<Vector2Int, SimulationUnit> targetLocation in targets)
+        foreach (KeyValuePair<Vector2Int, SimulationUnitBase> targetLocation in targets)
         {
             List<Vector2Int> path = AStarPathfind(grid, startPos, targetLocation.Key, blockedCells);
             if (path == null)

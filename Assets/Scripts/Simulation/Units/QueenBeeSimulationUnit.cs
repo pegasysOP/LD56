@@ -1,26 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SimulationUnitDemo : SimulationUnit
+public class QueenBeeSimulationUnit : SimulationUnitBase
 {
-    public SimulationUnitDemo(bool playerUnit) : base(playerUnit)
+    public QueenBeeSimulationUnit(bool playerUnit) : base(playerUnit)
     {
     }
 
     protected override void OnInit()
     {
-        maxHp = 50;
-        attack = 5;
-        defence = 2;
-        range = 1;
-        attackTime = 3;
-        specialTime = 12;
+        maxHp = 100;
+        attack = 8;
+        defence = 4;
+        range = 2;
+        attackTime = 4;
+        specialTime = 20;
     }
 
     public override UnitType GetUnitType()
     {
-        return UnitType.Bee;
+        return UnitType.Queen;
     }
 
     protected override bool DoMovement(ref SimulationGrid currentGrid)
@@ -34,6 +30,7 @@ public class SimulationUnitDemo : SimulationUnit
 
     protected override void DoSpecial(ref SimulationGrid currentGrid)
     {
-
+        // DO HEALING ABILITY HERE:
+        // heal all allied worker bees
     }
 }

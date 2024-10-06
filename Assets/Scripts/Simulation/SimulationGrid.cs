@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class SimulationGrid
 {
-    private SimulationUnit[,] grid = new SimulationUnit[8, 8];
+    private SimulationUnitBase[,] grid = new SimulationUnitBase[8, 8];
 
-    public SimulationGrid (SimulationUnit[,] grid)
+    public SimulationGrid (SimulationUnitBase[,] grid)
     {
         this.grid = grid;
     }
@@ -17,7 +17,7 @@ public class SimulationGrid
     /// <param name="y"></param>
     /// <param name="unit"></param>
     /// <returns>Returns false if no unit found</returns>
-    public bool TryGetUnitAt(Vector2Int coordinates, out SimulationUnit unit)
+    public bool TryGetUnitAt(Vector2Int coordinates, out SimulationUnitBase unit)
     {
         if (grid[coordinates.x, coordinates.y] == null)
         {
@@ -42,7 +42,7 @@ public class SimulationGrid
     /// Removes the unit from the grid (if it exists on the grid)
     /// </summary>
     /// <param name="unit"></param>
-    public void RemoveUnit(SimulationUnit unit)
+    public void RemoveUnit(SimulationUnitBase unit)
     {
         Vector2Int gridCoordinates = GetGridCoordinates(unit);
         if (IsValidGridCoordinates(gridCoordinates))
@@ -56,7 +56,7 @@ public class SimulationGrid
     /// Damages a unit on the grid (if it exists on the grid)
     /// </summary>
     /// <param name="unit"></param>
-    public void DamageUnit(SimulationUnit unit, bool special = false)
+    public void DamageUnit(SimulationUnitBase unit, bool special = false)
     {
         Vector2Int gridCoordinates = GetGridCoordinates(unit);
         if (IsValidGridCoordinates(gridCoordinates))
@@ -69,7 +69,7 @@ public class SimulationGrid
     /// Causes the attacker to do an attack animation towards the target (if both exist)
     /// </summary>
     /// <param name="unit"></param>
-    public void DoAttack(SimulationUnit attacker, SimulationUnit target)
+    public void DoAttack(SimulationUnitBase attacker, SimulationUnitBase target)
     {
         Vector2Int attackerCoordinates = GetGridCoordinates(attacker);
         Vector2Int targetCoordinates = GetGridCoordinates(target);
@@ -95,15 +95,15 @@ public class SimulationGrid
     /// Get's the list of alive units on the grid (shuffled)
     /// </summary>
     /// <returns></returns>
-    public List<SimulationUnit> GetUnits()
+    public List<SimulationUnitBase> GetUnits()
     {
-        List<SimulationUnit> units = new List<SimulationUnit>();
+        List<SimulationUnitBase> units = new List<SimulationUnitBase>();
 
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                if (TryGetUnitAt(new Vector2Int(i, j), out SimulationUnit unit))
+                if (TryGetUnitAt(new Vector2Int(i, j), out SimulationUnitBase unit))
                 {
                     units.Add(unit);
                 }
@@ -119,13 +119,13 @@ public class SimulationGrid
     /// </summary>
     /// <param name="unit"></param>
     /// <returns>Returns (-1,-1) if unit is not found</returns>
-    public Vector2Int GetGridCoordinates(SimulationUnit unit)
+    public Vector2Int GetGridCoordinates(SimulationUnitBase unit)
     {
         for (int i = 0; i < grid.GetLength(0); i++)
         {
             for (int j = 0; j < grid.GetLength(1); j++)
             {
-                if (TryGetUnitAt(new Vector2Int(i, j), out SimulationUnit gridUnit))
+                if (TryGetUnitAt(new Vector2Int(i, j), out SimulationUnitBase gridUnit))
                 {
                     if (unit == gridUnit)
                         return new Vector2Int(i, j);
@@ -164,9 +164,9 @@ public class SimulationGrid
     /// <param name="attacker"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-    public List<SimulationUnit> GetUnitsInRange(Vector2Int center, int range, bool checkEnemy = true, bool checkPlayer = true)
+    public List<SimulationUnitBase> GetUnitsInRange(Vector2Int center, int range, bool checkEnemy = true, bool checkPlayer = true)
     {
-        List<SimulationUnit> units = new List<SimulationUnit>();
+        List<SimulationUnitBase> units = new List<SimulationUnitBase>();
 
         int gridWidth = grid.GetLength(0);
         int gridHeight = grid.GetLength(1);
@@ -181,7 +181,7 @@ public class SimulationGrid
         {
             for (int y = yStart; y <= yEnd; y++)
             {
-                if (TryGetUnitAt(new Vector2Int(x, y), out SimulationUnit unit))
+                if (TryGetUnitAt(new Vector2Int(x, y), out SimulationUnitBase unit))
                 {
                     bool isPlayer = unit.IsPlayerUnit();
 
@@ -200,7 +200,7 @@ public class SimulationGrid
             return;
 
         // only work if unit exists in space and is moving into an empty space
-        if (TryGetUnitAt(start, out SimulationUnit unit) && !TryGetUnitAt(end, out _))
+        if (TryGetUnitAt(start, out SimulationUnitBase unit) && !TryGetUnitAt(end, out _))
         {
             grid[start.x, start.y] = null;
             grid[end.x, end.y] = unit;
@@ -216,7 +216,7 @@ public class SimulationGrid
         }
     }
 
-    public SimulationUnit[,] GetGridData()
+    public SimulationUnitBase[,] GetGridData()
     {
         return grid;
     }

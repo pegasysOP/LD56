@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Simulation : MonoBehaviour
@@ -21,12 +22,12 @@ public class Simulation : MonoBehaviour
 
     public void StartSimulation(Dictionary<Vector2Int, UnitType> playerUnitsStartState, Dictionary<Vector2Int, UnitType> enemyUnitsStartState)
     {
-        SimulationUnit[,] initialUnitGrid = new SimulationUnit[8, 8];
+        SimulationUnitBase[,] initialUnitGrid = new SimulationUnitBase[8, 8];
 
         foreach (KeyValuePair<Vector2Int, UnitType> unitPlacement in playerUnitsStartState)
-            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = new SimulationUnitDemo(true);
+            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = GetNewSimulationUnit(unitPlacement.Value, true);
         foreach (KeyValuePair<Vector2Int, UnitType> unitPlacement in enemyUnitsStartState)
-            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = new SimulationUnitDemo(false);
+            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = GetNewSimulationUnit(unitPlacement.Value, false);
 
         grid = new SimulationGrid(initialUnitGrid);
         StartCoroutine (DoSimulation());
@@ -74,9 +75,9 @@ public class Simulation : MonoBehaviour
         //for (int i = unitObjectContainer.childCount - 1; i >= 0; i--)
         //    DestroyImmediate(unitObjectContainer.GetChild(i).gameObject);
 
-        List<SimulationUnit> sortedUnits = grid.GetUnits();
-        sortedUnits.Sort((SimulationUnit a, SimulationUnit b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
-        foreach (SimulationUnit unit in sortedUnits)
+        List<SimulationUnitBase> sortedUnits = grid.GetUnits();
+        sortedUnits.Sort((SimulationUnitBase a, SimulationUnitBase b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
+        foreach (SimulationUnitBase unit in sortedUnits)
         {
             Transform targetContainer = unit.IsPlayerUnit() ? playerUiContainer : enemyUiContainer;
             Instantiate(uiElementPrefab, targetContainer).SetUnit(grid, unit);
@@ -90,10 +91,10 @@ public class Simulation : MonoBehaviour
     /// <returns>Returns true if game is over</returns>
     private bool DoTick()
     {
-        List<SimulationUnit> units = grid.GetUnits();
+        List<SimulationUnitBase> units = grid.GetUnits();
 
         // iterate over copy because we are potentially removing units
-        foreach (SimulationUnit unit in units)
+        foreach (SimulationUnitBase unit in units)
         {
             // skip unit if it has already been killed this tick
             if (unit.GetCurrentHp() <= 0)
@@ -105,7 +106,7 @@ public class Simulation : MonoBehaviour
         // check remaining hp to see if game is over
         float playerHp = 0;
         float enemyHp = 0;
-        foreach (SimulationUnit unit in units)
+        foreach (SimulationUnitBase unit in units)
         {
             if (unit.IsPlayerUnit())
                 playerHp += unit.GetCurrentHpPortion();
@@ -127,7 +128,28 @@ public class Simulation : MonoBehaviour
         return false;
     }
 
-    private void OnGameOver(bool playerWon)
+    public SimulationUnitBase GetNewSimulationUnit(UnitType unitType, bool player)
+    {
+        switch (unitType)
+        {
+            case UnitType.Bee:
+                return new WorkerBeeSimulationUnit(player);
+            case UnitType.Queen:
+                return new QueenBeeSimulationUnit(player);
+            case UnitType.Stag:
+                return new BeetleSimulationUnit(player);
+            case UnitType.Spider:
+                return new SpiderSimulationUnit(player);
+            case UnitType.Moth:
+                return new MothSimulationUnit(player);
+
+            // default to worker bee just in cases
+            default:
+                return new WorkerBeeSimulationUnit(player);
+        }
+    }
+
+        private void OnGameOver(bool playerWon)
     {
         GameOver?.Invoke(this, playerWon);
     }

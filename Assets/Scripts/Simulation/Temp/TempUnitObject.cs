@@ -7,7 +7,7 @@ public class TempUnitObject : MonoBehaviour
 {
     public MeshRenderer meshRenderer;
 
-    public void SetUnit(SimulationGrid grid, SimulationUnit unit)
+    public void SetUnit(SimulationGrid grid, SimulationUnitBase unit)
     {
         meshRenderer.material.color = unit.IsPlayerUnit() ? new Color(0f, 0f, 1f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
 
@@ -15,7 +15,7 @@ public class TempUnitObject : MonoBehaviour
         transform.position = new Vector3(unitLocation.x + 0.5f, 0f, unitLocation.y + 0.5f);
 
         // look at target if possible
-        SimulationUnit targetUnit = unit.GetCurrentTarget();
+        SimulationUnitBase targetUnit = unit.GetCurrentTarget();
         if (targetUnit != null )
         {
             Vector2Int targetUnitLocation = grid.GetGridCoordinates(targetUnit);
