@@ -87,6 +87,8 @@ public class Unit : MonoBehaviour
         if (dead || moving)
             return;
 
+        // for ranged units - if the target is only 1 space away probably don't shoot a projectile?
+
         Vector3 startPos = transform.position;
         Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
 

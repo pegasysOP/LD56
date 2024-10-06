@@ -11,8 +11,8 @@ public class MothSimulationUnit : SimulationUnitBase
     protected override void OnInit()
     {
         maxHp = 120;
-        attack = 8;
-        defence = 5;
+        attack = 16;
+        defence = 10;
         range = 2;
         attackTime = 4;
         specialTime = 17;

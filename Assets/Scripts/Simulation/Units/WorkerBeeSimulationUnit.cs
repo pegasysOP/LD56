@@ -7,8 +7,8 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
     protected override void OnInit()
     {
         maxHp = 100;
-        attack = 10;
-        defence = 4;
+        attack = 20;
+        defence = 8;
         range = 1;
         attackTime = 3;
         specialTime = 12;

@@ -7,8 +7,8 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
     protected override void OnInit()
     {
         maxHp = 100;
-        attack = 8;
-        defence = 4;
+        attack = 16;
+        defence = 8;
         range = 2;
         attackTime = 4;
         specialTime = 20;

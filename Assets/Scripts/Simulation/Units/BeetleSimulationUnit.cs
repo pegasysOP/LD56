@@ -11,8 +11,8 @@ public class BeetleSimulationUnit : SimulationUnitBase
     protected override void OnInit()
     {
         maxHp = 160;
-        attack = 8;
-        defence = 6;
+        attack = 16;
+        defence = 12;
         range = 1;
         attackTime = 5;
         specialTime = 15;

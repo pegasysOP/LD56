@@ -168,12 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -242,7 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9529deb0155451741bc6e6da0235d64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tps: 3
   uiElementPrefab: {fileID: 7773996838218714390, guid: f883e55babe1a44478e38a453d730a41, type: 3}
   playerUiContainer: {fileID: 5272768305329952810}
   enemyUiContainer: {fileID: 8718380294493071615}

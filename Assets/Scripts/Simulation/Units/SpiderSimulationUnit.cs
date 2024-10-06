@@ -7,8 +7,8 @@ public class SpiderSimulationUnit : SimulationUnitBase
     protected override void OnInit()
     {
         maxHp = 60;
-        attack = 12;
-        defence = 3;
+        attack = 24;
+        defence = 6;
         range = 3;
         attackTime = 6;
         specialTime = 16;
