@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -13,6 +15,10 @@ public class GameManager : MonoBehaviour
 
     UnitType[] upgradeTypes;
 
+    public Sprite[] unitSprites;
+
+    public Dictionary<UnitType, Sprite> UnitTypeToSprite;
+
     //public EventHandler<bool> GameOver;
 
     UIManager UM;
@@ -24,6 +30,8 @@ public class GameManager : MonoBehaviour
         UM = FindObjectOfType<UIManager>();
         BM = FindObjectOfType<BoardManager>();
         AM = FindObjectOfType<AudioManager>();
+
+        SetSpriteMap();
 
         UM.SetActiveUpgradePanel(false);
 
@@ -42,12 +50,30 @@ public class GameManager : MonoBehaviour
         LoadLevel();
     }
 
+    void SetSpriteMap()
+    {
+        UnitTypeToSprite = new Dictionary<UnitType, Sprite>();
+        UnitTypeToSprite[UnitType.Queen] = unitSprites[0];
+        UnitTypeToSprite[UnitType.Stag] = unitSprites[1];
+        UnitTypeToSprite[UnitType.Spider] = unitSprites[2];
+        UnitTypeToSprite[UnitType.Moth] = unitSprites[3];
+        UnitTypeToSprite[UnitType.Basic] = unitSprites[4];
+    }
+
     void setUpgradeUnits()
     {
         UnitType[] upgradeTypes = new UnitType[3];
         upgradeTypes[0] = UnitType.Spider;
         upgradeTypes[1] = UnitType.Moth;
         upgradeTypes[2] = UnitType.Stag;
+
+        UM.Unit1Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[0].ToString();
+        UM.Unit2Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[1].ToString();
+        UM.Unit3Button.GetComponentInChildren<TextMeshProUGUI>().text = upgradeTypes[2].ToString();
+
+        UM.Image1.sprite = UnitTypeToSprite[upgradeTypes[0]];
+        UM.Image2.sprite = UnitTypeToSprite[upgradeTypes[1]];
+        UM.Image3.sprite = UnitTypeToSprite[upgradeTypes[2]];
     }
 
     void PopulateEnemyStartStates()
@@ -137,7 +163,7 @@ public class GameManager : MonoBehaviour
     {
         //Display upgrade panel 
         UM.SetActiveUpgradePanel(true);
-        PickUpgradeUnit();
+        setUpgradeUnits();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
 

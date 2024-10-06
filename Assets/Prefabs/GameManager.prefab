@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7bfa84eb57b0ac4187485bb09b36f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitSprites:
+  - {fileID: 21300000, guid: 915b26fef602e3b45997f2bec6932306, type: 3}
+  - {fileID: 21300000, guid: c07228c68a7f6954ea2885983ee49e7a, type: 3}
+  - {fileID: 21300000, guid: e9fe4bc35c5829a49a960ba240a6d437, type: 3}
+  - {fileID: 21300000, guid: 45711244f0abcb34796e1fc46ed9d392, type: 3}
+  - {fileID: 21300000, guid: 8642008ecf9b9cb4e95e1bd48c2909e6, type: 3}
 --- !u!1 &901035414394863393
 GameObject:
   m_ObjectHideFlags: 0
