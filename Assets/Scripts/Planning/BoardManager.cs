@@ -107,6 +107,8 @@ public class BoardManager : MonoBehaviour
                     selectedUnit.previousPosition = selectedUnit.transform.position;
 
                     offset = selectedUnit.transform.position - hit.point;
+
+                    ShowTileIndicators(true);
                 }
             }
         }
@@ -159,6 +161,8 @@ public class BoardManager : MonoBehaviour
 
             isAttached = false;
             selectedUnit = null;
+
+            ShowTileIndicators(false);
         }
     }
 
@@ -269,5 +273,11 @@ public class BoardManager : MonoBehaviour
         simulation.GameOver -= OnGameOver;
 
         GameOver?.Invoke(sender, won);
+    }
+
+    private void ShowTileIndicators(bool enabled)
+    {
+        foreach (Tile tile in board)
+            tile.ShowIndicator(enabled);
     }
 }
