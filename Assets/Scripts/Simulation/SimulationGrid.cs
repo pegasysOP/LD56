@@ -56,12 +56,12 @@ public class SimulationGrid
     /// Damages a unit on the grid (if it exists on the grid)
     /// </summary>
     /// <param name="unit"></param>
-    public void DamageUnit(SimulationUnit unit)
+    public void DamageUnit(SimulationUnit unit, bool special = false)
     {
         Vector2Int gridCoordinates = GetGridCoordinates(unit);
         if (IsValidGridCoordinates(gridCoordinates))
         {
-            BoardUtils.DamageUnit(gridCoordinates);
+            BoardUtils.DamageUnit(gridCoordinates, special);
         }
     }
 

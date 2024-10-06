@@ -263,10 +263,10 @@ public class BoardManager : MonoBehaviour
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
     }
 
-    private void OnGameOver(object sender, bool e)
+    private void OnGameOver(object sender, bool won)
     {
         simulation.GameOver -= OnGameOver;
 
-        GameOver?.Invoke(sender, e);
+        GameOver?.Invoke(sender, won);
     }
 }

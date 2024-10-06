@@ -52,14 +52,21 @@ public static class BoardUtils
         }
     }
 
-    public static void DamageUnit(Vector2Int unitLocation)
+    public static void DamageUnit(Vector2Int unitLocation, bool special)
     {
         if (BoardManager.Instance.ActiveUnits == null)
             return;
 
-        if (BoardManager.Instance.ActiveUnits.TryGetValue(unitLocation, out Unit movingUnit))
-            movingUnit.TakeDamage();
+        if (BoardManager.Instance.ActiveUnits.TryGetValue(unitLocation, out Unit damagedUnit))
+        {
+            if (special)
+                damagedUnit.TakeSpecialDamage();
+            else
+                damagedUnit.TakeDamage();
+        }
         else
+        {
             Debug.LogWarning($"Failed to find physical unit at {unitLocation}");
+        }
     }
 }

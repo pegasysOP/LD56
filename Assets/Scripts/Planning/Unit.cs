@@ -24,4 +24,12 @@ public class Unit : MonoBehaviour
             spriteRenderer.DOColor(Color.white, Simulation.TickDuration /2f)
         );
     }
+
+    public void TakeSpecialDamage()
+    {
+        spriteRenderer.DOColor(Color.blue, Simulation.TickDuration / 2f).OnComplete
+        (() =>
+            spriteRenderer.DOColor(Color.white, Simulation.TickDuration / 2f)
+        );
+    }
 }
