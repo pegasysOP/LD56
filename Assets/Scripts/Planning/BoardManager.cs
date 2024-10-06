@@ -53,14 +53,6 @@ public class BoardManager : MonoBehaviour
         GenerateBoard();
     }
 
-    private void Start()
-    {
-        SpawnUnit(new Vector2Int(0, 0));
-        SpawnUnit(new Vector2Int(0, 3));
-
-        SavePlayerUnitStartPositions();
-    }
-
     void Update()
     {
         DragUnit();
