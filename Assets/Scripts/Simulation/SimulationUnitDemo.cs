@@ -45,10 +45,6 @@ public class SimulationUnitDemo : SimulationUnit
             currentGrid.MoveUnit(currentPos, moveLocation);
 
 
-            // ALSO ADD NEW METHOD TO PATHFINDING TO KEEP CURRENT TARGET IF POSSIBLE
-
-
-
             Debug.Log((IsPlayerUnit() ? "Player" : "Enemy") + $" {GetUnitType() + " " + currentGrid.GetGridCoordinates(this)} > PATHFINDING TO: {moveLocation}");
         }
         else
@@ -86,7 +82,7 @@ public class SimulationUnitDemo : SimulationUnit
         {
             Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
             Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
-            if (currentGrid.IsValidGridCoordinates(targetPos) && SimulationUtils.GetManhattenDistance(currentPos, targetPos) <= range)
+            if (currentGrid.IsValidGridCoordinates(targetPos) && SimulationUtils.GetMoveDistance(currentPos, targetPos) <= range)
                 return true;
         }
 

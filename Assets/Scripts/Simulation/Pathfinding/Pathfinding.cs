@@ -90,7 +90,7 @@ public static class Pathfinding
         SortedSet<Node> nodes = new SortedSet<Node>();
         HashSet<Vector2Int> closedSet = new HashSet<Vector2Int>();
 
-        Node startNode = new Node(startPos, 0, SimulationUtils.GetManhattenDistance(startPos, targetPos));
+        Node startNode = new Node(startPos, 0, SimulationUtils.GetMoveDistance(startPos, targetPos));
         nodes.Add(startNode);
 
         while (nodes.Count > 0)
@@ -110,7 +110,7 @@ public static class Pathfinding
                     continue;
 
                 int newMovementCost = currentNode.GCost + 1;
-                Node neighborNode = new Node(neighbor, newMovementCost, SimulationUtils.GetManhattenDistance(neighbor, targetPos), currentNode);
+                Node neighborNode = new Node(neighbor, newMovementCost, SimulationUtils.GetMoveDistance(neighbor, targetPos), currentNode);
 
                 nodes.Add(neighborNode);
             }

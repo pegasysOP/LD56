@@ -18,8 +18,8 @@ public static class SimulationUtils
         return list;
     }
 
-    public static int GetManhattenDistance(Vector2Int a, Vector2Int b)
+    public static int GetMoveDistance(Vector2Int a, Vector2Int b)
     {
-        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        return Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
     }
 }
