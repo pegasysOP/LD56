@@ -23,28 +23,24 @@ public class AudioManager : MonoBehaviour
 
     public void PlayPlanningPhaseClip()
     {
-        audioSource.Stop();
         audioSource.clip = planningPhaseClip;
         audioSource.Play();
     }
 
     public void PlaySimulationPhaseClip()
     {
-        audioSource.Stop();
         audioSource.clip = simulationPhaseClip;
         audioSource.Play();
     }
 
     public void PlayVictoryFanfareClip()
     {
-        audioSource.Stop();
         audioSource.clip = victoryFanfareClip;
         audioSource.Play();
     }
 
     public void PlayFailureFanfareClip()
     {
-        audioSource.Stop();
         audioSource.clip = failureFanfareClip;
         audioSource.Play();
     }

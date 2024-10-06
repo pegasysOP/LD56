@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -319,6 +320,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc06f718593921b429c9a63b4f893ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bfa84eb57b0ac4187485bb09b36f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1572059037
@@ -451,6 +464,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8444829915101457972, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
+      propertyPath: planningPhaseClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
+    - target: {fileID: 8444829915101457972, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
+      propertyPath: simulationPhaseClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
     - target: {fileID: 9076446250599386013, guid: 8f1e66af891504e4c87ddd419e07a990, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
