@@ -229,10 +229,14 @@ public class BoardManager : MonoBehaviour
         return true;
     }
 
+    public void LoadPlayerUnits()
+    {
+        foreach (KeyValuePair<Vector2Int, Unit> unitLocation in playerUnitsStartState)
+            SpawnUnit(unitLocation.Key);
+    }
+
     public void LoadEnemyUnits(Dictionary<Vector2Int, Unit> enemyUnitsStartState)
     {
-        ClearBoardUnits();
-
         this.enemyUnitsStartState.Clear();
 
         foreach (KeyValuePair<Vector2Int, Unit> unitLocation in enemyUnitsStartState)
@@ -250,8 +254,6 @@ public class BoardManager : MonoBehaviour
 
     public void StartRound()
     {
-        SavePlayerUnitStartPositions();
-
         if (playerUnitsStartState == null || playerUnitsStartState.Count < 1)
             return;
 
