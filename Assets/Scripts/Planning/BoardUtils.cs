@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class BoardUtils
@@ -79,6 +80,18 @@ public static class BoardUtils
         else
         {
             Debug.LogWarning($"Failed to find physical unit at {attacker}");
+        }
+    }
+
+    /// <summary>
+    /// Updates the UI data for the units from their bar data (health 0-1, special 0-1)
+    /// </summary>
+    /// <param name="unitData"></param>
+    public static void UpdateUnitData(Dictionary<Vector2Int, (float, float)> unitDatas)
+    {
+        foreach (KeyValuePair<Vector2Int, (float, float)> unitData in unitDatas)
+        {
+            BoardManager.Instance.ActiveUnits[unitData.Key].UpdateData(unitData.Value.Item1, unitData.Value.Item2);
         }
     }
 }

@@ -56,6 +56,8 @@ public class Simulation : MonoBehaviour
             // stop simulation if game over
             bool gameOver = DoTick();            
 
+            UpdateUnitBars();
+
             UpdateTempVisualisations();
 
             if (gameOver)
@@ -63,6 +65,25 @@ public class Simulation : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    private void UpdateUnitBars()
+    {
+        Dictionary<Vector2Int, (float, float)> unitDatas = new Dictionary<Vector2Int, (float, float)>();
+        Vector2Int gridDimensions = grid.GetGridDimensions();
+
+        for (int i = 0; i < gridDimensions.x; i++)
+        {
+            for (int j = 0; j < gridDimensions.y; j++)
+            {
+                Vector2Int position = new Vector2Int(i, j);
+
+                if (grid.TryGetUnitAt(position, out SimulationUnitBase unit))
+                    unitDatas[position] = (unit.GetCurrentHpPortion(), unit.GetSpecialProgress());
+            }
+        }
+
+        BoardUtils.UpdateUnitData(unitDatas);
     }
 
     private void UpdateTempVisualisations()
@@ -75,7 +96,7 @@ public class Simulation : MonoBehaviour
         //for (int i = unitObjectContainer.childCount - 1; i >= 0; i--)
         //    DestroyImmediate(unitObjectContainer.GetChild(i).gameObject);
 
-        List<SimulationUnitBase> sortedUnits = grid.GetUnits();
+        List<SimulationUnitBase> sortedUnits = SimulationUtils.ShuffleUnits(grid.GetUnits());
         sortedUnits.Sort((SimulationUnitBase a, SimulationUnitBase b) => a.GetCurrentHpPortion() > b.GetCurrentHpPortion() ? -1 : 1);
         foreach (SimulationUnitBase unit in sortedUnits)
         {
@@ -91,7 +112,7 @@ public class Simulation : MonoBehaviour
     /// <returns>Returns true if game is over</returns>
     private bool DoTick()
     {
-        List<SimulationUnitBase> units = grid.GetUnits();
+        List<SimulationUnitBase> units = SimulationUtils.ShuffleUnits(grid.GetUnits());
 
         // iterate over copy because we are potentially removing units
         foreach (SimulationUnitBase unit in units)

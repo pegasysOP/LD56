@@ -1,9 +1,16 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+
+    [Header("Bars")]
+    public CanvasGroup HudCanvas;
+    public Slider healthSlider;
+    public Image healthSliderFill;
+    public Slider specialSlider;
     
     public Vector3 previousPosition; 
     public UnitType unitType;
@@ -26,6 +33,17 @@ public class Unit : MonoBehaviour
 
         spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
         spriteRenderer.flipX = !player;
+
+        healthSliderFill.color = player ? new Color(0f, 1f, 0f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
+
+        healthSlider.value = 1f;
+        specialSlider.value = 0f;
+    }
+
+    public void UpdateData(float healthFill, float specialFill)
+    {
+        healthSlider.value = healthFill;
+        specialSlider.value = specialFill;
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -50,6 +68,8 @@ public class Unit : MonoBehaviour
         spriteRenderer.color = Color.white;
         spriteRenderer.DOColor(Color.clear, Simulation.TickDuration)
             .SetId(colorTweenID);
+
+        HudCanvas.DOFade(0f, Simulation.TickDuration);
     }
 
     public void TakeDamage(bool special)

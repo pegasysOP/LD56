@@ -92,7 +92,7 @@ public class SimulationGrid
     }
 
     /// <summary>
-    /// Get's the list of alive units on the grid (shuffled)
+    /// Get's the list of alive units on the grid
     /// </summary>
     /// <returns></returns>
     public List<SimulationUnitBase> GetUnits()
@@ -110,8 +110,7 @@ public class SimulationGrid
             }
         }
 
-        // get random order
-        return SimulationUtils.ShuffleUnits(units);
+        return units;
     }
 
     /// <summary>
@@ -216,6 +215,11 @@ public class SimulationGrid
         {
             Debug.LogError($"Invalid movement from {start} into {end}");
         }
+    }
+
+    public Vector2Int GetGridDimensions()
+    {
+        return new Vector2Int(grid.GetLength(0), grid.GetLength(1));
     }
 
     public SimulationUnitBase[,] GetGridData()
