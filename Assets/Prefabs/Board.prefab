@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1179184763577989251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206080090346897691}
+  m_Layer: 9
+  m_Name: Tile Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &206080090346897691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179184763577989251}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2770344073955403849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1926034684861652005
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +66,7 @@ Transform:
   m_Children:
   - {fileID: 7328121954766956649}
   - {fileID: 474774506197800439}
+  - {fileID: 206080090346897691}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3386674172169613433
@@ -121,8 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fe5d55b7d8e444b990a220bfa415b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 4678482537070024382, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
-  unitPrefab: {fileID: -7132568056895487309, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
   boardMask:
     serializedVersion: 2
     m_Bits: 512
@@ -133,6 +163,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   simulation: {fileID: 6164401793381019558}
+  tilePrefab: {fileID: 2715858965631503872, guid: 6d0bb22696f59a642ae4692089dbf06e, type: 3}
+  tileContainer: {fileID: 206080090346897691}
+  unitPrefab: {fileID: -7132568056895487309, guid: 8c0caadc455420644886d68f8927fc0a, type: 3}
   unitContainer: {fileID: 474774506197800439}
 --- !u!1 &3094945621189069281
 GameObject:

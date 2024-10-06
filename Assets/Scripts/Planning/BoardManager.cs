@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    public GameObject tilePrefab;
-    public Unit unitPrefab;
 
     [Header("Layer Masks")]
     public LayerMask boardMask;
@@ -15,7 +13,12 @@ public class BoardManager : MonoBehaviour
     [Header("Simulation")]
     public Simulation simulation;
 
+    [Header("Tiles")]
+    public Tile tilePrefab;
+    public Transform tileContainer;
+
     [Header("Units")]
+    public Unit unitPrefab;
     public Transform unitContainer;
     public Dictionary<Vector2Int, Unit> ActiveUnits;
 
@@ -69,10 +72,9 @@ public class BoardManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                GameObject GO = Instantiate(tilePrefab, new Vector3(x + 0.5f, 0f, y + 0.5f), Quaternion.identity);
-                board[x, y] = GO.GetComponent<Tile>();
-                GO.name = "Tile" + x + ", " + y;
-                GO.transform.parent = transform; // set parent to the manager to not clog hierarchy
+                Tile tile = Instantiate(tilePrefab, new Vector3(x + 0.5f, 0f, y + 0.5f), Quaternion.identity, tileContainer);
+                board[x, y] = tile;
+                tile.name = "Tile [" + x + "," + y + "]";
             }
         }
     }
