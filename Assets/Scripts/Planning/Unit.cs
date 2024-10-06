@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     
     public Vector3 previousPosition; 
+    public UnitType unitType;
 
     private bool dead = false;
     private bool moving = false;
@@ -17,6 +18,11 @@ public class Unit : MonoBehaviour
     {
         movementTweenID = gameObject.GetInstanceID() + "_Movement";
         colorTweenID = gameObject.GetInstanceID() + "_ColorChange";
+    }
+
+    public void Init(UnitType unitType)
+    {
+        // set up sprite etc.
     }
 
     public void MoveTo(Vector3 targetPosition)

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     int level = 0;
     int finalLevel = 1;
 
-    private Dictionary<Vector2Int, Unit>[] levelEnemyStartStates;
+    private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
 
     //public EventHandler<bool> GameOver;
 
@@ -24,12 +24,12 @@ public class GameManager : MonoBehaviour
         AM = FindObjectOfType<AudioManager>();
 
         //Spawn player units 
-        BM.SpawnUnit(new Vector2Int(0, 0));
-        BM.SpawnUnit(new Vector2Int(1, 1));
-        BM.SpawnUnit(new Vector2Int(1, 0));
-        BM.SpawnUnit(new Vector2Int(2, 1));
-        BM.SpawnUnit(new Vector2Int(0, 1));
-        BM.SpawnUnit(new Vector2Int(1, 2));
+        BM.SpawnUnit(new Vector2Int(0, 0), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(1, 1), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(1, 0), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(2, 1), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(0, 1), UnitType.Basic, true);
+        BM.SpawnUnit(new Vector2Int(1, 2), UnitType.Basic, true);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -40,23 +40,23 @@ public class GameManager : MonoBehaviour
 
     void PopulateEnemyStartStates()
     {
-        levelEnemyStartStates = new Dictionary<Vector2Int, Unit>[finalLevel + 1];
+        levelEnemyStartStates = new Dictionary<Vector2Int, UnitType>[finalLevel + 1];
 
-        Dictionary<Vector2Int, Unit> FirstLevelEnemyUnits = new Dictionary<Vector2Int, Unit>();
+        Dictionary<Vector2Int, UnitType> FirstLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
 
         // example enemy units
-        FirstLevelEnemyUnits[new Vector2Int(7, 6)] = new Unit();
-        FirstLevelEnemyUnits[new Vector2Int(7, 4)] = new Unit();
-        FirstLevelEnemyUnits[new Vector2Int(7, 1)] = new Unit();
+        FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.Basic;
+        FirstLevelEnemyUnits[new Vector2Int(7, 4)] = UnitType.Basic;
+        FirstLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Basic;
 
         levelEnemyStartStates[0] = FirstLevelEnemyUnits;
 
-        Dictionary<Vector2Int, Unit> SecondLevelEnemyUnits = new Dictionary<Vector2Int, Unit>();
+        Dictionary<Vector2Int, UnitType> SecondLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
 
         // example enemy units
-        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = new Unit();
-        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = new Unit();
-        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = new Unit();
+        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.Basic;
+        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Basic;
+        SecondLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Basic;
 
         levelEnemyStartStates[1] = SecondLevelEnemyUnits;
     }
