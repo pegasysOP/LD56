@@ -96,4 +96,21 @@ public class Unit : MonoBehaviour
             .SetEase(Ease.OutQuad))
             .SetId(movementTweenID);
     }
+
+    public void DoSpecial(Vector3 targetPosition)
+    {
+        if (dead || moving)
+            return;
+
+        // if queen bee for example there is no target so don't do jolt
+
+        //Vector3 startPos = transform.position;
+        //Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
+        //
+        //transform.DOMove(joltTarget, Simulation.TickDuration / 4f)
+        //    .SetEase(Ease.InQuad)
+        //    .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
+        //    .SetEase(Ease.OutQuad))
+        //    .SetId(movementTweenID);
+    }
 }

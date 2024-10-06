@@ -30,6 +30,6 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
 
     protected override void DoSpecial(ref SimulationGrid currentGrid)
     {
-
+        //currentGrid.DoSpecial(this, );
     }
 }

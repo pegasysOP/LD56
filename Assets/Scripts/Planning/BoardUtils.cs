@@ -74,13 +74,20 @@ public static class BoardUtils
             return;
 
         if (BoardManager.Instance.ActiveUnits.TryGetValue(attacker, out Unit attackingUnit))
-        {
             attackingUnit.DoAttack(BoardToRealCoordinates(target));
-        }
         else
-        {
             Debug.LogWarning($"Failed to find physical unit at {attacker}");
-        }
+    }
+
+    public static void DoSpecial(Vector2Int attacker, Vector2Int target)
+    {
+        if (BoardManager.Instance.ActiveUnits == null)
+            return;
+
+        if (BoardManager.Instance.ActiveUnits.TryGetValue(attacker, out Unit attackingUnit))
+            attackingUnit.DoSpecial(BoardToRealCoordinates(target));
+        else
+            Debug.LogWarning($"Failed to find physical unit at {attacker}");
     }
 
     /// <summary>

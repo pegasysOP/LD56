@@ -75,8 +75,21 @@ public class SimulationGrid
         Vector2Int targetCoordinates = GetGridCoordinates(target);
         if (IsValidGridCoordinates(attackerCoordinates) && IsValidGridCoordinates(targetCoordinates))
         {
-            // TODO: Factor in the range of the attack
             BoardUtils.DoAttack(attackerCoordinates, targetCoordinates);
+        }
+    }
+
+    /// <summary>
+    /// Causes the attacker to do an attack animation towards the target (if both exist)
+    /// </summary>
+    /// <param name="unit"></param>
+    public void DoSpecial(SimulationUnitBase attacker, SimulationUnitBase target)
+    {
+        Vector2Int attackerCoordinates = GetGridCoordinates(attacker);
+        Vector2Int targetCoordinates = GetGridCoordinates(target);
+        if (IsValidGridCoordinates(attackerCoordinates) && IsValidGridCoordinates(targetCoordinates))
+        {
+            BoardUtils.DoSpecial(attackerCoordinates, targetCoordinates);
         }
     }
 
