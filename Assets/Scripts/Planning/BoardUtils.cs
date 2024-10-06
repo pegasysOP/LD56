@@ -27,7 +27,7 @@ public static class BoardUtils
 
             // update active units dictionary
             BoardManager.Instance.ActiveUnits.Remove(start);
-            BoardManager.Instance.ActiveUnits.Add(end, movingUnit);
+            BoardManager.Instance.ActiveUnits[end] = movingUnit;
         }
         else
         {

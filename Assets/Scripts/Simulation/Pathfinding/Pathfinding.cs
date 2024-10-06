@@ -57,7 +57,7 @@ public static class Pathfinding
                 if (currentUnit.IsPlayerUnit() == unit.IsPlayerUnit())
                     blockedCells.Add(new Vector2Int(i, j));
                 else
-                    targets.Add(new Vector2Int(i, j), unit);
+                    targets[new Vector2Int(i, j)] = unit;
             }
         }
 
