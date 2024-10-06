@@ -164,9 +164,9 @@ public class SimulationGrid
     /// <param name="attacker"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-    public List<SimulationUnitBase> GetUnitsInRange(Vector2Int center, int range, bool checkEnemy = true, bool checkPlayer = true)
+    public Dictionary<SimulationUnitBase, int> GetUnitsInRange(Vector2Int center, int range, bool checkEnemy = true, bool checkPlayer = true)
     {
-        List<SimulationUnitBase> units = new List<SimulationUnitBase>();
+        Dictionary<SimulationUnitBase, int> units = new Dictionary<SimulationUnitBase, int>();
 
         int gridWidth = grid.GetLength(0);
         int gridHeight = grid.GetLength(1);
@@ -181,12 +181,14 @@ public class SimulationGrid
         {
             for (int y = yStart; y <= yEnd; y++)
             {
-                if (TryGetUnitAt(new Vector2Int(x, y), out SimulationUnitBase unit))
+                Vector2Int targetPos = new Vector2Int(x, y);
+
+                if (TryGetUnitAt(targetPos, out SimulationUnitBase unit))
                 {
                     bool isPlayer = unit.IsPlayerUnit();
 
                     if (isPlayer && checkPlayer || !isPlayer && checkEnemy)
-                        units.Add(unit);
+                        units[unit] = SimulationUtils.GetMoveDistance(center, targetPos);
                 }
             }
         }
