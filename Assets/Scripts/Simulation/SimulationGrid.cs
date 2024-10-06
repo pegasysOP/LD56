@@ -75,6 +75,7 @@ public class SimulationGrid
         Vector2Int targetCoordinates = GetGridCoordinates(target);
         if (IsValidGridCoordinates(attackerCoordinates) && IsValidGridCoordinates(targetCoordinates))
         {
+            // TODO: Factor in the range of the attack
             BoardUtils.DoAttack(attackerCoordinates, targetCoordinates);
         }
     }
