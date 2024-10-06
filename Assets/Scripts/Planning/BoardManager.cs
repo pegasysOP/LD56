@@ -30,7 +30,7 @@ public class BoardManager : MonoBehaviour
 
     private bool isAttached = false;
     private Unit selectedUnit = null;
-    private Vector3 offset;
+    //private Vector3 offset;
 
     private Dictionary<Vector2Int, UnitType> playerUnitsStartState = new Dictionary<Vector2Int, UnitType>();
     private Dictionary<Vector2Int, UnitType> enemyUnitsStartState = new Dictionary<Vector2Int, UnitType>();
@@ -107,7 +107,7 @@ public class BoardManager : MonoBehaviour
                     selectedUnit = hit.transform.GetComponent<Unit>();
                     selectedUnit.previousPosition = selectedUnit.transform.position;
 
-                    offset = selectedUnit.transform.position - hit.point;
+                    //offset = selectedUnit.transform.position - hit.point;
 
                     ShowTileIndicators(true);
                 }
@@ -122,9 +122,9 @@ public class BoardManager : MonoBehaviour
                 Vector3 boardPosition = hit.point;
 
                 selectedUnit.transform.position = new Vector3(
-                   boardPosition.x + offset.x,
+                   boardPosition.x /*+ offset.x*/,
                    selectedUnit.transform.position.y,
-                   boardPosition.z + offset.z
+                   boardPosition.z /*+ offset.z*/
                 );
             }
         }
