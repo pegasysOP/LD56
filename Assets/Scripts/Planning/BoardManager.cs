@@ -23,7 +23,9 @@ public class BoardManager : MonoBehaviour
     private GameObject selectedUnit = null;
     private Vector3 offset;
 
-    private Dictionary<Vector3, Unit> playerUnitsStartState = new Dictionary<Vector3, Unit>();
+    private Dictionary<Vector2Int, Unit> playerUnitsStartState = new Dictionary<Vector2Int, Unit>();
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -155,7 +157,7 @@ public class BoardManager : MonoBehaviour
             {
                 if(board[x, y].unit != null)
                 {
-                    playerUnitsStartState.Add(new Vector3(x, 0, y), board[x, y].unit);
+                    playerUnitsStartState.Add(new Vector2Int(x, y), board[x, y].unit);
                 }
             }
         }
@@ -205,5 +207,18 @@ public class BoardManager : MonoBehaviour
         board[(int)x, (int)y].unit = unit;
 
         return true;
+    }
+
+    public void OnStartRoundPressed()
+    {
+        SaveBoard();
+        Dictionary<Vector2Int, Unit> enemyUnitsStartState = new Dictionary<Vector2Int, Unit>();
+
+        // example enemy units
+        enemyUnitsStartState[new Vector2Int(7, 6)] = new Unit();
+        enemyUnitsStartState[new Vector2Int(7, 4)] = new Unit();
+        enemyUnitsStartState[new Vector2Int(7, 1)] = new Unit();
+
+        simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
     }
 }

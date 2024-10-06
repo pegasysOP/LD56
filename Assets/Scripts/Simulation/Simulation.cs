@@ -20,17 +20,14 @@ public class Simulation : MonoBehaviour
 
     public EventHandler<bool> GameOver;
 
-    public void StartSimulation()
+    public void StartSimulation(Dictionary<Vector2Int, Unit> playerUnitsStartState, Dictionary<Vector2Int, Unit> enemyUnitsStartState)
     {
         SimulationUnit[,] initialUnitGrid = new SimulationUnit[8, 8];
 
-        // example units
-        initialUnitGrid[0, 7] = new SimulationUnitDemo(true); // player demos
-        initialUnitGrid[0, 4] = new SimulationUnitDemo(true);
-        initialUnitGrid[0, 0] = new SimulationUnitDemo(true);
-        initialUnitGrid[7, 6] = new SimulationUnitDemo(false); // enemy demos
-        initialUnitGrid[7, 4] = new SimulationUnitDemo(false);
-        initialUnitGrid[7, 1] = new SimulationUnitDemo(false);
+        foreach (KeyValuePair<Vector2Int, Unit> unitPlacement in playerUnitsStartState)
+            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = new SimulationUnitDemo(true);
+        foreach (KeyValuePair<Vector2Int, Unit> unitPlacement in enemyUnitsStartState)
+            initialUnitGrid[unitPlacement.Key.x, unitPlacement.Key.y] = new SimulationUnitDemo(false);
 
         grid = new SimulationGrid(initialUnitGrid);
         StartCoroutine (DoSimulation());
