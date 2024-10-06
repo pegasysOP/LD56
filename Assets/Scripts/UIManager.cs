@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class UIManager : MonoBehaviour
     public GameObject Unit1Button;
     public GameObject Unit2Button;
     public GameObject Unit3Button;
+    public Image Image1;
+    public Image Image2;
+    public Image Image3;
 
     private BoardManager BM;
 
