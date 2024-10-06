@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,8 +20,14 @@ public class GameManager : MonoBehaviour
         BM = FindObjectOfType<BoardManager>();
         AM = FindObjectOfType<AudioManager>();
 
+        //Spawn player units 
+        BM.SpawnUnit(new Vector2Int(0, 0));
+        BM.SpawnUnit(new Vector2Int(1, 1));
+
+        BM.SavePlayerUnitStartPositions();
+
         PopulateEnemyStartStates();
-        BM.LoadEnemyUnits(levelEnemyStartStates[level]);
+        LoadLevel();
     }
 
     void PopulateEnemyStartStates()
@@ -100,10 +107,25 @@ public class GameManager : MonoBehaviour
         //Pass that to the simulation
     }
 
+    public void LoadLevel()
+    {
+        //Load into planning phase 
+
+        //Reset the board
+        BM.ClearBoardUnits();
+
+        //Generate enemy positions for current level 
+        BM.LoadEnemyUnits(levelEnemyStartStates[level]);
+
+        //Spawn players from current save state
+        BM.LoadPlayerUnits();
+    }
+
     public void StartLevel()
     {
+        //Save the player positions
+        BM.SavePlayerUnitStartPositions();
         Debug.Log("Start Level"); 
-
         BM.StartRound();
 
         //Play the attack phase music 

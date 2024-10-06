@@ -74,7 +74,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private Unit SpawnUnit(Vector2Int location)
+    public Unit SpawnUnit(Vector2Int location)
     {
         Unit unit = Instantiate(unitPrefab, unitContainer);
         unit.name = "Unit" + location.x + ", " + location.y;
