@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BoardManager : MonoBehaviour
 {
@@ -22,7 +24,6 @@ public class BoardManager : MonoBehaviour
     public Transform unitContainer;
     public Dictionary<Vector2Int, Unit> ActiveUnits;
 
-
     private Tile[,] board;
 
     private readonly int height = 8;
@@ -36,6 +37,8 @@ public class BoardManager : MonoBehaviour
     private Dictionary<Vector2Int, Unit> enemyUnitsStartState = new Dictionary<Vector2Int, Unit>();
 
     public static BoardManager Instance;
+
+    public EventHandler<bool> GameOver;
 
     private void Awake()
     {
@@ -256,6 +259,14 @@ public class BoardManager : MonoBehaviour
         ActiveUnits.AddRange(playerUnitsStartState);
         ActiveUnits.AddRange(enemyUnitsStartState);
 
+        simulation.GameOver += OnGameOver;
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
-    }    
+    }
+
+    private void OnGameOver(object sender, bool e)
+    {
+        simulation.GameOver -= OnGameOver;
+
+        GameOver?.Invoke(sender, e);
+    }
 }

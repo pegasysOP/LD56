@@ -130,9 +130,6 @@ public class Simulation : MonoBehaviour
 
     private void OnGameOver(bool playerWon)
     {
-        Debug.Log($"GAME OVER - Player won: {playerWon}");
-
-        if (GameOver != null)
-            GameOver(this, playerWon);
+        GameOver?.Invoke(this, playerWon);
     }
 }
