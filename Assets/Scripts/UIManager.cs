@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public const string CREDIT_SCENE = "Credits";
     public const string INSTRUCTION_SCENE = "Instructions";
 
-    [SerializeField] GameObject UpgradePanel;
+    public GameObject UpgradePanel;
 
     private BoardManager BM;
 

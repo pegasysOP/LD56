@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
 
+    UnitType[] upgradeTypes;
+
     //public EventHandler<bool> GameOver;
 
     UIManager UM;
@@ -38,6 +40,14 @@ public class GameManager : MonoBehaviour
         PopulateEnemyStartStates();
         BM.GameOver += OnGameOver;
         LoadLevel();
+    }
+
+    void setUpgradeUnits()
+    {
+        UnitType[] upgradeTypes = new UnitType[3];
+        upgradeTypes[0] = UnitType.Spider;
+        upgradeTypes[1] = UnitType.Moth;
+        upgradeTypes[2] = UnitType.Stag;
     }
 
     void PopulateEnemyStartStates()
@@ -127,6 +137,7 @@ public class GameManager : MonoBehaviour
     {
         //Display upgrade panel 
         UM.SetActiveUpgradePanel(true);
+        PickUpgradeUnit();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
 
@@ -138,6 +149,11 @@ public class GameManager : MonoBehaviour
 
         //Spawn players from current save state
         BM.LoadPlayerUnits();
+    }
+
+    public void PickUpgradeUnit()
+    {
+
     }
 
     public void StartLevel()
