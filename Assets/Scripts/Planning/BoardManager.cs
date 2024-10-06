@@ -234,4 +234,9 @@ public class BoardManager : MonoBehaviour
 
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
     }
+
+    public void LoadEnemyUnits(Dictionary<Vector2Int, Unit> enemyUnitsStartState)
+    {
+
+    }
 }
