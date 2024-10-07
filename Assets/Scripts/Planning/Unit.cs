@@ -154,6 +154,12 @@ public class Unit : MonoBehaviour
 
     }
 
+    public void DoJump(bool infinite)
+    {
+        animator.SetBool("InfiniteJump", infinite);
+        animator.Play(GetJumpClip());
+    }
+
     /// <summary>
     /// Checks if the unit needs to change direction
     /// </summary>

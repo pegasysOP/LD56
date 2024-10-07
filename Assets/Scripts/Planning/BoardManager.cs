@@ -338,6 +338,11 @@ public class BoardManager : MonoBehaviour
     {
         simulation.GameOver -= OnGameOver;
 
+        foreach (Unit unit in ActiveUnits.Values)
+        {
+            unit.DoJump(true);
+        }
+
         GameOver?.Invoke(sender, won);
     }
 
