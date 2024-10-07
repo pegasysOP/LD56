@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class QueenBeeSimulationUnit : SimulationUnitBase
 {
     public QueenBeeSimulationUnit(bool playerUnit) : base(playerUnit)
@@ -32,5 +34,18 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
     {
         // DO HEALING ABILITY HERE:
         // heal all allied worker bees
+        
+        //Get all the units on the board
+        List<SimulationUnitBase> units = currentGrid.GetUnits();
+
+        //Check the unit is a player unit
+        foreach (SimulationUnitBase unit in units)
+        {
+            
+            if(unit.IsPlayerUnit() == IsPlayerUnit() && unit.GetUnitType() == UnitType.WorkerBee && unit.GetCurrentHp() > 0)
+            {
+                unit.Heal(50);
+            }
+        }
     }
 }

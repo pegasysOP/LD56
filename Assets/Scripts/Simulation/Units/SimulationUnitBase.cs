@@ -75,6 +75,16 @@ public abstract class SimulationUnitBase
         return currentHp <= 0;
     }
 
+    public void Heal(int amount)
+    {
+        currentHp += amount;
+        
+        if(currentHp > this.maxHp)
+        {
+            currentHp = this.maxHp;
+        }
+    } 
+
     /// <summary>
     /// Should be used to set up any base stats
     /// </summary>
