@@ -39,9 +39,6 @@ public class BeetleSimulationUnit : SimulationUnitBase
         if (!CanAttackCurrentTarget(ref currentGrid))
             return false;
 
-        currentGrid.DoSpecial(this, currentTarget);
-
-
         AudioManager.Instance.PlayBeetleSpecialAttackClip();
 
         //Figure out the direction difference between the two units
@@ -106,6 +103,8 @@ public class BeetleSimulationUnit : SimulationUnitBase
                 break;
             }
         }
+
+        currentGrid.DoSpecial(this, currentTarget);
 
         // Only move the unit if the final position is different from its current position
         if (finalPosition != targetPos)
