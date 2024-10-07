@@ -513,21 +513,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7219803339359251032}
     m_Modifications:
-    - target: {fileID: 97215371478423340, guid: 91323abadb36f884c93140f5af1df968, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7575531800671644712}
-    - target: {fileID: 3081889398305047021, guid: 91323abadb36f884c93140f5af1df968, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7575531800671644712}
     - target: {fileID: 6286720632543419422, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_Name
       value: UpgradePanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6286720632543419422, guid: 91323abadb36f884c93140f5af1df968, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8288169179230526521, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_Pivot.x
@@ -555,7 +543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8288169179230526521, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1000
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 8288169179230526521, guid: 91323abadb36f884c93140f5af1df968, type: 3}
       propertyPath: m_SizeDelta.y
@@ -609,10 +597,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8714378723476316293, guid: 91323abadb36f884c93140f5af1df968, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7575531800671644712}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
