@@ -62,6 +62,7 @@ public class SimulationGrid
         Vector2Int gridCoordinates = GetGridCoordinates(unit);
         if (IsValidGridCoordinates(gridCoordinates))
         {
+            AudioManager.Instance.PlayDamageClip();
             BoardUtils.DamageUnit(gridCoordinates, special);
         }
     }
