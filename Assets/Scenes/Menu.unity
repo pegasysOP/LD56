@@ -1727,13 +1727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc06f718593921b429c9a63b4f893ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpgradePanel: {fileID: 0}
-  Unit1Button: {fileID: 0}
-  Unit2Button: {fileID: 0}
-  Unit3Button: {fileID: 0}
-  Image1: {fileID: 0}
-  Image2: {fileID: 0}
-  Image3: {fileID: 0}
+  upgradePanel: {fileID: 0}
+  StartRoundButton: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
