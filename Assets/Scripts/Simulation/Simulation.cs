@@ -35,7 +35,7 @@ public class Simulation : MonoBehaviour
 
     private IEnumerator DoSimulation()
     {
-        UpdateTempVisualisations();
+        //UpdateTempVisualisations();
         yield return new WaitForSeconds(0.5f);
 
         float timer = 0;
@@ -58,7 +58,7 @@ public class Simulation : MonoBehaviour
 
             UpdateUnitBars();
 
-            UpdateTempVisualisations();
+            //UpdateTempVisualisations();
 
             if (gameOver)
                 break;
