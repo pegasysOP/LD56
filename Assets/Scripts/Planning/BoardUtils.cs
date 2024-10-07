@@ -74,7 +74,7 @@ public static class BoardUtils
             return;
 
         if (BoardManager.Instance.ActiveUnits.TryGetValue(attacker, out Unit attackingUnit))
-            attackingUnit.DoAttack(BoardToRealCoordinates(target));
+            attackingUnit.DoAttack(BoardToRealCoordinates(target), SimulationUtils.GetMoveDistance(attacker, target));
         else
             Debug.LogWarning($"Failed to find physical unit at {attacker}");
     }
@@ -85,7 +85,7 @@ public static class BoardUtils
             return;
 
         if (BoardManager.Instance.ActiveUnits.TryGetValue(attacker, out Unit attackingUnit))
-            attackingUnit.DoSpecial(BoardToRealCoordinates(target));
+            attackingUnit.DoSpecial(BoardToRealCoordinates(target), SimulationUtils.GetMoveDistance(attacker, target));
         else
             Debug.LogWarning($"Failed to find physical unit at {attacker}");
     }

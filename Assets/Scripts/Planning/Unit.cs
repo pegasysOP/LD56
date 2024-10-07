@@ -82,7 +82,7 @@ public class Unit : MonoBehaviour
             .SetId(colorTweenID);
     }
 
-    public void DoAttack(Vector3 targetPosition)
+    public void DoAttack(Vector3 targetPosition, int range)
     {
         if (dead || moving)
             return;
@@ -99,7 +99,7 @@ public class Unit : MonoBehaviour
             .SetId(movementTweenID);
     }
 
-    public void DoSpecial(Vector3 targetPosition)
+    public void DoSpecial(Vector3 targetPosition, int range)
     {
         if (dead || moving)
             return;
