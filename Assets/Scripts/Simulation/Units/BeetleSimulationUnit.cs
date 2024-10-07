@@ -49,64 +49,85 @@ public class BeetleSimulationUnit : SimulationUnitBase
         Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
 
         Vector2Int direction = targetPos - currentPos;
-
         float magnitude = direction.magnitude;
 
         direction = new Vector2Int(
-            Mathf.FloorToInt((float)direction.x / (float)magnitude),
-            Mathf.FloorToInt((float)direction.y / (float)magnitude)
+            Mathf.RoundToInt(direction.x / magnitude),
+            Mathf.RoundToInt(direction.y / magnitude)
         );
-
-        Vector2Int moveLocation = targetPos;
 
         // Track the grid dimensions for bounds checking
         Vector2Int gridDimensions = currentGrid.GetGridDimensions();
+        Vector2Int furthestPos = targetPos;
 
-        // Move in both y and x direction based on the normalized direction
-        for (int i = 0; i < 8; i++)
+        // 1. Move diagonally as far as possible (ignoring units along the way)
+        for (int i = 1; i < gridDimensions.x; i++)
         {
-            // First, check vertical movement
-            Vector2Int verticalPos = targetPos + new Vector2Int(0, direction.y * (i + 1));
+            Vector2Int diagonalPos = targetPos + direction * i;  // Move both x and y
 
-            // Check if within bounds
-            if (currentGrid.IsValidGridCoordinates(verticalPos))
+            // Stop at grid bounds but ignore units for now
+            if (currentGrid.IsValidGridCoordinates(diagonalPos))
             {
-                // Check if the tile is empty
-                if (currentGrid.IsTileEmpty(verticalPos))
-                {
-                    moveLocation = verticalPos;  // Update to this valid empty location
-                }
+                furthestPos = diagonalPos;  // Update to the furthest position in diagonal
             }
-
-            // Then, check horizontal movement
-            Vector2Int horizontalPos = targetPos + new Vector2Int(direction.x * (i + 1), 0);
-
-            // Check if within bounds
-            if (currentGrid.IsValidGridCoordinates(horizontalPos))
+            else
             {
-                // Check if the tile is empty
-                if (currentGrid.IsTileEmpty(horizontalPos))
-                {
-                    moveLocation = horizontalPos;  // Update to this valid empty location
-                }
+                break;  // Stop at grid bounds
             }
         }
 
-        // Only move the unit if the final moveLocation is different from its current position
-        if (moveLocation != targetPos)
+        // 2. After diagonal movement, continue horizontally as far as possible (ignoring units)
+        for (int i = 1; i < gridDimensions.x; i++)
         {
-            currentGrid.MoveUnit(targetPos, moveLocation);
+            Vector2Int horizontalPos = furthestPos + new Vector2Int(direction.x * i, 0);  // Move only along x-axis
+
+            // Stop at grid bounds but ignore units for now
+            if (currentGrid.IsValidGridCoordinates(horizontalPos))
+            {
+                furthestPos = horizontalPos;  // Update to the furthest position horizontally
+            }
+            else
+            {
+                break;  // Stop at grid bounds
+            }
+        }
+
+        // 3. Now that we have the furthest position, check for obstacles and place the unit at the closest available spot
+        Vector2Int finalPosition = furthestPos;
+
+        // Check from the furthest position backward until we find an empty tile
+        for (int i = 0; i <= furthestPos.magnitude; i++)
+        {
+            Vector2Int checkPos = furthestPos - direction * i;
+
+            if (currentGrid.IsTileEmpty(checkPos))
+            {
+                finalPosition = checkPos;  // Find the first available empty tile
+                break;
+            }
+        }
+
+        // Only move the unit if the final position is different from its current position
+        if (finalPosition != targetPos)
+        {
+            currentGrid.MoveUnit(targetPos, finalPosition);
         }
         else
         {
             Debug.Log("Tried to move to the same tile");
+            return false;  // No movement occurred, return false if needed
         }
-        if (currentTarget.TakeDamage(attack * 2))
-            currentGrid.RemoveUnit(currentTarget);
-        else
-            currentGrid.DamageUnit(currentTarget);
-        return true;
 
-        //TODO: Possible we should return false if the knockback logic doesn't work
+        // Apply damage and check if the target is destroyed
+        if (currentTarget.TakeDamage(attack * 2))
+        {
+            currentGrid.RemoveUnit(currentTarget);
+        }
+        else
+        {
+            currentGrid.DamageUnit(currentTarget);
+        }
+
+        return true;
     }
 }
