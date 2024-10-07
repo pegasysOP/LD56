@@ -97,6 +97,12 @@ public class BeetleSimulationUnit : SimulationUnitBase
         {
             Vector2Int checkPos = furthestPos - direction * i;
 
+            //If the current position is out of bounds then don't check it's empty
+            if(!currentGrid.IsValidGridCoordinates(checkPos))
+            {
+                break;
+            }
+
             if (currentGrid.IsTileEmpty(checkPos))
             {
                 finalPosition = checkPos;  // Find the first available empty tile
