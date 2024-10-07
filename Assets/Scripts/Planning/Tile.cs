@@ -8,6 +8,8 @@ public class Tile: MonoBehaviour
     public Unit currentUnit = null;
 
     public SpriteRenderer indicatorRenderer;
+    public Color emptyColor;
+    public Color occupiedColor;
 
     public void ShowIndicator(bool enabled)
     {
@@ -19,6 +21,6 @@ public class Tile: MonoBehaviour
         }
 
         indicatorRenderer.gameObject.SetActive(enabled);
-        indicatorRenderer.color = (currentUnit == null) ? new Color(0f, 1f, 0f, 0.5f) : new Color(0f, 0f, 1f, 0.5f);
+        indicatorRenderer.color = (currentUnit == null) ? emptyColor : occupiedColor;
     }
 }

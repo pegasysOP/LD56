@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
     public Slider healthSlider;
     public Image healthSliderFill;
     public Slider specialSlider;
+    public Color playerHealthColor;
+    public Color enemyHealthColor;
 
     [Header("Projectiles")]
     public Transform projectileSource;
@@ -42,7 +44,7 @@ public class Unit : MonoBehaviour
         spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
         spriteRenderer.flipX = !player;
 
-        healthSliderFill.color = player ? new Color(0f, 1f, 0f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
+        healthSliderFill.color = player ? playerHealthColor : enemyHealthColor;
 
         healthSlider.value = 1f;
         specialSlider.value = 0f;
