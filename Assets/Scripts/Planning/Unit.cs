@@ -52,6 +52,7 @@ public class Unit : MonoBehaviour
             return;
 
         moving = true;
+        SetDirection(targetPosition);
 
         DOTween.Kill(movementTweenID);
 
@@ -87,8 +88,9 @@ public class Unit : MonoBehaviour
         if (dead || moving)
             return;
 
-        // for ranged units - if the target is only 1 space away probably don't shoot a projectile?
+        SetDirection(targetPosition);
 
+        // jolt
         Vector3 startPos = transform.position;
         Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
 
@@ -97,12 +99,21 @@ public class Unit : MonoBehaviour
             .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
             .SetEase(Ease.OutQuad))
             .SetId(movementTweenID);
+
+        // shoot projectile
+        if (range > 1)
+        {
+
+        }
     }
 
     public void DoSpecial(Vector3 targetPosition, int range)
     {
         if (dead || moving)
             return;
+
+        // maybe not always for special?
+        SetDirection(targetPosition);
 
         // if queen bee for example there is no target so don't do jolt
 
@@ -114,5 +125,23 @@ public class Unit : MonoBehaviour
         //    .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
         //    .SetEase(Ease.OutQuad))
         //    .SetId(movementTweenID);
+    }
+
+    /// <summary>
+    /// Checks if the unit needs to change direction
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="right">The direction to face if needed</param>
+    /// <returns></returns>
+    private void SetDirection(Vector3 target)
+    {
+        float horizontalDiff = target.x - transform.position.x;
+
+        if (Mathf.Abs(horizontalDiff) < 0.5f) // same column - no change
+            return;
+        else if (horizontalDiff > 0) 
+            spriteRenderer.flipX = false; // going right
+        else 
+            spriteRenderer.flipX = true; // going left
     }
 }
