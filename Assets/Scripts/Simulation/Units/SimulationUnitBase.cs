@@ -54,6 +54,26 @@ public abstract class SimulationUnitBase
 
         if (confusionCounter > 0) {
             confusionCounter--;
+
+            if (currentTarget != null)
+            {
+                if (this.isPlayerUnit != currentTarget.isPlayerUnit)
+                {
+                    //Our target is a different type from us. If we are confused this is wrong.
+                    currentTarget = null;
+                }
+            }
+        }
+        else
+        {
+            if(currentTarget != null)
+            {
+                if(this.isPlayerUnit == currentTarget.isPlayerUnit)
+                {
+                    //Our target is the same type as us. We are not confused so this is wrong.
+                    currentTarget = null;
+                }
+            }
         }
 
         // if a move was made don't keep charging attacks
@@ -177,7 +197,16 @@ public abstract class SimulationUnitBase
 
         // if there are opposing team units in range then there no need to move, instead select a target unit
         Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
-        Dictionary<SimulationUnitBase, int> unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        Dictionary<SimulationUnitBase, int> unitsInRange;
+        if(confusionCounter <= 0)
+        {
+            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+        }
+        else
+        {
+            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, !isPlayerUnit, isPlayerUnit);
+        }
+        
         if (unitsInRange.Count > 0)
         {
             // get closest range only
@@ -194,7 +223,7 @@ public abstract class SimulationUnitBase
                     minRange = unit.Value;
                     closestUnits.Clear();
                     closestUnits.Add(unit.Key);
-                }
+                }   
             }
 
             if (closestUnits.Count > 0)
