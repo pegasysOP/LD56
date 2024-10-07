@@ -28,10 +28,12 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
         DoSimpleAttack(ref currentGrid);
     }
 
-    protected override void DoSpecial(ref SimulationGrid currentGrid)
+    protected override bool DoSpecial(ref SimulationGrid currentGrid)
     {
         if (!CanAttackCurrentTarget(ref currentGrid))
-            return;
+            return false;
+
+        AudioManager.Instance.PlaySpecialAttackClip();
 
         currentGrid.DoSpecial(this, currentTarget);
 
@@ -39,5 +41,6 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
             currentGrid.RemoveUnit(currentTarget);
         else
             currentGrid.DamageUnit(currentTarget);
+        return true;
     }
 }

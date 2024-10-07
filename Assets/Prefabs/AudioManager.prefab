@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 7139085052071998491}
   sfxSource: {fileID: 1454665451208385953}
+  upgradeButtonPressClip: {fileID: 8300000, guid: 5165db17e24f22a4da12cc370d156571, type: 3}
+  regularButtonPressClip: {fileID: 8300000, guid: 3c58f2310aa07f848860de7b4fa6c60c, type: 3}
   planningPhaseClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
   simulationPhaseClip: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
   victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}
@@ -61,10 +63,10 @@ MonoBehaviour:
   movementClip: {fileID: 8300000, guid: a7920ec79ab50594b97927bc7b4edb62, type: 3}
   specialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
   beeSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  queenBeeSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  beetleSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  spiderSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  mothSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
+  queenBeeSpecialAttackClip: {fileID: 8300000, guid: 7261052c1527d174eabe3f0159dcbc45, type: 3}
+  beetleSpecialAttackClip: {fileID: 8300000, guid: 04137a3a0b52c5542baedc1427eb4148, type: 3}
+  spiderSpecialAttackClip: {fileID: 8300000, guid: e44bf669baa61534791f22d4ff959b17, type: 3}
+  mothSpecialAttackClip: {fileID: 8300000, guid: 04137a3a0b52c5542baedc1427eb4148, type: 3}
 --- !u!82 &7139085052071998491
 AudioSource:
   m_ObjectHideFlags: 0

@@ -49,6 +49,7 @@ public class SimulationGrid
         {
             RemoveUnitAt(gridCoordinates);
             BoardUtils.KillUnit(gridCoordinates);
+            AudioManager.Instance.PlayDeathClip();
         }
     }
 
@@ -61,6 +62,7 @@ public class SimulationGrid
         Vector2Int gridCoordinates = GetGridCoordinates(unit);
         if (IsValidGridCoordinates(gridCoordinates))
         {
+            AudioManager.Instance.PlayDamageClip();
             BoardUtils.DamageUnit(gridCoordinates, special);
         }
     }
@@ -223,6 +225,7 @@ public class SimulationGrid
             BoardUtils.MoveUnit(start, end);
 
             Debug.Log($"Moving unit from {start} into {end}");
+            AudioManager.Instance.PlayMovementClip();
         }
         else
         {

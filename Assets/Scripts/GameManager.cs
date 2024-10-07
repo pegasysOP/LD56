@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.Instance.PlayRegularButtonClip();
         upgradeTypes = new UnitType[3];
         levelUpgradeTypes = new List<UnitType[]>();
         UM = FindObjectOfType<UIManager>();
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         //Spawn starting player units 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
-        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -94,35 +96,20 @@ public class GameManager : MonoBehaviour
 
         levelUpgradeTypes.Add(upgradeTypes);
 
-        UM.Unit1Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][0].ToString(); 
-        UM.Unit2Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][1].ToString();
-        UM.Unit3Button.GetComponentInChildren<TextMeshProUGUI>().text = levelUpgradeTypes[level][2].ToString();
-
-        UM.Image1.sprite = UnitTypeToSprite[levelUpgradeTypes[level][0]];
-        UM.Image2.sprite = UnitTypeToSprite[levelUpgradeTypes[level][1]];
-        UM.Image3.sprite = UnitTypeToSprite[levelUpgradeTypes[level][2]];
+        UM.upgradePanel.SetUnitOptions(levelUpgradeTypes[level][0], levelUpgradeTypes[level][1], levelUpgradeTypes[level][2]);
     }
 
-    public void PickUpgradeUnit(Button buttonPressed)
+    private void PickUpgradeUnit(object sender, UnitType unitType)
     {
-        
-        if (buttonPressed.name == UM.Unit1Button.name)
-        {
-            Debug.Log("Upgrade picked 1");
-            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][0]);
-        }
-        if (buttonPressed.name == UM.Unit2Button.name)
-        {
-            Debug.Log("Upgrade picked 2");
-            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][1]);
-        }
-        if (buttonPressed.name == UM.Unit3Button.name)
-        {
-            Debug.Log("Upgrade picked 3");
-            BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][2]);
-        }
+        UM.upgradePanel.UnitChosen -= PickUpgradeUnit;
 
+        Debug.Log($"Upgrade picked: {unitType}");
+        BM.SpawnNewPlayerUnit(unitType);
+
+        AudioManager.Instance.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
+        UM.StartRoundButton.SetActive(true);
+        BM.setSelectionEnabled(true);
     }
 
     void PopulateEnemyStartStates()
@@ -282,12 +269,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        //Display upgrade panel 
-        if (level != 0)
-        {
-            UM.SetActiveUpgradePanel(true);
-        }
-
         setUpgradeUnits();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
@@ -301,7 +282,19 @@ public class GameManager : MonoBehaviour
         //Spawn players from current save state
         BM.LoadPlayerUnits();
 
-        UM.StartRoundButton.SetActive(true);
+        //Display upgrade panel 
+        if (level != 0)
+        {
+            UM.SetActiveUpgradePanel(true);
+            UM.upgradePanel.UnitChosen += PickUpgradeUnit;
+            //Disable the next round button
+            UM.StartRoundButton.SetActive(false);
+            BM.setSelectionEnabled(false);
+        }
+        else
+        {
+            UM.StartRoundButton.SetActive(true);
+        }
     }
 
     public void StartLevel()
@@ -312,6 +305,8 @@ public class GameManager : MonoBehaviour
         BM.SavePlayerUnitStartPositions();
         Debug.Log("Start Level"); 
         BM.StartRound();
+
+        AudioManager.Instance.PlayRegularButtonClip();
 
         //Play the attack phase music 
         AM.PlaySimulationPhaseClip();

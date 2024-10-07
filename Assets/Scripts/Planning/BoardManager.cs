@@ -69,6 +69,11 @@ public class BoardManager : MonoBehaviour
         AM = FindObjectOfType<AudioManager>();
     }
 
+    public void setSelectionEnabled(bool shouldEnable)
+    {
+        selectionEnabled = shouldEnable;
+    }
+
     void GenerateBoard()
     {
         for (int x = 0; x < width; x++)
@@ -114,7 +119,6 @@ public class BoardManager : MonoBehaviour
     void DragUnit()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
         if (selectionEnabled && Input.GetMouseButtonDown(0))
         {
             //Check that we are clicking on a unit and not just the board
@@ -333,6 +337,11 @@ public class BoardManager : MonoBehaviour
     private void OnGameOver(object sender, bool won)
     {
         simulation.GameOver -= OnGameOver;
+
+        foreach (Unit unit in ActiveUnits.Values)
+        {
+            unit.DoJump(true);
+        }
 
         GameOver?.Invoke(sender, won);
     }

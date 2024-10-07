@@ -17,6 +17,7 @@ public abstract class SimulationUnitBase
     protected int specialCounter;
 
     protected int slowCounter = -1;
+    protected int confusionCounter = -1;
 
     protected bool isPlayerUnit;
     protected SimulationUnitBase currentTarget;
@@ -50,17 +51,27 @@ public abstract class SimulationUnitBase
                 return;
             }
         }
+
+        if (confusionCounter > 0) {
+            confusionCounter--;
+        }
+
         // if a move was made don't keep charging attacks
         if (DoMovement(ref currentGrid))
             return;
 
         // special overrides attack
         specialCounter++;
-        if (specialCounter > specialTime)
+        if (specialCounter > specialTime && confusionCounter <= 0)
         {
-            DoSpecial(ref currentGrid);
-            specialCounter = 0;
-            attackCounter = 0;
+            bool didSpecial = DoSpecial(ref currentGrid);
+
+            if (didSpecial)
+            {
+                specialCounter = 0;
+                attackCounter = 0;
+            }
+            
             return;
         }
 
@@ -82,6 +93,19 @@ public abstract class SimulationUnitBase
         if(value > slowCounter)
         {
             slowCounter = value;
+        }
+    }
+
+    public void SetConfusionCounter(int value)
+    {
+        if (confusionCounter > 0)
+        {
+            return;
+        }
+
+        if(value > confusionCounter)
+        {
+            confusionCounter = value;
         }
     }
 
@@ -119,7 +143,7 @@ public abstract class SimulationUnitBase
     /// <returns></returns>
     protected abstract bool DoMovement(ref SimulationGrid currentGrid);
     protected abstract void DoAttack(ref SimulationGrid currentGrid);
-    protected abstract void DoSpecial(ref SimulationGrid currentGrid);
+    protected abstract bool DoSpecial(ref SimulationGrid currentGrid);
 
     /// <summary>
     /// Checks if the current target is within the attack range and above 0 HP
@@ -262,6 +286,16 @@ public abstract class SimulationUnitBase
     public SimulationUnitBase GetCurrentTarget()
     {
         return currentTarget;
+    }
+
+    public bool IsSlowed()
+    {
+        return slowCounter > 0;
+    }
+
+    public bool IsConfused()
+    {
+        return confusionCounter > 0;
     }
     #endregion
 }

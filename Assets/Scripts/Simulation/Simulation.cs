@@ -35,7 +35,7 @@ public class Simulation : MonoBehaviour
 
     private IEnumerator DoSimulation()
     {
-        UpdateTempVisualisations();
+        //UpdateTempVisualisations();
         yield return new WaitForSeconds(0.5f);
 
         float timer = 0;
@@ -58,7 +58,7 @@ public class Simulation : MonoBehaviour
 
             UpdateUnitBars();
 
-            UpdateTempVisualisations();
+            //UpdateTempVisualisations();
 
             if (gameOver)
                 break;
@@ -69,7 +69,7 @@ public class Simulation : MonoBehaviour
 
     private void UpdateUnitBars()
     {
-        Dictionary<Vector2Int, (float, float)> unitDatas = new Dictionary<Vector2Int, (float, float)>();
+        Dictionary<Vector2Int, (float, float, bool, bool)> unitDatas = new Dictionary<Vector2Int, (float, float, bool, bool)>();
         Vector2Int gridDimensions = grid.GetGridDimensions();
 
         for (int i = 0; i < gridDimensions.x; i++)
@@ -79,7 +79,7 @@ public class Simulation : MonoBehaviour
                 Vector2Int position = new Vector2Int(i, j);
 
                 if (grid.TryGetUnitAt(position, out SimulationUnitBase unit))
-                    unitDatas[position] = (unit.GetCurrentHpPortion(), unit.GetSpecialProgress());
+                    unitDatas[position] = (unit.GetCurrentHpPortion(), unit.GetSpecialProgress(), unit.IsSlowed(), unit.IsConfused());
             }
         }
 

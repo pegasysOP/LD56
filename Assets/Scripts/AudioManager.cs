@@ -7,6 +7,10 @@ public class AudioManager : MonoBehaviour
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
+    [Header("UI")]
+    public AudioClip upgradeButtonPressClip;
+    public AudioClip regularButtonPressClip;
+
     [Header("Phase Music")]
     public AudioClip planningPhaseClip;
     public AudioClip simulationPhaseClip;
@@ -29,6 +33,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip beetleSpecialAttackClip;
     public AudioClip spiderSpecialAttackClip;
     public AudioClip mothSpecialAttackClip;
+
+    private bool playingMovementClip = false;
+
+    public static AudioManager Instance;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +47,19 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance.gameObject);
+            return;
+        }
     }
 
     public void PlayPlanningPhaseClip()
@@ -109,8 +130,32 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMovementClip()
     {
+        // Check if a movement clip is already playing
+        if (playingMovementClip)
+        {
+            return;
+        }
+
+        // Set the flag to true, indicating that a movement clip is playing
+        playingMovementClip = true;
+
+        // Set a random pitch for the sound effect
         sfxSource.pitch = Random.Range(0.9f, 1.05f);
+
+        // Play the movement clip
         sfxSource.PlayOneShot(movementClip);
+
+        // Start a coroutine to reset the playingMovementClip flag after the clip finishes
+        StartCoroutine(ResetMovementClip(movementClip.length));
+    }
+
+    private IEnumerator ResetMovementClip(float clipDuration)
+    {
+        // Wait for the duration of the clip
+        yield return new WaitForSeconds(clipDuration);
+
+        // Reset the flag, allowing new movement clips to be played
+        playingMovementClip = false;
     }
 
     public void PlayBeeSpecialAttackClip()
@@ -141,5 +186,15 @@ public class AudioManager : MonoBehaviour
     { 
         sfxSource.pitch = Random.Range(0.9f, 1.05f);
         sfxSource.PlayOneShot(mothSpecialAttackClip);
+    }
+
+    public void PlayUpgradeButtonClip()
+    {
+        sfxSource.PlayOneShot(upgradeButtonPressClip);
+    }
+
+    public void PlayRegularButtonClip()
+    {
+        sfxSource.PlayOneShot(regularButtonPressClip);
     }
 }
