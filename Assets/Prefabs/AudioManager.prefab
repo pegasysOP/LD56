@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 7139085052071998491}
   sfxSource: {fileID: 1454665451208385953}
+  upgradeButtonPressClip: {fileID: 8300000, guid: 5165db17e24f22a4da12cc370d156571, type: 3}
+  regularButtonPressClip: {fileID: 8300000, guid: 3c58f2310aa07f848860de7b4fa6c60c, type: 3}
   planningPhaseClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
   simulationPhaseClip: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
   victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}

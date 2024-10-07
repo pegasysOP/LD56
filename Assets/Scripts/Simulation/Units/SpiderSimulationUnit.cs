@@ -39,6 +39,8 @@ public class SpiderSimulationUnit : SimulationUnitBase
         if (!CanAttackCurrentTarget(ref currentGrid))
             return;
 
+        currentGrid.DoSpecial(this, currentTarget);
+
         AudioManager.Instance.PlaySpiderSpecialAttackClip();
 
         //If so get all the units within a 3x3 radius of the target

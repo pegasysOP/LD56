@@ -7,6 +7,10 @@ public class AudioManager : MonoBehaviour
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
+    [Header("UI")]
+    public AudioClip upgradeButtonPressClip;
+    public AudioClip regularButtonPressClip;
+
     [Header("Phase Music")]
     public AudioClip planningPhaseClip;
     public AudioClip simulationPhaseClip;
@@ -182,5 +186,15 @@ public class AudioManager : MonoBehaviour
     { 
         sfxSource.pitch = Random.Range(0.9f, 1.05f);
         sfxSource.PlayOneShot(mothSpecialAttackClip);
+    }
+
+    public void PlayUpgradeButtonClip()
+    {
+        sfxSource.PlayOneShot(upgradeButtonPressClip);
+    }
+
+    public void PlayRegularButtonClip()
+    {
+        sfxSource.PlayOneShot(regularButtonPressClip);
     }
 }

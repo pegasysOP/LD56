@@ -39,6 +39,9 @@ public class BeetleSimulationUnit : SimulationUnitBase
         if (!CanAttackCurrentTarget(ref currentGrid))
             return;
 
+        currentGrid.DoSpecial(this, currentTarget);
+
+
         AudioManager.Instance.PlayBeetleSpecialAttackClip();
 
         //Figure out the direction difference between the two units

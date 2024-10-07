@@ -43,6 +43,8 @@ public class MothSimulationUnit : SimulationUnitBase
             return;
         }
 
+        currentGrid.DoSpecial(this, currentTarget);
+
         AudioManager.Instance.PlayMothSpecialAttackClip();
 
         Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
