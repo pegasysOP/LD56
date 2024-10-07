@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         //Spawn starting player units 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
-        BM.SpawnNewPlayerUnit(UnitType.Moth);
+        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
         // example enemy units
         ThirdLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.QueenBee;
         ThirdLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
+        ThirdLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Moth;
 
         levelEnemyStartStates[2] = ThirdLevelEnemyUnits;
 
@@ -145,15 +146,19 @@ public class GameManager : MonoBehaviour
         FourthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
         FourthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
         FourthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Moth;
+        FourthLevelEnemyUnits[new Vector2Int(6, 4)] = UnitType.QueenBee;
 
         levelEnemyStartStates[3] = FourthLevelEnemyUnits;
 
         Dictionary<Vector2Int, UnitType> FifthLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
 
         // example enemy units
+        FifthLevelEnemyUnits[new Vector2Int(6, 4)] = UnitType.WorkerBee;
+        FifthLevelEnemyUnits[new Vector2Int(6, 5)] = UnitType.WorkerBee;
+        FifthLevelEnemyUnits[new Vector2Int(6, 6)] = UnitType.WorkerBee;
         FifthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
-        FifthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
+        FifthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.QueenBee;
+        FifthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.WorkerBee;
 
         levelEnemyStartStates[4] = FifthLevelEnemyUnits;
 
@@ -262,7 +267,7 @@ public class GameManager : MonoBehaviour
             LoadLevel();
             if(level == finalLevel)
             {
-                CrazyMode();
+                //CrazyMode();
             }
         }   
     }
