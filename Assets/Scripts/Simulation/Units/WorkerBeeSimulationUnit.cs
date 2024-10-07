@@ -35,7 +35,7 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
 
         currentGrid.DoSpecial(this, currentTarget);
 
-        if (currentTarget.TakeDamage(attack))
+        if (currentTarget.TakeDamage(attack * 2))
             currentGrid.RemoveUnit(currentTarget);
         else
             currentGrid.DamageUnit(currentTarget);
