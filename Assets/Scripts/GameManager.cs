@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
 
         UM.SetActiveUpgradePanel(false);
         UM.StartRoundButton.SetActive(true);
+        BM.setSelectionEnabled(true);
     }
 
     void PopulateEnemyStartStates()
@@ -283,18 +284,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        //Display upgrade panel 
-        if (level != 0)
-        {
-            UM.SetActiveUpgradePanel(true);
-            //Disable the next round button
-            UM.StartRoundButton.SetActive(false);
-        }
-        else
-        {
-            UM.StartRoundButton.SetActive(true);
-        }
-
         setUpgradeUnits();
         //Load into planning phase 
         AM.PlayPlanningPhaseClip();
@@ -307,6 +296,19 @@ public class GameManager : MonoBehaviour
 
         //Spawn players from current save state
         BM.LoadPlayerUnits();
+
+        //Display upgrade panel 
+        if (level != 0)
+        {
+            UM.SetActiveUpgradePanel(true);
+            //Disable the next round button
+            UM.StartRoundButton.SetActive(false);
+            BM.setSelectionEnabled(false);
+        }
+        else
+        {
+            UM.StartRoundButton.SetActive(true);
+        }
     }
 
     public void StartLevel()
