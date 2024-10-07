@@ -8,12 +8,18 @@ public class Unit : MonoBehaviour
     public Animator animator;
 
     [Header("Bars")]
-    public CanvasGroup HudCanvas;
+    public CanvasGroup hudCanvas;
     public Slider healthSlider;
     public Image healthSliderFill;
     public Slider specialSlider;
     public Color playerHealthColor;
     public Color enemyHealthColor;
+
+    [Header("Status")]
+    public CanvasGroup statusCanvas;
+    public GameObject confusedIcon;
+    public GameObject slowedIcon;
+
 
     [Header("Projectiles")]
     public Transform projectileSource;
@@ -58,6 +64,9 @@ public class Unit : MonoBehaviour
 
         healthSlider.DOValue(healthFill, Simulation.TickDuration / 2f).SetId(barTweenID);
         specialSlider.DOValue(specialFill, Simulation.TickDuration / 2f).SetId(barTweenID);
+
+        slowedIcon.SetActive(slowed);
+        confusedIcon.SetActive(confused);
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -85,7 +94,8 @@ public class Unit : MonoBehaviour
         spriteRenderer.DOColor(Color.clear, Simulation.TickDuration)
             .SetId(colorTweenID);
 
-        HudCanvas.DOFade(0f, Simulation.TickDuration);
+        hudCanvas.DOFade(0f, Simulation.TickDuration);
+        statusCanvas.DOFade(0f, Simulation.TickDuration);
     }
 
     public void TakeDamage(bool special)
