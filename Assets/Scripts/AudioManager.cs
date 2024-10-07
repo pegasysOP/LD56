@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
 
     [Header("Phase Music")]
     public AudioClip planningPhaseClip;
@@ -42,91 +43,103 @@ public class AudioManager : MonoBehaviour
 
     public void PlayPlanningPhaseClip()
     {
-        audioSource.clip = planningPhaseClip;
-        audioSource.Play();
+        musicSource.clip = planningPhaseClip;
+        musicSource.Play();
     }
 
     public void PlaySimulationPhaseClip()
     {
-        audioSource.clip = simulationPhaseClip;
-        audioSource.Play();
+        musicSource.clip = simulationPhaseClip;
+        musicSource.Play();
     }
 
     public void PlayVictoryFanfareClip()
     {
-        audioSource.clip = victoryFanfareClip;
-        audioSource.Play();
+        musicSource.clip = victoryFanfareClip;
+        musicSource.Play();
     }
 
     public void PlayRoundVictoryFanfareClip()
     {
-        audioSource.clip = roundVictoryClip;
-        audioSource.Play();
+        musicSource.clip = roundVictoryClip;
+        musicSource.Play();
     }
 
     public void PlayFailureFanfareClip()
     {
-        audioSource.clip = failureFanfareClip;
-        audioSource.Play();
+        musicSource.clip = failureFanfareClip;
+        musicSource.Play();
     }
 
     public void PlayPickUpClip()
     {
-        audioSource.PlayOneShot(pickupClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(pickupClip);
     }
 
     public void PlayPutDownClip()
     {
-        audioSource.PlayOneShot(putdownClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(putdownClip);
     }
 
     public void PlayInvalidPlacementClip()
     {
-        audioSource.PlayOneShot(invalidPlaceClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(invalidPlaceClip);
     }
 
     public void PlayDamageClip()
     {
-        audioSource.PlayOneShot(damangeClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(damangeClip);
     }
 
     public void PlayDeathClip()
     {
-        audioSource.PlayOneShot(deathClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(deathClip);
     }
 
     public void PlaySpecialAttackClip()
     {
-        audioSource.PlayOneShot(specialAttackClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(specialAttackClip);
     }
 
     public void PlayMovementClip()
     {
-        audioSource.PlayOneShot(movementClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(movementClip);
     }
 
     public void PlayBeeSpecialAttackClip()
     {
-        audioSource.PlayOneShot(beeSpecialAttackClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(beeSpecialAttackClip);
     }
 
     public void PlayQueenBeeSpecialAttackClip()
     {
-        audioSource.PlayOneShot(queenBeeSpecialAttackClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(queenBeeSpecialAttackClip);
     }
 
     public void PlayBeetleSpecialAttackClip()
     {
-        audioSource.PlayOneShot(beetleSpecialAttackClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(beetleSpecialAttackClip);
     }
 
     public void PlaySpiderSpecialAttackClip()
     {
-        audioSource.PlayOneShot(spiderSpecialAttackClip);
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(spiderSpecialAttackClip);
     }
 
     public void PlayMothSpecialAttackClip()
-    {
-        audioSource.PlayOneShot(mothSpecialAttackClip);
+    { 
+        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        sfxSource.PlayOneShot(mothSpecialAttackClip);
     }
 }
