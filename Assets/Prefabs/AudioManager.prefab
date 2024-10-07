@@ -61,10 +61,10 @@ MonoBehaviour:
   movementClip: {fileID: 8300000, guid: a7920ec79ab50594b97927bc7b4edb62, type: 3}
   specialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
   beeSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  queenBeeSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  beetleSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  spiderSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
-  mothSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
+  queenBeeSpecialAttackClip: {fileID: 8300000, guid: 7261052c1527d174eabe3f0159dcbc45, type: 3}
+  beetleSpecialAttackClip: {fileID: 8300000, guid: 04137a3a0b52c5542baedc1427eb4148, type: 3}
+  spiderSpecialAttackClip: {fileID: 8300000, guid: e44bf669baa61534791f22d4ff959b17, type: 3}
+  mothSpecialAttackClip: {fileID: 8300000, guid: 04137a3a0b52c5542baedc1427eb4148, type: 3}
 --- !u!82 &7139085052071998491
 AudioSource:
   m_ObjectHideFlags: 0
