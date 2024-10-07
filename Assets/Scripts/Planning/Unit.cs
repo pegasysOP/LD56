@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Unit : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public Animator animator;
 
     [Header("Bars")]
     public CanvasGroup HudCanvas;
@@ -41,7 +42,8 @@ public class Unit : MonoBehaviour
     {
         this.unitType = unitType;
 
-        spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
+        animator.Play(GetIdleClip(), 0, Random.Range(0f, 1f));
+        //spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
         spriteRenderer.flipX = !player;
 
         healthSliderFill.color = player ? playerHealthColor : enemyHealthColor;
@@ -125,19 +127,31 @@ public class Unit : MonoBehaviour
         if (dead || moving)
             return;
 
-        // maybe not always for special?
         SetDirection(targetPosition);
 
-        // if queen bee for example there is no target so don't do jolt
+        if (unitType == UnitType.WorkerBee)
+        {
+            // jolt
+            Vector3 startPos = transform.position;
+            Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
 
-        //Vector3 startPos = transform.position;
-        //Vector3 joltTarget = (targetPosition - startPos).normalized * 0.2f + startPos;
-        //
-        //transform.DOMove(joltTarget, Simulation.TickDuration / 4f)
-        //    .SetEase(Ease.InQuad)
-        //    .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
-        //    .SetEase(Ease.OutQuad))
-        //    .SetId(movementTweenID);
+            transform.DOMove(joltTarget, Simulation.TickDuration / 4f)
+                .SetEase(Ease.InQuad)
+                .OnComplete(() => transform.DOMove(startPos, Simulation.TickDuration / 4f)
+                .SetEase(Ease.OutQuad))
+                .SetId(movementTweenID);
+        }
+        else
+        {
+            animator.Play(GetSpecialClip());
+        }
+
+        // shoot projectile
+        if (range > 1) // for now ranged units do normal attack at 1 range but could be changed to check unit type instead
+        {
+            Instantiate(projectilePrefab, projectileSource.position, projectileSource.rotation, this.transform).Go(targetPosition, unitType);
+        }
+
     }
 
     /// <summary>
@@ -156,5 +170,63 @@ public class Unit : MonoBehaviour
             spriteRenderer.flipX = false; // going right
         else 
             spriteRenderer.flipX = true; // going left
+    }
+
+    private string GetIdleClip()
+    {
+        switch (unitType)
+        {
+            case UnitType.Beetle:
+                return "beetle_idle";
+            case UnitType.Moth:
+                return "moth_idle";
+            case UnitType.QueenBee:
+                return "queen_bee_idle";
+            case UnitType.Spider:
+                return "spider_idle";
+            case UnitType.WorkerBee:
+                return "worker_bee_idle";
+
+            default:
+                return "beetle_idle";
+        }
+    }
+
+    private string GetJumpClip()
+    {
+        switch (unitType)
+        {
+            case UnitType.Beetle:
+                return "beetle_jump";
+            case UnitType.Moth:
+                return "moth_jump";
+            case UnitType.QueenBee:
+                return "queen_bee_jump";
+            case UnitType.Spider:
+                return "spider_jump";
+            case UnitType.WorkerBee:
+                return "worker_bee_jump";
+
+            default:
+                return "beetle_jump";
+        }
+    }
+
+    private string GetSpecialClip()
+    {
+        switch (unitType)
+        {
+            case UnitType.Beetle:
+                return "beetle_special";
+            case UnitType.Moth:
+                return "moth_special";
+            case UnitType.QueenBee:
+                return "queen_bee_special";
+            case UnitType.Spider:
+                return "spider_special";
+
+            default:
+                return "beetle_special";
+        }
     }
 }

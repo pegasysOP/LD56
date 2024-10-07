@@ -336,6 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2646629124546621348}
   - component: {fileID: 2216534023019648398}
+  - component: {fileID: 6344446464948398692}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -410,6 +411,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6344446464948398692
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659349313526051567}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6a128c363365e346b0a47e07711b191, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5661674541438629180
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2216534023019648398}
+  animator: {fileID: 6344446464948398692}
   HudCanvas: {fileID: 5301810134686891673}
   healthSlider: {fileID: 7317059769193901371}
   healthSliderFill: {fileID: 5515392137179197119}
@@ -933,6 +956,20 @@ MonoBehaviour:
   enemyHealthColor: {r: 0.9568628, g: 0.41176474, b: 0.42352945, a: 1}
   projectileSource: {fileID: 747460792098743619}
   projectilePrefab: {fileID: 8632588214924450778, guid: 5431ebd5807d5424286b59e82b357d0b, type: 3}
+  beetleIdleClip: {fileID: 7400000, guid: ca4efe5fca0a8874aa8c2d6aa9fede04, type: 2}
+  beetleJumpClip: {fileID: 7400000, guid: cf6817022865f8d44a3085ebb0abf9ce, type: 2}
+  beetleSpecClip: {fileID: 7400000, guid: 735a2d197e5051b4bb79c90fc54f5b1e, type: 2}
+  mothIdleClip: {fileID: 7400000, guid: ac95c66288c49ef44a9e24a1ae9b6e0c, type: 2}
+  mothJumpClip: {fileID: 7400000, guid: 116e5f2054a9c1f43adf555c59b75ae0, type: 2}
+  mothSpecClip: {fileID: 7400000, guid: 1135f2c8c2ca9654fab5e479cf734e4c, type: 2}
+  queenIdleClip: {fileID: 7400000, guid: 6f6594e8b1063ad47a2b7bcc8989c779, type: 2}
+  queenJumpClip: {fileID: 7400000, guid: 4369f8870a9b2e448b0e20e79bff069b, type: 2}
+  queenSpecClip: {fileID: 7400000, guid: 9b59df96dd28b6c46b239595aaeca411, type: 2}
+  spiderIdleClip: {fileID: 7400000, guid: baa9e61e434c40147a03fbe8adb6394b, type: 2}
+  spiderJumpClip: {fileID: 7400000, guid: 960ef9c04e6b3de469328e79783db47e, type: 2}
+  spiderSpecClip: {fileID: 7400000, guid: 17b19df7f07733e4d8f22d754ce48822, type: 2}
+  workerIdleClip: {fileID: 7400000, guid: f56472aed6ffa474fb216c4611f7071d, type: 2}
+  workerJumpClip: {fileID: 7400000, guid: d6a1d82ad79be6540affb3c8a6f72cc8, type: 2}
   previousPosition: {x: 0, y: 0, z: 0}
   unitType: 0
 --- !u!65 &3815199161387776965
