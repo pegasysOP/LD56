@@ -1023,7 +1023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648383811267257617, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
       propertyPath: m_text
-      value: A 2 Range unit with a special that heals all friendly worker bees.
+      value: A two Range unit with a special that heals all friendly worker bees.
       objectReference: {fileID: 0}
     - target: {fileID: 8976668302027356003, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
       propertyPath: m_Pivot.x
@@ -1208,8 +1208,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648383811267257617, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
       propertyPath: m_text
-      value: A 3 range glass canon unit with an 'area of effect' special that causes
-        enemies to be slowed.
+      value: A three range glass canon unit with an 'area of effect' special that
+        causes enemies to be slowed.
       objectReference: {fileID: 0}
     - target: {fileID: 6522907261238705359, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
       propertyPath: m_Sprite
@@ -1814,7 +1814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648383811267257617, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
       propertyPath: m_text
-      value: A 2 Range unit with an 'area of effect' special that causes enemies
+      value: A two Range unit with an 'area of effect' special that causes enemies
         to become confused.
       objectReference: {fileID: 0}
     - target: {fileID: 6522907261238705359, guid: 2afade4abfb3ba24bb6ec3b2d1ddfa43, type: 3}
