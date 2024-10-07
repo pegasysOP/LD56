@@ -29,6 +29,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip beetleSpecialAttackClip;
     public AudioClip spiderSpecialAttackClip;
     public AudioClip mothSpecialAttackClip;
+
+    public static AudioManager Instance;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,19 @@ public class AudioManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance.gameObject);
+            return;
+        }
     }
 
     public void PlayPlanningPhaseClip()
