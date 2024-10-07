@@ -30,6 +30,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip spiderSpecialAttackClip;
     public AudioClip mothSpecialAttackClip;
 
+    private bool playingMovementClip = false;
+
     public static AudioManager Instance;
     // Start is called before the first frame update
     void Start()
@@ -124,8 +126,32 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMovementClip()
     {
+        // Check if a movement clip is already playing
+        if (playingMovementClip)
+        {
+            return;
+        }
+
+        // Set the flag to true, indicating that a movement clip is playing
+        playingMovementClip = true;
+
+        // Set a random pitch for the sound effect
         sfxSource.pitch = Random.Range(0.9f, 1.05f);
+
+        // Play the movement clip
         sfxSource.PlayOneShot(movementClip);
+
+        // Start a coroutine to reset the playingMovementClip flag after the clip finishes
+        StartCoroutine(ResetMovementClip(movementClip.length));
+    }
+
+    private IEnumerator ResetMovementClip(float clipDuration)
+    {
+        // Wait for the duration of the clip
+        yield return new WaitForSeconds(clipDuration);
+
+        // Reset the flag, allowing new movement clips to be played
+        playingMovementClip = false;
     }
 
     public void PlayBeeSpecialAttackClip()

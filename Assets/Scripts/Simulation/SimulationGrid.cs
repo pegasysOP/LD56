@@ -225,6 +225,7 @@ public class SimulationGrid
             BoardUtils.MoveUnit(start, end);
 
             Debug.Log($"Moving unit from {start} into {end}");
+            AudioManager.Instance.PlayMovementClip();
         }
         else
         {
