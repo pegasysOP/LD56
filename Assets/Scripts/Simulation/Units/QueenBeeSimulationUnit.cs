@@ -27,6 +27,7 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
     }
     protected override void DoAttack(ref SimulationGrid currentGrid)
     {
+        AudioManager.Instance.PlayProjectileClip();
         DoSimpleAttack(ref currentGrid);
     }
 

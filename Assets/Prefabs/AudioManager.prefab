@@ -61,6 +61,7 @@ MonoBehaviour:
   damangeClip: {fileID: 8300000, guid: 92fe6f622a5fcbd4f8004b7d226bf1b0, type: 3}
   deathClip: {fileID: 8300000, guid: 6e9e023a522fb8143bcf82e50985b82c, type: 3}
   movementClip: {fileID: 8300000, guid: a7920ec79ab50594b97927bc7b4edb62, type: 3}
+  projectileClip: {fileID: 8300000, guid: 6e951eb963f7130429b55ad5c7e0cb91, type: 3}
   specialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
   beeSpecialAttackClip: {fileID: 8300000, guid: fe70837d9b001294c96867554f40c45f, type: 3}
   queenBeeSpecialAttackClip: {fileID: 8300000, guid: 7261052c1527d174eabe3f0159dcbc45, type: 3}

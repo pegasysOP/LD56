@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip damangeClip;
     public AudioClip deathClip;
     public AudioClip movementClip;
+    public AudioClip projectileClip;
 
     [Header("Special Attacks")]
     public AudioClip specialAttackClip;
@@ -196,5 +197,10 @@ public class AudioManager : MonoBehaviour
     public void PlayRegularButtonClip()
     {
         sfxSource.PlayOneShot(regularButtonPressClip);
+    }
+
+    public void PlayProjectileClip()
+    {
+        sfxSource.PlayOneShot(projectileClip);
     }
 }
