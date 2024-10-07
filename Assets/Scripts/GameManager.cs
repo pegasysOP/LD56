@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
         //Spawn starting player units 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
-        BM.SpawnNewPlayerUnit(UnitType.Spider);
+        BM.SpawnNewPlayerUnit(UnitType.Moth);
 
         BM.SavePlayerUnitStartPositions();
 
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
         }
 
         UM.SetActiveUpgradePanel(false);
+        UM.StartRoundButton.SetActive(true);
     }
 
     void PopulateEnemyStartStates()
@@ -286,6 +287,12 @@ public class GameManager : MonoBehaviour
         if (level != 0)
         {
             UM.SetActiveUpgradePanel(true);
+            //Disable the next round button
+            UM.StartRoundButton.SetActive(false);
+        }
+        else
+        {
+            UM.StartRoundButton.SetActive(true);
         }
 
         setUpgradeUnits();
@@ -300,8 +307,6 @@ public class GameManager : MonoBehaviour
 
         //Spawn players from current save state
         BM.LoadPlayerUnits();
-
-        UM.StartRoundButton.SetActive(true);
     }
 
     public void StartLevel()
