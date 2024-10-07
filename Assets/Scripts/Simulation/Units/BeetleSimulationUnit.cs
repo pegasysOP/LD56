@@ -30,14 +30,14 @@ public class BeetleSimulationUnit : SimulationUnitBase
         DoSimpleAttack(ref currentGrid);
     }
 
-    protected override void DoSpecial(ref SimulationGrid currentGrid)
+    protected override bool DoSpecial(ref SimulationGrid currentGrid)
     {
         // DO LAUNCHING ABILITY HERE:
         // launch target unit to back of grid (if possible)
 
         // Check for valid target
         if (!CanAttackCurrentTarget(ref currentGrid))
-            return;
+            return false;
 
         currentGrid.DoSpecial(this, currentTarget);
 
@@ -105,5 +105,8 @@ public class BeetleSimulationUnit : SimulationUnitBase
             currentGrid.RemoveUnit(currentTarget);
         else
             currentGrid.DamageUnit(currentTarget);
+        return true;
+
+        //TODO: Possible we should return false if the knockback logic doesn't work
     }
 }

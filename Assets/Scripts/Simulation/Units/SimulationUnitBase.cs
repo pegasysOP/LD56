@@ -64,9 +64,14 @@ public abstract class SimulationUnitBase
         specialCounter++;
         if (specialCounter > specialTime && confusionCounter <= 0)
         {
-            DoSpecial(ref currentGrid);
-            specialCounter = 0;
-            attackCounter = 0;
+            bool didSpecial = DoSpecial(ref currentGrid);
+
+            if (didSpecial)
+            {
+                specialCounter = 0;
+                attackCounter = 0;
+            }
+            
             return;
         }
 
@@ -138,7 +143,7 @@ public abstract class SimulationUnitBase
     /// <returns></returns>
     protected abstract bool DoMovement(ref SimulationGrid currentGrid);
     protected abstract void DoAttack(ref SimulationGrid currentGrid);
-    protected abstract void DoSpecial(ref SimulationGrid currentGrid);
+    protected abstract bool DoSpecial(ref SimulationGrid currentGrid);
 
     /// <summary>
     /// Checks if the current target is within the attack range and above 0 HP

@@ -30,7 +30,7 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
         DoSimpleAttack(ref currentGrid);
     }
 
-    protected override void DoSpecial(ref SimulationGrid currentGrid)
+    protected override bool DoSpecial(ref SimulationGrid currentGrid)
     {
         // DO HEALING ABILITY HERE:
         // heal all allied worker bees
@@ -42,6 +42,10 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
 
         AudioManager.Instance.PlayQueenBeeSpecialAttackClip();
 
+        if (units.Count == 0) 
+        {
+            return false;
+        }
         //Check the unit is a player unit
         foreach (SimulationUnitBase unit in units)
         {
@@ -51,5 +55,6 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
                 unit.Heal(50);
             }
         }
+        return true;
     }
 }

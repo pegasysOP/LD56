@@ -32,7 +32,7 @@ public class MothSimulationUnit : SimulationUnitBase
         DoSimpleAttack(ref currentGrid);
     }
 
-    protected override void DoSpecial(ref SimulationGrid currentGrid)
+    protected override bool DoSpecial(ref SimulationGrid currentGrid)
     {
         // DO CONFUSE DEBUFF AOE ABILITY HERE:
         // shoot projectile at target - cause confusion debuff to it and surrounding enemy units
@@ -40,7 +40,7 @@ public class MothSimulationUnit : SimulationUnitBase
         //Check we have a valid target
         if (!CanAttackCurrentTarget(ref currentGrid))
         {
-            return;
+            return false;
         }
 
         currentGrid.DoSpecial(this, currentTarget);
@@ -53,6 +53,11 @@ public class MothSimulationUnit : SimulationUnitBase
 
         //Get all the opposing sides units on the board
         Dictionary<SimulationUnitBase, int> units = currentGrid.GetUnitsInRange(currentGrid.GetGridCoordinates(currentTarget), 8, IsPlayerUnit(), !IsPlayerUnit());
+
+        if(units.Count == 0)
+        {
+            return false;
+        }
 
         //Now only set confused for those tht are on one of the four diagonal angles
         foreach (SimulationUnitBase unit in units.Keys)
@@ -68,5 +73,6 @@ public class MothSimulationUnit : SimulationUnitBase
                 //In BASE class: Set targeting and movement to be reversed and decrement confused timer
             }
         }
+        return true;
     }
 }
