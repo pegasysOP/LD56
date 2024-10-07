@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -200,24 +201,46 @@ public class GameManager : MonoBehaviour
     void onRoundWon()
     {
         //Play victory fanfare
+        AM.PlayVictoryFanfareClip();
+
+        //Wait 5 seconds then show continue button
+        StartCoroutine(WaitFor(10f, true));
 
         //Load UI for victory. Showing health, score and next level buttons 
 
-        //When next level is pressed go to planning phase for next level. Load new units 
-        getNextLevel();
+        
     }
 
     void onRoundLost()
     {
         //Play defeat fanfare 
+        AM.PlayFailureFanfareClip();
 
+        //Wait 5 seconds then show continue button
+        StartCoroutine(WaitFor(10f, false));
         //Load UI for loss. Showing health, score, retry and exit buttons
 
         //When retry is pressed we go back to the planning phase and you can place units again
         //Get board from saved board and use that to reset the board. Then pass in the same levels enemy dict
 
         //When exit is pressed return to main menu 
-        LoadLevel();
+        
+    }
+
+    IEnumerator WaitFor(float seconds, bool playerWon)
+    {
+        Debug.Log("Waiting");
+        // Wait for 5 seconds
+        yield return new WaitForSeconds(seconds);
+        //When next level is pressed go to planning phase for next level. Load new units 
+        if (playerWon)
+        {
+            getNextLevel();
+        }
+        else
+        {
+            LoadLevel();
+        }
     }
 
     void onRoundOver(bool playerWon)
