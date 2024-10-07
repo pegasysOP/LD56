@@ -17,6 +17,7 @@ public abstract class SimulationUnitBase
     protected int specialCounter;
 
     protected int slowCounter = -1;
+    protected int confusionCounter = -1;
 
     protected bool isPlayerUnit;
     protected SimulationUnitBase currentTarget;
@@ -50,13 +51,18 @@ public abstract class SimulationUnitBase
                 return;
             }
         }
+
+        if (confusionCounter > 0) {
+            confusionCounter--;
+        }
+
         // if a move was made don't keep charging attacks
         if (DoMovement(ref currentGrid))
             return;
 
         // special overrides attack
         specialCounter++;
-        if (specialCounter > specialTime)
+        if (specialCounter > specialTime && confusionCounter <= 0)
         {
             DoSpecial(ref currentGrid);
             specialCounter = 0;
@@ -82,6 +88,19 @@ public abstract class SimulationUnitBase
         if(value > slowCounter)
         {
             slowCounter = value;
+        }
+    }
+
+    public void SetConfusionCounter(int value)
+    {
+        if (confusionCounter > 0)
+        {
+            return;
+        }
+
+        if(value > confusionCounter)
+        {
+            confusionCounter = value;
         }
     }
 
