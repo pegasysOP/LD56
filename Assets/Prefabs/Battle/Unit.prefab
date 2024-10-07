@@ -498,6 +498,37 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &5964493848978158058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 747460792098743619}
+  m_Layer: 10
+  m_Name: Projectile Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &747460792098743619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964493848978158058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4247503296649911327}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6578338690889745843
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,6 +757,7 @@ Transform:
   m_Children:
   - {fileID: 2646629124546621348}
   - {fileID: 5275003849645451139}
+  - {fileID: 747460792098743619}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-7132568056895487309
@@ -745,6 +777,8 @@ MonoBehaviour:
   healthSlider: {fileID: 7317059769193901371}
   healthSliderFill: {fileID: 5515392137179197119}
   specialSlider: {fileID: 4935915889622940709}
+  projectileSource: {fileID: 747460792098743619}
+  projectilePrefab: {fileID: 8632588214924450778, guid: 5431ebd5807d5424286b59e82b357d0b, type: 3}
   previousPosition: {x: 0, y: 0, z: 0}
   unitType: 0
 --- !u!65 &3815199161387776965

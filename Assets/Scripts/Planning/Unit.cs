@@ -11,6 +11,12 @@ public class Unit : MonoBehaviour
     public Slider healthSlider;
     public Image healthSliderFill;
     public Slider specialSlider;
+
+    [Header("Projectiles")]
+    public Transform projectileSource;
+    public Projectile projectilePrefab;
+
+    [Space(12)] 
     
     public Vector3 previousPosition; 
     public UnitType unitType;
@@ -101,9 +107,9 @@ public class Unit : MonoBehaviour
             .SetId(movementTweenID);
 
         // shoot projectile
-        if (range > 1)
+        if (range > 1) // for now ranged units do normal attack at 1 range but could be changed to check unit type instead
         {
-
+            Instantiate(projectilePrefab, projectileSource.position, projectileSource.rotation, this.transform).Go(targetPosition, unitType);
         }
     }
 
