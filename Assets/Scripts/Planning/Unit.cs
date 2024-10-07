@@ -49,8 +49,12 @@ public class Unit : MonoBehaviour
         this.unitType = unitType;
 
         animator.Play(GetIdleClip(), 0, Random.Range(0f, 1f));
-        //spriteRenderer.sprite = GameManager.UnitTypeToSprite[unitType];
+
         spriteRenderer.flipX = !player;
+
+        // enemy units appear darker
+        if (!player)
+            spriteRenderer.color = new Color(0.5f, 0.4f, 0.3f);
 
         healthSliderFill.color = player ? playerHealthColor : enemyHealthColor;
 
@@ -103,8 +107,10 @@ public class Unit : MonoBehaviour
         if (dead)
             return;
 
+        Color originalColor = spriteRenderer.color;
+
         spriteRenderer.DOColor(special ? Color.blue : Color.red, Simulation.TickDuration / 2f)
-            .OnComplete(() => spriteRenderer.DOColor(Color.white, Simulation.TickDuration /2f))
+            .OnComplete(() => spriteRenderer.DOColor(originalColor, Simulation.TickDuration /2f))
             .SetId(colorTweenID);
     }
 
