@@ -26,11 +26,13 @@ public class Unit : MonoBehaviour
 
     private string movementTweenID;
     private string colorTweenID;
+    private string barTweenID;
 
     private void Awake()
     {
         movementTweenID = gameObject.GetInstanceID() + "_Movement";
         colorTweenID = gameObject.GetInstanceID() + "_ColorChange";
+        barTweenID = gameObject.GetInstanceID() + "_BarChange";
     }
 
     public void Init(UnitType unitType, bool player)
@@ -48,8 +50,10 @@ public class Unit : MonoBehaviour
 
     public void UpdateData(float healthFill, float specialFill)
     {
-        healthSlider.value = healthFill;
-        specialSlider.value = specialFill;
+        DOTween.Kill(barTweenID);
+
+        healthSlider.DOValue(healthFill, Simulation.TickDuration / 2f).SetId(barTweenID);
+        specialSlider.DOValue(specialFill, Simulation.TickDuration / 2f).SetId(barTweenID);
     }
 
     public void MoveTo(Vector3 targetPosition)
@@ -71,6 +75,7 @@ public class Unit : MonoBehaviour
     {
         dead = true;
         DOTween.Kill(colorTweenID);
+        DOTween.Kill(barTweenID);
 
         spriteRenderer.color = Color.white;
         spriteRenderer.DOColor(Color.clear, Simulation.TickDuration)
