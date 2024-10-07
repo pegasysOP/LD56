@@ -287,5 +287,15 @@ public abstract class SimulationUnitBase
     {
         return currentTarget;
     }
+
+    public bool IsSlowed()
+    {
+        return slowCounter > 0;
+    }
+
+    public bool IsConfused()
+    {
+        return confusionCounter > 0;
+    }
     #endregion
 }

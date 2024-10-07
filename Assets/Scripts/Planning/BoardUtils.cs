@@ -91,16 +91,16 @@ public static class BoardUtils
     }
 
     /// <summary>
-    /// Updates the UI data for the units from their bar data (health 0-1, special 0-1)
+    /// Updates the UI data for the units from their bar data (health 0-1, special 0-1, isSlowed, isConfused)
     /// </summary>
     /// <param name="unitData"></param>
-    public static void UpdateUnitData(Dictionary<Vector2Int, (float, float)> unitDatas)
+    public static void UpdateUnitData(Dictionary<Vector2Int, (float, float, bool, bool)> unitDatas)
     {
-        foreach (KeyValuePair<Vector2Int, (float, float)> unitData in unitDatas)
+        foreach (KeyValuePair<Vector2Int, (float, float, bool, bool)> unitData in unitDatas)
         {
             // protection in case units get destroyed while running this loop (i.e. round ends)
             if (BoardManager.Instance.ActiveUnits.TryGetValue(unitData.Key, out Unit unit))
-                unit.UpdateData(unitData.Value.Item1, unitData.Value.Item2);
+                unit.UpdateData(unitData.Value.Item1, unitData.Value.Item2, unitData.Value.Item3, unitData.Value.Item4);
         }
     }
 }

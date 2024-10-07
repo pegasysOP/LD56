@@ -52,7 +52,7 @@ public class Unit : MonoBehaviour
         specialSlider.value = 0f;
     }
 
-    public void UpdateData(float healthFill, float specialFill)
+    public void UpdateData(float healthFill, float specialFill, bool slowed, bool confused)
     {
         DOTween.Kill(barTweenID);
 
