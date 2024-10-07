@@ -5,18 +5,29 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioSource audioSource;
+
+    [Header("Phase Music")]
     public AudioClip planningPhaseClip;
     public AudioClip simulationPhaseClip;
     public AudioClip victoryFanfareClip;
     public AudioClip roundVictoryClip;
     public AudioClip failureFanfareClip;
+
+    [Header("Interaction Sounds")]
     public AudioClip pickupClip;
     public AudioClip putdownClip;
     public AudioClip invalidPlaceClip;
     public AudioClip damangeClip;
     public AudioClip deathClip;
-    public AudioClip specialAttackClip;
     public AudioClip movementClip;
+
+    [Header("Special Attacks")]
+    public AudioClip specialAttackClip;
+    public AudioClip beeSpecialAttackClip;
+    public AudioClip queenBeeSpecialAttackClip;
+    public AudioClip beetleSpecialAttackClip;
+    public AudioClip spiderSpecialAttackClip;
+    public AudioClip mothSpecialAttackClip;
     // Start is called before the first frame update
     void Start()
     {
@@ -92,5 +103,30 @@ public class AudioManager : MonoBehaviour
     public void PlayMovementClip()
     {
         audioSource.PlayOneShot(movementClip);
+    }
+
+    public void PlayBeeSpecialAttackClip()
+    {
+        audioSource.PlayOneShot(beeSpecialAttackClip);
+    }
+
+    public void PlayQueenBeeSpecialAttackClip()
+    {
+        audioSource.PlayOneShot(queenBeeSpecialAttackClip);
+    }
+
+    public void PlayBeetleSpecialAttackClip()
+    {
+        audioSource.PlayOneShot(beetleSpecialAttackClip);
+    }
+
+    public void PlaySpiderSpecialAttackClip()
+    {
+        audioSource.PlayOneShot(spiderSpecialAttackClip);
+    }
+
+    public void PlayMothSpecialAttackClip()
+    {
+        audioSource.PlayOneShot(mothSpecialAttackClip);
     }
 }
