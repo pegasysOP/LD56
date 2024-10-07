@@ -201,10 +201,10 @@ public class GameManager : MonoBehaviour
     void onRoundWon()
     {
         //Play victory fanfare
-        AM.PlayVictoryFanfareClip();
+        AM.PlayRoundVictoryFanfareClip();
 
         //Wait 5 seconds then show continue button
-        StartCoroutine(WaitFor(10f, true));
+        StartCoroutine(WaitFor(6f, true));
 
         //Load UI for victory. Showing health, score and next level buttons 
 

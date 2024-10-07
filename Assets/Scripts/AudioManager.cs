@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip planningPhaseClip;
     public AudioClip simulationPhaseClip;
     public AudioClip victoryFanfareClip;
+    public AudioClip roundVictoryClip;
     public AudioClip failureFanfareClip;
     public AudioClip pickupClip;
     public AudioClip putdownClip;
@@ -43,6 +44,12 @@ public class AudioManager : MonoBehaviour
     public void PlayVictoryFanfareClip()
     {
         audioSource.clip = victoryFanfareClip;
+        audioSource.Play();
+    }
+
+    public void PlayRoundVictoryFanfareClip()
+    {
+        audioSource.clip = roundVictoryClip;
         audioSource.Play();
     }
 

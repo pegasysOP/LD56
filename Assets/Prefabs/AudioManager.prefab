@@ -49,6 +49,7 @@ MonoBehaviour:
   planningPhaseClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
   simulationPhaseClip: {fileID: 8300000, guid: 6d6d1403dc553c84b932c9b6255950c5, type: 3}
   victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}
+  roundVictoryClip: {fileID: 8300000, guid: 305e31c9d5f61ce49a857d800e397767, type: 3}
   failureFanfareClip: {fileID: 8300000, guid: 57e6c5202b934104dac05d6d9bf8ad2b, type: 3}
   pickupClip: {fileID: 8300000, guid: 7c82b4c60acb9e84b9dab4beb229fbde, type: 3}
   putdownClip: {fileID: 8300000, guid: a770e6d6a78803547825821c9c97c825, type: 3}
