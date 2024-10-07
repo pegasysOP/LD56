@@ -49,6 +49,7 @@ public class SimulationGrid
         {
             RemoveUnitAt(gridCoordinates);
             BoardUtils.KillUnit(gridCoordinates);
+            AudioManager.Instance.PlayDeathClip();
         }
     }
 
