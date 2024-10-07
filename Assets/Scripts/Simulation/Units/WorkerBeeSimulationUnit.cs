@@ -33,6 +33,8 @@ public class WorkerBeeSimulationUnit : SimulationUnitBase
         if (!CanAttackCurrentTarget(ref currentGrid))
             return;
 
+        AudioManager.Instance.PlaySpecialAttackClip();
+
         currentGrid.DoSpecial(this, currentTarget);
 
         if (currentTarget.TakeDamage(attack * 2))

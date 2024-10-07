@@ -15,7 +15,7 @@ public class MothSimulationUnit : SimulationUnitBase
         defence = 10;
         range = 2;
         attackTime = 4;
-        specialTime = 1;
+        specialTime = 17;
     }
 
     public override UnitType GetUnitType()
@@ -42,6 +42,8 @@ public class MothSimulationUnit : SimulationUnitBase
         {
             return;
         }
+
+        AudioManager.Instance.PlayMothSpecialAttackClip();
 
         Vector2Int targetPos = currentGrid.GetGridCoordinates(currentTarget);
 

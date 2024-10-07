@@ -38,6 +38,8 @@ public class QueenBeeSimulationUnit : SimulationUnitBase
         //Get all the units on the board
         List<SimulationUnitBase> units = currentGrid.GetUnits();
 
+        AudioManager.Instance.PlayQueenBeeSpecialAttackClip();
+
         //Check the unit is a player unit
         foreach (SimulationUnitBase unit in units)
         {
