@@ -16,6 +16,8 @@ public abstract class SimulationUnitBase
     protected int attackCounter;
     protected int specialCounter;
 
+    protected int slowCounter = -1;
+
     protected bool isPlayerUnit;
     protected SimulationUnitBase currentTarget;
 
@@ -40,6 +42,14 @@ public abstract class SimulationUnitBase
     /// </summary>
     public void DoTick(ref SimulationGrid currentGrid)
     {
+        if (slowCounter > 0)
+        {
+            slowCounter--;
+            if(slowCounter % 2 == 0)
+            {
+                return;
+            }
+        }
         // if a move was made don't keep charging attacks
         if (DoMovement(ref currentGrid))
             return;
@@ -59,6 +69,19 @@ public abstract class SimulationUnitBase
         {
             DoAttack(ref currentGrid);
             attackCounter = 0;
+        }
+    }
+
+    public void SetSlowCounter(int value)
+    {
+        if (slowCounter > 0)
+        {
+            return;
+        }
+
+        if(value > slowCounter)
+        {
+            slowCounter = value;
         }
     }
 

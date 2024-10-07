@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class SpiderSimulationUnit : SimulationUnitBase
 {
     public SpiderSimulationUnit(bool playerUnit) : base(playerUnit)
@@ -32,5 +34,18 @@ public class SpiderSimulationUnit : SimulationUnitBase
     {
         // DO SPEED DEBUFF AOE ABILITY HERE:
         // shoot projectile at target - cause speed debuff to it and surrounding enemy units
+
+        //Check we have a valid target
+        if (!CanAttackCurrentTarget(ref currentGrid))
+            return;
+
+        //If so get all the units within a 3x3 radius of the target
+        Dictionary<SimulationUnitBase, int> units = currentGrid.GetUnitsInRange(currentGrid.GetGridCoordinates(currentTarget), 1, IsPlayerUnit(), !IsPlayerUnit());
+
+        //For each of those units slow down the tick rate.
+        foreach(SimulationUnitBase unit in units.Keys)
+        {
+            unit.SetSlowCounter(10);
+        }
     }
 }
