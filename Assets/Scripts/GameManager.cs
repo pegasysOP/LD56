@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //AudioManager.Instance.PlayRegularButtonClip();
         upgradeTypes = new UnitType[3];
         levelUpgradeTypes = new List<UnitType[]>();
         UM = FindObjectOfType<UIManager>();
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour
             BM.SpawnNewPlayerUnit(levelUpgradeTypes[level][2]);
         }
 
+        AudioManager.Instance.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
         UM.StartRoundButton.SetActive(true);
         BM.setSelectionEnabled(true);
@@ -319,6 +321,8 @@ public class GameManager : MonoBehaviour
         BM.SavePlayerUnitStartPositions();
         Debug.Log("Start Level"); 
         BM.StartRound();
+
+        AudioManager.Instance.PlayRegularButtonClip();
 
         //Play the attack phase music 
         AM.PlaySimulationPhaseClip();
