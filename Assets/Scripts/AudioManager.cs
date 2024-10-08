@@ -153,7 +153,7 @@ public class AudioManager : MonoBehaviour
     private IEnumerator ResetMovementClip(float clipDuration)
     {
         // Wait for the duration of the clip
-        yield return new WaitForSeconds(clipDuration);
+        yield return new WaitForSeconds(0.1f);
 
         // Reset the flag, allowing new movement clips to be played
         playingMovementClip = false;
