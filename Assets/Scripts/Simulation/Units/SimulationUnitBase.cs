@@ -52,28 +52,19 @@ public abstract class SimulationUnitBase
             }
         }
 
-        if (confusionCounter > 0) {
+        if(confusionCounter > 0)
+        {
             confusionCounter--;
-
-            if (currentTarget != null)
-            {
-                if (this.isPlayerUnit != currentTarget.isPlayerUnit)
-                {
-                    //Our target is a different type from us. If we are confused this is wrong.
-                    currentTarget = null;
-                }
-            }
         }
         else
         {
-            if(currentTarget != null)
-            {
-                if(this.isPlayerUnit == currentTarget.isPlayerUnit)
-                {
-                    //Our target is the same type as us. We are not confused so this is wrong.
-                    currentTarget = null;
-                }
-            }
+            specialCounter++;
+        }
+        
+        if (currentTarget != null)
+        {
+            if (currentTarget.IsPlayerUnit() != IsTargetingPlayer())
+                currentTarget = null;
         }
 
         // if a move was made don't keep charging attacks
@@ -81,7 +72,7 @@ public abstract class SimulationUnitBase
             return;
 
         // special overrides attack
-        specialCounter++;
+        
         if (specialCounter > specialTime && confusionCounter <= 0)
         {
             bool didSpecial = DoSpecial(ref currentGrid);
@@ -198,43 +189,60 @@ public abstract class SimulationUnitBase
         // if there are opposing team units in range then there no need to move, instead select a target unit
         Vector2Int currentPos = currentGrid.GetGridCoordinates(this);
         Dictionary<SimulationUnitBase, int> unitsInRange;
-        if(confusionCounter <= 0)
+
+        // If confused, target allies, otherwise target enemies
+        if (confusionCounter > 0)
         {
-            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit);
+            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, !isPlayerUnit, isPlayerUnit); // Target allies
         }
         else
         {
-            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, !isPlayerUnit, isPlayerUnit);
+            unitsInRange = currentGrid.GetUnitsInRange(currentPos, range, isPlayerUnit, !isPlayerUnit); // Target enemies
         }
-        
+
         if (unitsInRange.Count > 0)
         {
-            // get closest range only
+            // Find the closest units
             List<SimulationUnitBase> closestUnits = new List<SimulationUnitBase>();
             int minRange = int.MaxValue;
+
             foreach (KeyValuePair<SimulationUnitBase, int> unit in unitsInRange)
             {
+                if (unit.Value == 0) continue; // Skip distance of 0
                 if (unit.Value == minRange)
                 {
                     closestUnits.Add(unit.Key);
                 }
-                if (unit.Value < minRange)
+                else if (unit.Value < minRange)
                 {
                     minRange = unit.Value;
                     closestUnits.Clear();
                     closestUnits.Add(unit.Key);
-                }   
+                }
             }
 
             if (closestUnits.Count > 0)
             {
-                currentTarget = closestUnits[Random.Range(0, closestUnits.Count - 1)];
+                currentTarget = closestUnits[Random.Range(0, closestUnits.Count)];
                 return true;
             }
         }
 
         return false;
     }
+
+    public bool IsTargetingPlayer()
+    {
+        if (confusionCounter > 0)
+        {
+            return IsPlayerUnit();
+
+        }
+        else
+        {
+            return !IsPlayerUnit();
+        }   
+}
 
     /// <summary>
     /// Uses the pathfinding to pick the closest target and make 1 move towards it

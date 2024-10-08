@@ -54,10 +54,10 @@ public static class Pathfinding
                 if (unit == null)
                     continue;
 
-                if (currentUnit.IsPlayerUnit() == unit.IsPlayerUnit())
-                    blockedCells.Add(new Vector2Int(i, j));
-                else
+                if (currentUnit.IsTargetingPlayer() == unit.IsPlayerUnit())
                     targets[new Vector2Int(i, j)] = unit;
+                else
+                    blockedCells.Add(new Vector2Int(i, j));
             }
         }
 
@@ -67,16 +67,21 @@ public static class Pathfinding
         List<Vector2Int> shortestPath = null;
         foreach (KeyValuePair<Vector2Int, SimulationUnitBase> targetLocation in targets)
         {
-            List<Vector2Int> path = AStarPathfind(grid, startPos, targetLocation.Key, blockedCells);
-            if (path == null)
-                continue;
-
-            // 50% chance to pick if they are the same length for at least a little randomness
-            if (shortestPath == null || path.Count < shortestPath.Count || (path.Count == shortestPath.Count && UnityEngine.Random.Range(0, 1) < 0.5f))
+            // Ensure target selection is correct based on confusion status
+            if (currentUnit.IsTargetingPlayer() == targetLocation.Value.IsPlayerUnit())
             {
-                shortestPath = path;
-                moveLocation = path[0];
-                targetUnit = targetLocation.Value;
+                List<Vector2Int> path = AStarPathfind(grid, startPos, targetLocation.Key, blockedCells);
+                if (path != null && path.Count > 0)  // Add check to ensure path has elements
+                {
+                    // 50% chance to pick if paths are the same length
+                    if (shortestPath == null || path.Count < shortestPath.Count ||
+                        (path.Count == shortestPath.Count && UnityEngine.Random.Range(0, 2) == 0))
+                    {
+                        shortestPath = path;
+                        moveLocation = path[0];  // Safe to access path[0] now
+                        targetUnit = targetLocation.Value;
+                    }
+                }
             }
         }
 
