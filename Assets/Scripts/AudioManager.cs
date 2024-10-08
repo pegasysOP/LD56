@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource movementSource;
 
     [Header("UI")]
     public AudioClip upgradeButtonPressClip;
@@ -141,10 +142,10 @@ public class AudioManager : MonoBehaviour
         playingMovementClip = true;
 
         // Set a random pitch for the sound effect
-        sfxSource.pitch = Random.Range(0.9f, 1.05f);
+        movementSource.pitch = Random.Range(0.9f, 1.05f);
 
         // Play the movement clip
-        sfxSource.PlayOneShot(movementClip);
+        movementSource.PlayOneShot(movementClip);
 
         // Start a coroutine to reset the playingMovementClip flag after the clip finishes
         StartCoroutine(ResetMovementClip(movementClip.length));
