@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip victoryFanfareClip;
     public AudioClip roundVictoryClip;
     public AudioClip failureFanfareClip;
+    public AudioClip menuClip;
 
     [Header("Interaction Sounds")]
     public AudioClip pickupClip;
@@ -56,10 +57,12 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);  // Ensure this object persists between scenes
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(Instance.gameObject);
+            // Destroy duplicate instances to prevent multiple AudioManagers
+            Destroy(gameObject);
             return;
         }
     }
@@ -91,6 +94,12 @@ public class AudioManager : MonoBehaviour
     public void PlayFailureFanfareClip()
     {
         musicSource.clip = failureFanfareClip;
+        musicSource.Play();
+    }
+
+    public void PlayMenuClip()
+    {
+        musicSource.clip = menuClip;
         musicSource.Play();
     }
 

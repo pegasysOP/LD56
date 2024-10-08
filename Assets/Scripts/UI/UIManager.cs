@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         BM = FindObjectOfType<BoardManager>(); 
+
+        if(SceneManager.GetActiveScene().name == MENU_SCENE)
+        {
+            //   AudioManager.Instance.PlayMenuClip();
+        }
     }
 
     // Update is called once per frame
@@ -31,21 +36,28 @@ public class UIManager : MonoBehaviour
 
     public void LoadGameScene()
     {
+        AudioManager.Instance.PlayRegularButtonClip();
         SceneManager.LoadScene(GAME_SCENE);
     }
 
     public void LoadMenuScene()
     {
+        AudioManager.Instance.PlayMenuClip();
+        AudioManager.Instance.PlayRegularButtonClip();
         SceneManager.LoadScene(MENU_SCENE);
     }
 
     public void LoadCreditScene()
     {
+
+        AudioManager.Instance.PlayVictoryFanfareClip();
         SceneManager.LoadScene(CREDIT_SCENE);
     }
 
     public void LoadInstructionScene()
     {
+        AudioManager.Instance.PlayMenuClip();
+        AudioManager.Instance.PlayRegularButtonClip();
         SceneManager.LoadScene(INSTRUCTION_SCENE);
     }
 

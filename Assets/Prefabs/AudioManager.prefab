@@ -57,6 +57,7 @@ MonoBehaviour:
   victoryFanfareClip: {fileID: 8300000, guid: f6e52df247ba8bb4dac54aa7b3a6b72f, type: 3}
   roundVictoryClip: {fileID: 8300000, guid: 305e31c9d5f61ce49a857d800e397767, type: 3}
   failureFanfareClip: {fileID: 8300000, guid: 57e6c5202b934104dac05d6d9bf8ad2b, type: 3}
+  menuClip: {fileID: 8300000, guid: ba1c9bfd39248d847b31ed24d5fedb7b, type: 3}
   pickupClip: {fileID: 8300000, guid: 7c82b4c60acb9e84b9dab4beb229fbde, type: 3}
   putdownClip: {fileID: 8300000, guid: a770e6d6a78803547825821c9c97c825, type: 3}
   invalidPlaceClip: {fileID: 8300000, guid: e70a1ba8a9ac82447bce4f5b6c7db6b3, type: 3}
@@ -80,7 +81,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1021842318570742991, guid: f4a48b61064926c43937ec1ea88865b7, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 77a43a451cfe5b048929a0014bba226d, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 1

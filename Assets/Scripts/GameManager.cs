@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.Instance.PlayRegularButtonClip();
         upgradeTypes = new UnitType[3];
         levelUpgradeTypes = new List<UnitType[]>();
         UM = FindObjectOfType<UIManager>();
