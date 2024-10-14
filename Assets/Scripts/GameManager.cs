@@ -1,299 +1,138 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    int level = 0;
-    int finalLevel = 4;
+    private const int MaxLevels = 5;  // Final level is now based on this constant
+    private int level = 0;
 
     private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
-
-    UnitType[] upgradeTypes;
-    List<UnitType[]> levelUpgradeTypes;
+    private List<UnitType[]> levelUpgradeTypes;
 
     public Sprite[] unitSprites;
 
     public static Dictionary<UnitType, Sprite> UnitTypeToSprite;
 
-    //public EventHandler<bool> GameOver;
-
     UIManager UM;
     BoardManager BM;
     AudioManager AM;
-    // Start is called before the first frame update
+
     void Start()
     {
-        upgradeTypes = new UnitType[3];
-        levelUpgradeTypes = new List<UnitType[]>();
-        UM = FindObjectOfType<UIManager>();
-        BM = FindObjectOfType<BoardManager>();
-        AM = FindObjectOfType<AudioManager>();
+        InitializeManagers();
+        SetupSpriteMap();
+        SetupUpgradeConfigurations();
+        SetupEnemyStartStates();
 
-        SetSpriteMap();
-
-        UM.SetActiveUpgradePanel(false);
-
-        //Spawn starting player units 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
-
         BM.SavePlayerUnitStartPositions();
 
-        PopulateEnemyStartStates();
         BM.GameOver += OnGameOver;
         LoadLevel();
     }
 
-    void SetSpriteMap()
+    void InitializeManagers()
     {
-        UnitTypeToSprite = new Dictionary<UnitType, Sprite>();
-        UnitTypeToSprite[UnitType.QueenBee] = unitSprites[0];
-        UnitTypeToSprite[UnitType.Beetle] = unitSprites[1];
-        UnitTypeToSprite[UnitType.Spider] = unitSprites[2];
-        UnitTypeToSprite[UnitType.Moth] = unitSprites[3];
-        UnitTypeToSprite[UnitType.WorkerBee] = unitSprites[4];
+        UM = FindObjectOfType<UIManager>();
+        BM = FindObjectOfType<BoardManager>();
+        AM = FindObjectOfType<AudioManager>();
+        UM.SetActiveUpgradePanel(false);
     }
 
-    void setUpgradeUnits()
+    void SetupSpriteMap()
     {
-        upgradeTypes = new UnitType[3];
-        upgradeTypes[0] = UnitType.Spider;
-        upgradeTypes[1] = UnitType.Moth;
-        upgradeTypes[2] = UnitType.Beetle;
-
-        levelUpgradeTypes.Add(upgradeTypes);
-
-        upgradeTypes = new UnitType[3];
-        upgradeTypes[0] = UnitType.QueenBee;
-        upgradeTypes[1] = UnitType.Beetle;
-        upgradeTypes[2] = UnitType.WorkerBee;
-
-        levelUpgradeTypes.Add(upgradeTypes);
-
-        upgradeTypes = new UnitType[3];
-        upgradeTypes[0] = UnitType.Moth;
-        upgradeTypes[1] = UnitType.Spider;
-        upgradeTypes[2] = UnitType.Beetle;
-
-        levelUpgradeTypes.Add(upgradeTypes);
-
-        upgradeTypes = new UnitType[3];
-        upgradeTypes[0] = UnitType.QueenBee;
-        upgradeTypes[1] = UnitType.Moth;
-        upgradeTypes[2] = UnitType.Spider;
-
-        levelUpgradeTypes.Add(upgradeTypes);
-
-        upgradeTypes = new UnitType[3];
-        upgradeTypes[0] = UnitType.Beetle;
-        upgradeTypes[1] = UnitType.QueenBee;
-        upgradeTypes[2] = UnitType.WorkerBee;
-
-        levelUpgradeTypes.Add(upgradeTypes);
-
-        UM.upgradePanel.SetUnitOptions(levelUpgradeTypes[level][0], levelUpgradeTypes[level][1], levelUpgradeTypes[level][2]);
+        UnitTypeToSprite = new Dictionary<UnitType, Sprite>
+        {
+            { UnitType.QueenBee, unitSprites[0] },
+            { UnitType.Beetle, unitSprites[1] },
+            { UnitType.Spider, unitSprites[2] },
+            { UnitType.Moth, unitSprites[3] },
+            { UnitType.WorkerBee, unitSprites[4] }
+        };
     }
 
-    private void PickUpgradeUnit(object sender, UnitType unitType)
+    void SetupUpgradeConfigurations()
+    {
+        levelUpgradeTypes = new List<UnitType[]>
+        {
+            new UnitType[] { UnitType.Spider, UnitType.Moth, UnitType.Beetle },
+            new UnitType[] { UnitType.QueenBee, UnitType.Beetle, UnitType.WorkerBee },
+            new UnitType[] { UnitType.Moth, UnitType.Spider, UnitType.Beetle },
+            new UnitType[] { UnitType.QueenBee, UnitType.Moth, UnitType.Spider },
+            new UnitType[] { UnitType.Beetle, UnitType.QueenBee, UnitType.WorkerBee }
+        };
+    }
+
+    void SetupEnemyStartStates()
+    {
+        levelEnemyStartStates = new Dictionary<Vector2Int, UnitType>[MaxLevels];
+
+        for (int i = 0; i < MaxLevels; i++)
+        {
+            levelEnemyStartStates[i] = GetEnemyUnitsForLevel(i);
+        }
+    }
+
+    Dictionary<Vector2Int, UnitType> GetEnemyUnitsForLevel(int level)
+    {
+        var enemyUnits = new Dictionary<Vector2Int, UnitType>();
+
+        switch (level)
+        {
+            case 0: 
+                enemyUnits.Add(new Vector2Int(7, 6), UnitType.WorkerBee);
+                break;
+
+            case 1: 
+                enemyUnits.Add(new Vector2Int(6, 3), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(7, 4), UnitType.Beetle);
+                break;
+
+            case 2: 
+                enemyUnits.Add(new Vector2Int(6, 2), UnitType.QueenBee);
+                enemyUnits.Add(new Vector2Int(7, 2), UnitType.Spider);
+                enemyUnits.Add(new Vector2Int(7, 3), UnitType.Moth);
+                break;
+
+            case 3:
+                enemyUnits.Add(new Vector2Int(6, 2), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(6, 4), UnitType.Beetle);
+                enemyUnits.Add(new Vector2Int(7, 2), UnitType.Moth);
+                enemyUnits.Add(new Vector2Int(7, 4), UnitType.QueenBee);
+                break;
+
+            case 4: 
+                enemyUnits.Add(new Vector2Int(6, 3), UnitType.QueenBee); 
+                enemyUnits.Add(new Vector2Int(5, 3), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(6, 2), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(6, 4), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(7, 3), UnitType.WorkerBee);
+                enemyUnits.Add(new Vector2Int(7, 5), UnitType.WorkerBee);
+                break;
+        }
+        return enemyUnits;
+    }
+
+    void PickUpgradeUnit(object sender, UnitType unitType)
     {
         UM.upgradePanel.UnitChosen -= PickUpgradeUnit;
-
-        Debug.Log($"Upgrade picked: {unitType}");
         BM.SpawnNewPlayerUnit(unitType);
-
-        AudioManager.Instance.PlayUpgradeButtonClip();
+        AM.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
         UM.StartRoundButton.SetActive(true);
         BM.setSelectionEnabled(true);
     }
 
-    void PopulateEnemyStartStates()
+    void LoadLevel()
     {
-        levelEnemyStartStates = new Dictionary<Vector2Int, UnitType>[finalLevel + 1];
-
-        Dictionary<Vector2Int, UnitType> FirstLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        // example enemy units
-        FirstLevelEnemyUnits[new Vector2Int(7, 6)] = UnitType.WorkerBee;
-
-        levelEnemyStartStates[0] = FirstLevelEnemyUnits;
-
-        Dictionary<Vector2Int, UnitType> SecondLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        // example enemy units
-        SecondLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
-        SecondLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
-
-        levelEnemyStartStates[1] = SecondLevelEnemyUnits;
-
-        Dictionary<Vector2Int, UnitType> ThirdLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        // example enemy units
-        ThirdLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.QueenBee;
-        ThirdLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Spider;
-        ThirdLevelEnemyUnits[new Vector2Int(7, 1)] = UnitType.Moth;
-
-        levelEnemyStartStates[2] = ThirdLevelEnemyUnits;
-
-        Dictionary<Vector2Int, UnitType> FourthLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        // example enemy units
-        FourthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
-        FourthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.Beetle;
-        FourthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.Moth;
-        FourthLevelEnemyUnits[new Vector2Int(6, 4)] = UnitType.QueenBee;
-
-        levelEnemyStartStates[3] = FourthLevelEnemyUnits;
-
-        Dictionary<Vector2Int, UnitType> FifthLevelEnemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        // example enemy units
-        FifthLevelEnemyUnits[new Vector2Int(6, 4)] = UnitType.WorkerBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 5)] = UnitType.WorkerBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 6)] = UnitType.WorkerBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 3)] = UnitType.WorkerBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 2)] = UnitType.QueenBee;
-        FifthLevelEnemyUnits[new Vector2Int(6, 1)] = UnitType.WorkerBee;
-
-        levelEnemyStartStates[4] = FifthLevelEnemyUnits;
-
-    }
-
-    //Now this is epic
-    void CrazyMode()
-    {
-        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
-        BM.SpawnNewPlayerUnit(UnitType.Beetle);
-        BM.SpawnNewPlayerUnit(UnitType.Spider);
-        BM.SpawnNewPlayerUnit(UnitType.Moth);
-        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
-        BM.SpawnNewPlayerUnit(UnitType.Beetle);
-        BM.SpawnNewPlayerUnit(UnitType.Spider);
-        BM.SpawnNewPlayerUnit(UnitType.Moth);
-        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
-        BM.SpawnNewPlayerUnit(UnitType.Beetle);
-        BM.SpawnNewPlayerUnit(UnitType.Spider);
-        BM.SpawnNewPlayerUnit(UnitType.Moth);
-        BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
-        BM.SpawnNewPlayerUnit(UnitType.QueenBee);
-        BM.SpawnNewPlayerUnit(UnitType.Beetle);   
-        BM.SavePlayerUnitStartPositions();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    void onRoundWon()
-    {
-        //Play victory fanfare
-        AM.PlayRoundVictoryFanfareClip();
-
-        //Wait 5 seconds then show continue button
-        StartCoroutine(WaitFor(6f, true));
-
-        //Load UI for victory. Showing health, score and next level buttons 
-
-        
-    }
-
-    void onRoundLost()
-    {
-        //Play defeat fanfare 
-        AM.PlayFailureFanfareClip();
-
-        //Wait 5 seconds then show continue button
-        StartCoroutine(WaitFor(10f, false));
-        //Load UI for loss. Showing health, score, retry and exit buttons
-
-        //When retry is pressed we go back to the planning phase and you can place units again
-        //Get board from saved board and use that to reset the board. Then pass in the same levels enemy dict
-
-        //When exit is pressed return to main menu 
-        
-    }
-
-    IEnumerator WaitFor(float seconds, bool playerWon)
-    {
-        Debug.Log("Waiting");
-        // Wait for 5 seconds
-        yield return new WaitForSeconds(seconds);
-        //When next level is pressed go to planning phase for next level. Load new units 
-        if (playerWon)
-        {
-            getNextLevel();
-        }
-        else
-        {
-            LoadLevel();
-        }
-    }
-
-    void onRoundOver(bool playerWon)
-    {
-        if (playerWon)
-        {
-            onRoundWon();
-        }
-        else
-        {
-            onRoundLost();
-        }
-    }
-
-    void onGameWon()
-    {
-        UM.StartRoundButton.SetActive(false);
-        Debug.Log("You won!");
-        UM.LoadCreditScene();
-    }
-
-    void getNextLevel()
-    {
-        level++;
-
-        if(level > finalLevel)
-        {
-            onGameWon();
-        }
-        else
-        {
-            LoadLevel();
-            if(level == finalLevel)
-            {
-                //CrazyMode();
-            }
-        }   
-    }
-
-    public void LoadLevel()
-    {
-        setUpgradeUnits();
-        //Load into planning phase 
-        AM.PlayPlanningPhaseClip();
-
-        //Reset the board
-        BM.ClearBoardUnits();
-
-        //Generate enemy positions for current level 
-        BM.LoadEnemyUnits(levelEnemyStartStates[level]);
-
-        //Spawn players from current save state
-        BM.LoadPlayerUnits();
-
-        //Display upgrade panel 
+        SetUpgradeUnitsForLevel();
+        PrepareBoardForNextLevel();
         if (level != 0)
         {
-            UM.SetActiveUpgradePanel(true);
-            UM.upgradePanel.UnitChosen += PickUpgradeUnit;
-            //Disable the next round button
-            UM.StartRoundButton.SetActive(false);
-            BM.setSelectionEnabled(false);
+            ShowUpgradePanel();
         }
         else
         {
@@ -301,24 +140,97 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void SetUpgradeUnitsForLevel()
+    {
+        if (level < levelUpgradeTypes.Count)
+        {
+            UM.upgradePanel.SetUnitOptions(levelUpgradeTypes[level][0], levelUpgradeTypes[level][1], levelUpgradeTypes[level][2]);
+        }
+    }
+
+    void PrepareBoardForNextLevel()
+    {
+        AM.PlayPlanningPhaseClip();
+        BM.ClearBoardUnits();
+        BM.LoadEnemyUnits(levelEnemyStartStates[level]);
+        BM.LoadPlayerUnits();
+    }
+
+    void ShowUpgradePanel()
+    {
+        UM.SetActiveUpgradePanel(true);
+        UM.upgradePanel.UnitChosen += PickUpgradeUnit;
+        UM.StartRoundButton.SetActive(false);
+        BM.setSelectionEnabled(false);
+    }
+
+    void OnRoundWon()
+    {
+        AM.PlayRoundVictoryFanfareClip();
+        StartCoroutine(WaitFor(6f, true));
+    }
+
+    void OnRoundLost()
+    {
+        AM.PlayFailureFanfareClip();
+        StartCoroutine(WaitFor(10f, false));
+    }
+
+    IEnumerator WaitFor(float seconds, bool playerWon)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (playerWon)
+        {
+            GetNextLevel();
+        }
+        else
+        {
+            LoadLevel();
+        }
+    }
+
+    void OnRoundOver(bool playerWon)
+    {
+        if (playerWon)
+        {
+            OnRoundWon();
+        }
+        else
+        {
+            OnRoundLost();
+        }
+    }
+
+    void GetNextLevel()
+    {
+        level++;
+        if (level >= MaxLevels)
+        {
+            OnGameWon();
+        }
+        else
+        {
+            LoadLevel();
+        }
+    }
+
+    void OnGameWon()
+    {
+        UM.StartRoundButton.SetActive(false);
+        UM.LoadCreditScene();
+    }
+
     public void StartLevel()
     {
-        //Disable the start level button
         UM.StartRoundButton.SetActive(false);
-        //Save the player positions
         BM.SavePlayerUnitStartPositions();
-        Debug.Log("Start Level"); 
         BM.StartRound();
-
-        AudioManager.Instance.PlayRegularButtonClip();
-
-        //Play the attack phase music 
+        AM.PlayRegularButtonClip();
         AM.PlaySimulationPhaseClip();
-        //call onStartRoundPressed on boardManager and pass along the enemy configuration   
     }
 
     private void OnGameOver(object sender, bool playerWon)
     {
-        onRoundOver(playerWon);
+        OnRoundOver(playerWon);
     }
 }
