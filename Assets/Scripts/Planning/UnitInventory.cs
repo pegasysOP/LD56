@@ -8,7 +8,7 @@ public class UnitInventory
     {
         Units = new Dictionary<UnitType, int>
         {
-            { UnitType.WorkerBee, 2 }, 
+            { UnitType.WorkerBee, 0 }, 
             { UnitType.Beetle, 0 },
             { UnitType.Moth, 0 },
             { UnitType.Spider, 0 },
@@ -40,11 +40,5 @@ public class UnitInventory
     public int GetUnitCount(UnitType unitType)
     {
         return Units.ContainsKey(unitType) ? Units[unitType] : 0;
-    }
-
-    public void DecrementUnit(UnitType unitType)
-    {
-        if (Units.ContainsKey(unitType) && Units[unitType] > 0)
-            Units[unitType]--;
     }
 }

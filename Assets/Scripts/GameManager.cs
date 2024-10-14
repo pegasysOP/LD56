@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     BoardManager BM;
     AudioManager AM;
 
+    private UnitInventory inventory;
+
     void Start()
     {
         InitializeManagers();
@@ -28,10 +30,21 @@ public class GameManager : MonoBehaviour
 
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
         BM.SpawnNewPlayerUnit(UnitType.WorkerBee);
+        InitialiseInventory();
         BM.SavePlayerUnitStartPositions();
 
         BM.GameOver += OnGameOver;
         LoadLevel();
+    }
+
+    void InitialiseInventory()
+    {
+        if (inventory == null)
+        {
+            inventory = new UnitInventory();
+        }
+        inventory.AddUnit(UnitType.WorkerBee);
+        inventory.AddUnit(UnitType.WorkerBee);
     }
 
     void InitializeManagers()
@@ -119,6 +132,7 @@ public class GameManager : MonoBehaviour
     void PickUpgradeUnit(object sender, UnitType unitType)
     {
         UM.upgradePanel.UnitChosen -= PickUpgradeUnit;
+        inventory.AddUnit(unitType);
         BM.SpawnNewPlayerUnit(unitType);
         AM.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
