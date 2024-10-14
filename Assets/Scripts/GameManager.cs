@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private const int MaxLevels = 5;  // Final level is now based on this constant
+    private const int MaxLevels = 5; 
     private int level = 0;
 
     private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
@@ -40,9 +40,7 @@ public class GameManager : MonoBehaviour
     void InitialiseInventory()
     {
         if (inventory == null)
-        {
             inventory = new UnitInventory();
-        }
         inventory.AddUnit(UnitType.WorkerBee);
         inventory.AddUnit(UnitType.WorkerBee);
     }
@@ -84,9 +82,7 @@ public class GameManager : MonoBehaviour
         levelEnemyStartStates = new Dictionary<Vector2Int, UnitType>[MaxLevels];
 
         for (int i = 0; i < MaxLevels; i++)
-        {
             levelEnemyStartStates[i] = GetEnemyUnitsForLevel(i);
-        }
     }
 
     Dictionary<Vector2Int, UnitType> GetEnemyUnitsForLevel(int level)
@@ -145,21 +141,15 @@ public class GameManager : MonoBehaviour
         SetUpgradeUnitsForLevel();
         PrepareBoardForNextLevel();
         if (level != 0)
-        {
             ShowUpgradePanel();
-        }
         else
-        {
             UM.StartRoundButton.SetActive(true);
-        }
     }
 
     void SetUpgradeUnitsForLevel()
     {
         if (level < levelUpgradeTypes.Count)
-        {
             UM.upgradePanel.SetUnitOptions(levelUpgradeTypes[level][0], levelUpgradeTypes[level][1], levelUpgradeTypes[level][2]);
-        }
     }
 
     void PrepareBoardForNextLevel()
@@ -194,38 +184,26 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         if (playerWon)
-        {
             GetNextLevel();
-        }
         else
-        {
             LoadLevel();
-        }
     }
 
     void OnRoundOver(bool playerWon)
     {
         if (playerWon)
-        {
             OnRoundWon();
-        }
         else
-        {
             OnRoundLost();
-        }
     }
 
     void GetNextLevel()
     {
         level++;
         if (level >= MaxLevels)
-        {
             OnGameWon();
-        }
         else
-        {
             LoadLevel();
-        }
     }
 
     void OnGameWon()
