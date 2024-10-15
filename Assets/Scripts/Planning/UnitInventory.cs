@@ -41,4 +41,17 @@ public class UnitInventory
     {
         return Units.ContainsKey(unitType) ? Units[unitType] : 0;
     }
+
+    public bool isEmpty(UnitType unitType)
+    {
+        return Units[unitType] == 0;
+    }
+
+    public bool isInventoryEmpty()
+    {
+        foreach( UnitType unitType in Units.Keys) {
+            if(!isEmpty(unitType))
+                return false;
+        }
+        return true;
 }
