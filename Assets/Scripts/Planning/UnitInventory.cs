@@ -49,9 +49,11 @@ public class UnitInventory
 
     public bool isInventoryEmpty()
     {
-        foreach( UnitType unitType in Units.Keys) {
-            if(!isEmpty(unitType))
+        foreach (UnitType unitType in Units.Keys)
+        {
+            if (!isEmpty(unitType))
                 return false;
         }
         return true;
+    }
 }
