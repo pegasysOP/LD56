@@ -44,7 +44,7 @@ public class UnitInventory
 
     public bool isEmpty(UnitType unitType)
     {
-        return Units[unitType] == 0;
+        return GetUnitCount(unitType) == 0;
     }
 
     public bool isInventoryEmpty()
