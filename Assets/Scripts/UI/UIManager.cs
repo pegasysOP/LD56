@@ -76,4 +76,9 @@ public class UIManager : MonoBehaviour
     {
         upgradePanel.gameObject.SetActive(isActive);
     }
+
+    public void SetActiveStartButton(bool isActive)
+    {
+        StartRoundButton.gameObject.SetActive(isActive);
+    }
 }
