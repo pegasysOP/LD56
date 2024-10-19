@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public Sprite[] unitSprites;
     public static Dictionary<UnitType, Sprite> UnitTypeToSprite;
+
+    public Button[] buttons;
 
     UIManager UM;
     BoardManager BM;
@@ -35,6 +41,7 @@ public class GameManager : MonoBehaviour
         SetupUpgradeConfigurations();
         SetupEnemyStartStates();
         InitializeInventory();
+        SetupInventoryUI();
         BM.SavePlayerUnitStartPositions();
     }
 
@@ -60,6 +67,33 @@ public class GameManager : MonoBehaviour
             { UnitType.WorkerBee, unitSprites[4] }
         };
     }
+
+    void SetupInventoryUI()
+    {
+        var unitTypes = new List<UnitType>(UnitTypeToSprite.Keys);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            UnitType unitType = unitTypes[i];
+            Sprite unitSprite = UnitTypeToSprite[unitType];
+
+            Image childImage = buttons[i].transform.Find("Unit Icon").GetComponent<Image>();
+            if (childImage != null)
+            {
+                childImage.sprite = unitSprite;
+            }
+
+            TextMeshProUGUI amountText = buttons[i].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
+            amountText.text = inventory.Units[unitType].ToString();
+
+            TextMeshProUGUI buttonText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = unitType.ToString();
+            }
+        }
+    }
+
 
     void SetupUpgradeConfigurations()
     {
@@ -93,27 +127,20 @@ public class GameManager : MonoBehaviour
         inventory.AddUnit(UnitType.WorkerBee);
     }
 
-    void HandleUnitSelection()
+    public void HandleUnitSelection(int index)
     {
+        UnitType selectedUnit = (UnitType)index;
         if (currentDraggingUnit != null || inventory.isInventoryEmpty()) return;
 
-        UnitType? selectedUnit = GetSelectedUnitFromInput();
-        if (selectedUnit.HasValue && inventory.CanPlaceUnit(selectedUnit.Value))
+        if (inventory.CanPlaceUnit(selectedUnit))
         {
-            BM.SpawnNewPlayerUnit(selectedUnit.Value);
-            inventory.PlaceUnit(selectedUnit.Value);
+            BM.SpawnNewPlayerUnit(selectedUnit);
+            inventory.PlaceUnit(selectedUnit);
             CheckIfAllUnitsPlaced();
-        }
-    }
 
-    UnitType? GetSelectedUnitFromInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) return UnitType.QueenBee;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) return UnitType.Beetle;
-        if (Input.GetKeyDown(KeyCode.Alpha3)) return UnitType.Spider;
-        if (Input.GetKeyDown(KeyCode.Alpha4)) return UnitType.Moth;
-        if (Input.GetKeyDown(KeyCode.Alpha5)) return UnitType.WorkerBee;
-        return null;
+            TextMeshProUGUI amountText = buttons[index].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
+            amountText.text = inventory.Units[selectedUnit].ToString();
+        }
     }
 
     void CheckIfAllUnitsPlaced()
@@ -124,11 +151,6 @@ public class GameManager : MonoBehaviour
             isPlaying = true;
             BM.SavePlayerUnitStartPositions();
         }
-    }
-
-    void Update()
-    {
-        HandleUnitSelection();
     }
 
     Dictionary<Vector2Int, UnitType> GetEnemyUnitsForLevel(int level)
@@ -168,12 +190,24 @@ public class GameManager : MonoBehaviour
         return enemyUnits;
     }
 
+    int GetButtonForUnitType(UnitType type)
+    {
+        if (type == UnitType.QueenBee) return 0;
+        else if (type == UnitType.Beetle) return 1;
+        else if (type == UnitType.Spider) return 2;
+        else if (type == UnitType.Moth) return 3;
+        else return 4;
+    }
+
     void PickUpgradeUnit(object sender, UnitType unitType)
     {
         UM.upgradePanel.UnitChosen -= PickUpgradeUnit;
         inventory.AddUnit(unitType);
         AM.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
+        UM.SetActiveInventoryPanel(true);
+        TextMeshProUGUI amountText = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
+        amountText.text = inventory.Units[unitType].ToString();
         BM.setSelectionEnabled(true);
         isPlaying = false;
         UM.SetActiveStartButton(false);
@@ -207,8 +241,9 @@ public class GameManager : MonoBehaviour
     }
 
     void ShowUpgradePanel()
-    {
+    { 
         UM.SetActiveUpgradePanel(true);
+        UM.SetActiveInventoryPanel(false);
         UM.upgradePanel.UnitChosen += PickUpgradeUnit;
         UM.SetActiveStartButton(false); 
         BM.setSelectionEnabled(false);
@@ -217,6 +252,7 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         UM.StartRoundButton.SetActive(false);
+        UM.SetActiveInventoryPanel(false);
         BM.SavePlayerUnitStartPositions();
         BM.StartRound();
         AM.PlayRegularButtonClip();

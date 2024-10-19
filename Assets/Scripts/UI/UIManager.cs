@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
 
     public UpgradePanel upgradePanel;
     public GameObject StartRoundButton;
+    public GameObject InventoryPanel;
 
     private BoardManager BM;
 
@@ -75,6 +76,11 @@ public class UIManager : MonoBehaviour
     public void SetActiveUpgradePanel(bool isActive)
     {
         upgradePanel.gameObject.SetActive(isActive);
+    }
+
+    public void SetActiveInventoryPanel(bool isActive)
+    {
+        InventoryPanel.gameObject.SetActive(isActive);
     }
 
     public void SetActiveStartButton(bool isActive)
