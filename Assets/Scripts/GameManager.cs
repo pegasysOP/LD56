@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
             { UnitType.Beetle, unitSprites[1] },
             { UnitType.Spider, unitSprites[2] },
             { UnitType.Moth, unitSprites[3] },
-            { UnitType.WorkerBee, unitSprites[4] }
+            { UnitType.WorkerBee, unitSprites[4] },
+            { UnitType.FireAnt, unitSprites[5] }
         };
     }
 
@@ -87,7 +88,7 @@ public class GameManager : MonoBehaviour
             TextMeshProUGUI buttonText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = unitType.ToString();
+                buttonText.text = UM.GetUnitNameText(unitType);
             }
         }
     }

@@ -35,6 +35,27 @@ public class UIManager : MonoBehaviour
         
     }
 
+    public string GetUnitNameText(UnitType unitType)
+    {
+        switch (unitType)
+        {
+            case UnitType.Beetle:
+                return "Beetle";
+            case UnitType.Moth:
+                return "Moth";
+            case UnitType.QueenBee:
+                return "Queen Bee";
+            case UnitType.Spider:
+                return "Spider";
+            case UnitType.WorkerBee:
+                return "Worker Bee";
+            case UnitType.FireAnt:
+                return "Fire Ant";
+            default:
+                return "x";
+        }
+    }
+
     public void LoadGameScene()
     {
         AudioManager.Instance.PlayRegularButtonClip();

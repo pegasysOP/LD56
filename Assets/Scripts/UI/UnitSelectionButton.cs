@@ -28,7 +28,8 @@ public class UnitSelectionButton : MonoBehaviour
                 return "Spider";
             case UnitType.WorkerBee:
                 return "Worker Bee";
-
+            case UnitType.FireAnt:
+                return "Fire Ant";
             default:
                 return "x";
         }
