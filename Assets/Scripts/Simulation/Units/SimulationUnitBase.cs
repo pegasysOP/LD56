@@ -10,6 +10,7 @@ public abstract class SimulationUnitBase
     protected int range;
     protected int attackTime;
     protected int specialTime;
+    protected int originalDefence;
 
     // active stats
     protected int currentHp;
@@ -18,6 +19,7 @@ public abstract class SimulationUnitBase
 
     protected int slowCounter = -1;
     protected int confusionCounter = -1;
+    protected int burnedCounter = -1;
 
     protected bool isPlayerUnit;
     protected SimulationUnitBase currentTarget;
@@ -36,6 +38,8 @@ public abstract class SimulationUnitBase
         attackCounter = 0;
         specialCounter = 0;
         currentHp = maxHp;
+        originalDefence = defence;
+
     }
 
     /// <summary>
@@ -52,7 +56,16 @@ public abstract class SimulationUnitBase
             }
         }
 
-        if(confusionCounter > 0)
+        if (burnedCounter > 0)
+        {
+            burnedCounter--;
+            if(burnedCounter == 0)
+            {
+                Buff();
+            }
+        }
+
+        if (confusionCounter > 0)
         {
             confusionCounter--;
         }
@@ -120,6 +133,19 @@ public abstract class SimulationUnitBase
         }
     }
 
+    public void SetBurnedCounter(int value)
+    {
+        if (burnedCounter > 0)
+        {
+            return;
+        }
+
+        if (value > burnedCounter)
+        {
+            burnedCounter = value;
+        }
+    }
+
     public virtual bool TakeDamage(int amount)
     {
         int realDamage = amount - defence;
@@ -142,6 +168,16 @@ public abstract class SimulationUnitBase
             currentHp = this.maxHp;
         }
     } 
+
+    public void Debuff()
+    {
+        defence = originalDefence / 2;
+    }
+
+    public void Buff()
+    {
+        defence = originalDefence;
+    }
 
     /// <summary>
     /// Should be used to set up any base stats

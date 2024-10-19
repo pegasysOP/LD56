@@ -4,5 +4,6 @@ public enum UnitType
     Beetle,
     Spider,
     Moth,
-    WorkerBee
+    WorkerBee,
+    FireAnt
 }
