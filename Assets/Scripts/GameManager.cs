@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -219,7 +217,11 @@ public class GameManager : MonoBehaviour
         PrepareBoardForNextLevel();
 
         if (level != 0)
-            ShowUpgradePanel();
+        {
+            UM.upgradePanel.UnitChosen += PickUpgradeUnit;
+            UM.ShowUpgradePanel();
+        }
+            
     }
 
     void SetUpgradeUnitsForLevel()
@@ -238,15 +240,6 @@ public class GameManager : MonoBehaviour
         BM.LoadEnemyUnits(levelEnemyStartStates[level]);
         BM.LoadPlayerUnits();
         UM.SetActiveStartButton(false);  
-    }
-
-    void ShowUpgradePanel()
-    { 
-        UM.SetActiveUpgradePanel(true);
-        UM.SetActiveInventoryPanel(false);
-        UM.upgradePanel.UnitChosen += PickUpgradeUnit;
-        UM.SetActiveStartButton(false); 
-        BM.setSelectionEnabled(false);
     }
 
     public void StartLevel()

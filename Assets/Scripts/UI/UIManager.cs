@@ -87,4 +87,12 @@ public class UIManager : MonoBehaviour
     {
         StartRoundButton.gameObject.SetActive(isActive);
     }
+
+    public void ShowUpgradePanel()
+    {
+        SetActiveUpgradePanel(true);
+        SetActiveInventoryPanel(false);
+        SetActiveStartButton(false);
+        BM.setSelectionEnabled(false);
+    }
 }
