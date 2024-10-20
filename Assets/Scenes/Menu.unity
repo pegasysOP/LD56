@@ -1325,6 +1325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePanel: {fileID: 0}
   StartRoundButton: {fileID: 0}
+  InventoryPanel: {fileID: 0}
 --- !u!1 &968805645
 GameObject:
   m_ObjectHideFlags: 0

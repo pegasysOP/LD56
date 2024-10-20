@@ -208,9 +208,12 @@ public class Unit : MonoBehaviour
                 return "spider_idle";
             case UnitType.WorkerBee:
                 return "worker_bee_idle";
+            case UnitType.FireAnt:
+                return "fire_ant_idle";
+
 
             default:
-                return "beetle_idle";
+                return "moth_idle";
         }
     }
 
@@ -228,6 +231,8 @@ public class Unit : MonoBehaviour
                 return "spider_jump";
             case UnitType.WorkerBee:
                 return "worker_bee_jump";
+            case UnitType.FireAnt:
+                return "fire_ant_jump";
 
             default:
                 return "beetle_jump";
@@ -246,6 +251,8 @@ public class Unit : MonoBehaviour
                 return "queen_bee_special";
             case UnitType.Spider:
                 return "spider_special";
+            case UnitType.FireAnt:
+                return "fire_ant_special";
 
             default:
                 return "beetle_special";

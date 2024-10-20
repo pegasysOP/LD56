@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     void SetupUpgradeConfigurations()
     {
         levelUpgradeTypes = new List<UnitType[]>
@@ -195,7 +194,8 @@ public class GameManager : MonoBehaviour
         else if (type == UnitType.Beetle) return 1;
         else if (type == UnitType.Spider) return 2;
         else if (type == UnitType.Moth) return 3;
-        else return 4;
+        else if (type == UnitType.WorkerBee) return 4;
+        else return 5;
     }
 
     void PickUpgradeUnit(object sender, UnitType unitType)

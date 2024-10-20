@@ -8,11 +8,12 @@ public class UnitInventory
     {
         Units = new Dictionary<UnitType, int>
         {
-            { UnitType.WorkerBee, 0 }, 
+             { UnitType.QueenBee, 0 },
             { UnitType.Beetle, 0 },
-            { UnitType.Moth, 0 },
             { UnitType.Spider, 0 },
-            { UnitType.QueenBee, 0 }
+            { UnitType.Moth, 0 },
+           { UnitType.WorkerBee, 0 },
+            { UnitType.FireAnt, 1 }
         };
     }
 
