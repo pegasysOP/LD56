@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
                 childImage.sprite = unitSprite;
             }
 
+            SetInventoryUnitColour(unitType, childImage);
+
             TextMeshProUGUI amountText = buttons[i].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
             amountText.text = inventory.Units[unitType].ToString();
 
@@ -138,6 +140,9 @@ public class GameManager : MonoBehaviour
 
             TextMeshProUGUI amountText = buttons[index].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
             amountText.text = inventory.Units[selectedUnit].ToString();
+
+            Image childImage = buttons[GetButtonForUnitType(selectedUnit)].transform.Find("Unit Icon").GetComponent<Image>();
+            SetInventoryUnitColour(selectedUnit, childImage);
         }
     }
 
@@ -148,6 +153,18 @@ public class GameManager : MonoBehaviour
             UM.SetActiveStartButton(true);  
             isPlaying = true;
             BM.SavePlayerUnitStartPositions();
+        }
+    }
+
+    void SetInventoryUnitColour(UnitType unitType, Image image)
+    {
+        if (inventory.GetUnitCount(unitType) == 0)
+        {
+            image.color = new Color(0.5f, 0.5f, 0.5f, 1f);  // Darken the sprite (greyed out)
+        }
+        else
+        {
+            image.color = Color.white;  // Restore to normal color
         }
     }
 
@@ -205,8 +222,13 @@ public class GameManager : MonoBehaviour
         AM.PlayUpgradeButtonClip();
         UM.SetActiveUpgradePanel(false);
         UM.SetActiveInventoryPanel(true);
+
         TextMeshProUGUI amountText = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
         amountText.text = inventory.Units[unitType].ToString();
+        
+        Image image = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Icon").GetComponent<Image>();
+        SetInventoryUnitColour(unitType, image);
+
         BM.setSelectionEnabled(true);
         isPlaying = false;
         UM.SetActiveStartButton(false);
