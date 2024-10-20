@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public UpgradePanel upgradePanel;
     public GameObject StartRoundButton;
     public GameObject InventoryPanel;
+    public GameObject InstructionPanel;
 
     private BoardManager BM;
 
@@ -115,5 +116,20 @@ public class UIManager : MonoBehaviour
         SetActiveInventoryPanel(false);
         SetActiveStartButton(false);
         BM.setSelectionEnabled(false);
+    }
+
+    public void SetInformationPanelActive()
+    {
+        if (InstructionPanel.activeInHierarchy)
+        {
+            InstructionPanel.SetActive(false);
+            
+        }
+        else
+        {
+            InstructionPanel.SetActive(true);
+            //upgradePanel.gameObject.SetActive(false);
+            //StartRoundButton.SetActive(false);
+        }
     }
 }
