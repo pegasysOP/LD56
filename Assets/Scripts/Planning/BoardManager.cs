@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BoardManager : MonoBehaviour
 {
@@ -23,26 +21,23 @@ public class BoardManager : MonoBehaviour
     public Transform unitContainer;
     public Dictionary<Vector2Int, Unit> ActiveUnits = new Dictionary<Vector2Int, Unit>();
 
+    // == Private Variables ==
     private Tile[,] board;
-
-    private AudioManager AM;
-
+    private AudioManager audioManager;
     private readonly int height = 8;
     private readonly int width = 8;
 
     private bool isAttached = false;
     private Unit selectedUnit = null;
-    //private Vector3 offset;
 
     private Dictionary<Vector2Int, UnitType> playerUnitsStartState = new Dictionary<Vector2Int, UnitType>();
     private Dictionary<Vector2Int, UnitType> enemyUnitsStartState = new Dictionary<Vector2Int, UnitType>();
 
     public static BoardManager Instance;
-
     public EventHandler<bool> GameOver;
-
     private bool selectionEnabled = true;
 
+    // == MonoBehaviour Methods ==
     private void Awake()
     {
         if (Instance == null)
@@ -59,21 +54,21 @@ public class BoardManager : MonoBehaviour
         GenerateBoard();
     }
 
-    void Update()
-    {
-        DragUnit();
-    }
-
     private void Start()
     {
-        AM = FindObjectOfType<AudioManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
-    public void setSelectionEnabled(bool shouldEnable)
+    void Update()
     {
-        selectionEnabled = shouldEnable;
+        HandleUnitDragging();
     }
 
+    // == Board Setup Methods ==
+
+    /// <summary>
+    /// Generates the game board by instantiating tile prefabs.
+    /// </summary>
     void GenerateBoard()
     {
         for (int x = 0; x < width; x++)
@@ -88,6 +83,11 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    // == Unit Management Methods ==
+
+    /// <summary>
+    /// Spawns a new player unit in the next available slot on the board.
+    /// </summary>
     public Unit SpawnNewPlayerUnit(UnitType unitType)
     {
         // spawn in next free slot
@@ -104,6 +104,22 @@ public class BoardManager : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Spawns a new player unit at the specified position.
+    /// </summary>
+    public Unit SpawnNewPlayerUnit(UnitType unitType, Vector2Int position)
+    {
+        if (IsValidTile(position) && IsTileEmpty(position))
+        {
+            return SpawnUnit(position, unitType, true);
+        }
+        Debug.Log("Invalid position to place unit");
+        return null;
+    }
+
+    /// <summary>
+    /// Spawns a unit of the specified type at a given location.
+    /// </summary>
     private Unit SpawnUnit(Vector2Int location, UnitType unitType, bool player)
     {
         Unit unit = Instantiate(unitPrefab, unitContainer);
@@ -116,9 +132,26 @@ public class BoardManager : MonoBehaviour
         return unit;
     }
 
-    void DragUnit()
+    /// <summary>
+    /// Removes all units from the board.
+    /// </summary>
+    public void ClearBoardUnits()
+    {
+        ActiveUnits.Clear();
+
+        for (int i = unitContainer.childCount - 1; i >= 0; i--)
+            DestroyImmediate(unitContainer.GetChild(i).gameObject);
+    }
+
+    // == Drag and Drop Unit Management ==
+
+    /// <summary>
+    /// Handles unit dragging behavior, including placing and swapping units.
+    /// </summary>
+    void HandleUnitDragging()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
         if (selectionEnabled && Input.GetMouseButtonDown(0))
         {
             //Check that we are clicking on a unit and not just the board
@@ -126,19 +159,17 @@ public class BoardManager : MonoBehaviour
             {
                 //Get the tile this unit was attached to and remove it from that tile.
                 Tile tile = GetNearestTile(hit.transform.position.x, hit.transform.position.z);
-                if (tile.IsPlayerSpace) // only move if the space is in the player selection
+                if (tile.IsPlayerSpace)
                 {
-                    tile.currentUnit = null; // This tile no longer holds the unit
+                    tile.currentUnit = null;
 
                     isAttached = true;
                     selectedUnit = hit.transform.GetComponent<Unit>();
                     selectedUnit.previousPosition = selectedUnit.transform.position;
 
-                    //offset = selectedUnit.transform.position - hit.point;
-
                     ShowTileIndicators(true);
 
-                    AM.PlayPickUpClip();
+                    audioManager.PlayPickUpClip();
                 }
             }
         }
@@ -172,13 +203,13 @@ public class BoardManager : MonoBehaviour
                         {
                             Debug.Log("Successfully placed unit.");
                             newTile.currentUnit = selectedUnit;
-                            AM.PlayPutDownClip();
+                            audioManager.PlayPutDownClip();
                         }
                         else
                         {
                             Debug.Log("Could not place unit on tile. Reverting to previous position.");
                             PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
-                            AM.PlayInvalidPlacementClip();
+                            audioManager.PlayInvalidPlacementClip();
                         }
                     }
                     else // otherwise swap
@@ -202,20 +233,20 @@ public class BoardManager : MonoBehaviour
 
                         newTile.currentUnit = selectedUnit;
                         originalTile.currentUnit = otherUnit;
-                        AM.PlayPutDownClip();
+                        audioManager.PlayPutDownClip();
                     }
                 }
                 else
                 {
                     Debug.Log("Tile is already occupied. Reverting to previous position.");
                     PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
-                    AM.PlayInvalidPlacementClip();
+                    audioManager.PlayInvalidPlacementClip();
                 }
             }
             else
             {
                 PlaceUnit(selectedUnit, selectedUnit.previousPosition.x, selectedUnit.previousPosition.z);
-                AM.PlayInvalidPlacementClip();
+                audioManager.PlayInvalidPlacementClip();
             }
 
             isAttached = false;
@@ -225,6 +256,91 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    // == Tile Management Methods ==
+
+    /// <summary>
+    /// Checks if the given tile position is valid within the player area.
+    /// </summary>
+    public bool IsValidTile(Vector2Int tilePosition)
+    {
+        return tilePosition.x >= 0 && tilePosition.x < 3 && tilePosition.y >= 0 && tilePosition.y < height;
+    }
+
+    /// <summary>
+    /// Checks if the given tile position is empty (no unit present).
+    /// </summary>
+    public bool IsTileEmpty(Vector2Int tilePosition)
+    {
+        Tile tile = board[tilePosition.x, tilePosition.y];
+        return tile.currentUnit == null;
+    }
+
+    /// <summary>
+    /// Finds the nearest tile to the given world coordinates.
+    /// </summary>
+    public Tile GetNearestTile(float x, float y)
+    {
+        // out of the bounds of the board (should never happen as raycast would return null)
+        if (x < 0 || x >= width || y < 0 || y >= height)
+            return null;
+
+        int boardX = Mathf.Clamp(Mathf.FloorToInt(x), 0, width - 1);
+        int boardY = Mathf.Clamp(Mathf.FloorToInt(y), 0, height - 1);
+
+        return board[boardX, boardY];
+    }
+
+
+    /// <summary>
+    /// Gets the unit on the tile specified if it is present
+    /// </summary>
+    public Unit GetUnitAtTile(int x, int y)
+    {
+        Tile t = GetNearestTile(x, y);
+        if (t.currentUnit != null)
+            return t.currentUnit;// board[x, y].unit;
+
+        return null;
+    }
+
+    /// <summary>
+    /// Places a unit on a specific tile and updates its position.
+    /// </summary>
+    public bool PlaceUnit(Unit unit, float x, float y)
+    {
+        if (x < 0 || y < 0 || x > width || y >= height)
+        {
+            Debug.Log("Invalid coordinate");
+            return false;
+        }
+
+        Tile tile = GetNearestTile(x, y);
+        if (tile == null)
+        {
+            return false;
+        }
+
+        // Check if the target tile already has a unit
+        if (tile.currentUnit != null)
+        {
+            //TODO: Do we want invalid clip here. If they should be swapped
+            Debug.Log("There is already a unit here");
+            return false;
+        }
+
+        unit.transform.position = new Vector3(x, 0f, y);
+        GetNearestTile(unit.previousPosition.x, unit.previousPosition.z).currentUnit = null;
+        unit.previousPosition = new Vector3(x, 0f, y);
+        tile.currentUnit = unit;
+
+        return true;
+    }
+
+    // == Gameplay Event Methods ==
+
+    /// <summary>
+    /// Saves the starting positions of all player units.
+    /// </summary>
     public void SavePlayerUnitStartPositions()
     {
         playerUnitsStartState.Clear();
@@ -242,84 +358,9 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public Unit GetUnitAtTile(int x, int y)
-    {
-        Tile t = GetNearestTile(x, y);
-        if (t.currentUnit != null)
-            return t.currentUnit;// board[x, y].unit;
-
-        return null;
-    }
-
-    public Tile GetNearestTile(float x, float y)
-    {
-        // out of the bounds of the board (should never happen as raycast would return null)
-        if (x < 0 || x >= width || y < 0 || y >= height)
-            return null;
-
-        int boardX = Mathf.Clamp(Mathf.FloorToInt(x), 0, width - 1);
-        int boardY = Mathf.Clamp(Mathf.FloorToInt(y), 0, height - 1);
-
-        return board[boardX, boardY];
-    }
-
-    public bool PlaceUnit(Unit unit, float x, float y)
-    {
-        if (x < 0 || y < 0 || x > width || y >= height)
-        {
-            Debug.Log("Invalid coordinate");
-            return false;
-        }
-
-        Tile tile = GetNearestTile(x, y);
-        if (tile == null)
-        {
-            return false;
-        }
-            
-        // Check if the target tile already has a unit
-        if (tile.currentUnit != null)
-        {
-            //TODO: Do we want invalid clip here. If they should be swapped
-            Debug.Log("There is already a unit here");
-            return false;
-        }
-
-        unit.transform.position = new Vector3(x, 0f, y);
-        GetNearestTile(unit.previousPosition.x, unit.previousPosition.z).currentUnit = null;
-        unit.previousPosition = new Vector3(x, 0f, y);
-        tile.currentUnit = unit;
-
-        return true;
-    }
-
-    public void ClearBoardUnits()
-    {
-        ActiveUnits.Clear();
-
-        for (int i = unitContainer.childCount - 1; i >= 0; i--)
-            DestroyImmediate(unitContainer.GetChild(i).gameObject);
-    }
-
-    public void LoadPlayerUnits()
-    {
-        foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in playerUnitsStartState)
-            ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, true);
-
-        selectionEnabled = true;
-    }
-
-    public void LoadEnemyUnits(Dictionary<Vector2Int, UnitType> enemyUnitsStartState)
-    {
-        this.enemyUnitsStartState.Clear();
-
-        foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in enemyUnitsStartState)
-        {
-            this.enemyUnitsStartState[unitLocation.Key] = unitLocation.Value;
-            ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, false);
-        }
-    }    
-
+    /// <summary>
+    /// Starts the round by initiating the simulation.
+    /// </summary>
     public void StartRound()
     {
         if (playerUnitsStartState == null || playerUnitsStartState.Count < 1)
@@ -334,6 +375,9 @@ public class BoardManager : MonoBehaviour
         simulation.StartSimulation(playerUnitsStartState, enemyUnitsStartState);
     }
 
+    /// <summary>
+    /// Handles the end of the simulation
+    /// </summary>
     private void OnGameOver(object sender, bool won)
     {
         simulation.GameOver -= OnGameOver;
@@ -346,9 +390,48 @@ public class BoardManager : MonoBehaviour
         GameOver?.Invoke(sender, won);
     }
 
+    /// <summary>
+    /// Spanws the Player Units in the saved positions from the start of the level
+    /// </summary>
+    public void LoadPlayerUnits()
+    {
+        foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in playerUnitsStartState)
+            ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, true);
+
+        selectionEnabled = true;
+    }
+
+    /// <summary>
+    /// Spanws the Player Units in the positions for each level
+    /// </summary>
+    public void LoadEnemyUnits(Dictionary<Vector2Int, UnitType> enemyUnitsStartState)
+    {
+        this.enemyUnitsStartState.Clear();
+
+        foreach (KeyValuePair<Vector2Int, UnitType> unitLocation in enemyUnitsStartState)
+        {
+            this.enemyUnitsStartState[unitLocation.Key] = unitLocation.Value;
+            ActiveUnits[unitLocation.Key] = SpawnUnit(unitLocation.Key, unitLocation.Value, false);
+        }
+    }
+
+
+    // == User Interface Methods ==
+
+    /// <summary>
+    /// Shows or hides tile indicators.
+    /// </summary>
     private void ShowTileIndicators(bool enabled)
     {
         foreach (Tile tile in board)
             tile.ShowIndicator(enabled);
+    }
+
+    /// <summary>
+    /// Enables or disables the selection of units
+    /// </summary>
+    public void setSelectionEnabled(bool shouldEnable)
+    {
+        selectionEnabled = shouldEnable;
     }
 }
