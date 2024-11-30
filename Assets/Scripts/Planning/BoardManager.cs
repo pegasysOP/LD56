@@ -430,7 +430,7 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// Enables or disables the selection of units
     /// </summary>
-    public void setSelectionEnabled(bool shouldEnable)
+    public void SetSelectionEnabled(bool shouldEnable)
     {
         selectionEnabled = shouldEnable;
     }

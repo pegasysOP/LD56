@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,13 +17,23 @@ public class GameManager : MonoBehaviour
 
     public Button[] buttons;
 
-    UIManager UM;
-    BoardManager BM;
-    AudioManager AM;
+    HudManager hudManager;
+    BoardManager boardManager;
+    AudioManager audioManager;
 
     private UnitInventory inventory;
     private GameObject currentDraggingUnit = null;
     private bool isPlaying = false;
+
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -40,18 +49,18 @@ public class GameManager : MonoBehaviour
         SetupEnemyStartStates();
         InitializeInventory();
         SetupInventoryUI();
-        BM.SavePlayerUnitStartPositions();
+        boardManager.SavePlayerUnitStartPositions();
     }
 
     void InitializeManagers()
     {
-        UM = FindObjectOfType<UIManager>();
-        BM = FindObjectOfType<BoardManager>();
-        AM = FindObjectOfType<AudioManager>();
+        hudManager = FindObjectOfType<HudManager>();
+        boardManager = FindObjectOfType<BoardManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
-        UM.SetActiveUpgradePanel(false);
-        UM.SetActiveStartButton(false);  
-        BM.GameOver += OnGameOver;
+        hudManager.SetActiveUpgradePanel(false);
+        hudManager.SetActiveStartButton(false);  
+        boardManager.GameOver += OnGameOver;
     }
 
     void SetupSpriteMap()
@@ -90,7 +99,7 @@ public class GameManager : MonoBehaviour
             TextMeshProUGUI buttonText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = UM.GetUnitNameText(unitType);
+                buttonText.text = hudManager.GetUnitNameText(unitType);
             }
         }
     }
@@ -134,7 +143,7 @@ public class GameManager : MonoBehaviour
 
         if (inventory.CanPlaceUnit(selectedUnit))
         {
-            BM.SpawnNewPlayerUnit(selectedUnit);
+            boardManager.SpawnNewPlayerUnit(selectedUnit);
             inventory.PlaceUnit(selectedUnit);
             CheckIfAllUnitsPlaced();
 
@@ -150,9 +159,9 @@ public class GameManager : MonoBehaviour
     {
         if (inventory.isInventoryEmpty() && !isPlaying)
         {
-            UM.SetActiveStartButton(true);  
+            hudManager.SetActiveStartButton(true);  
             isPlaying = true;
-            BM.SavePlayerUnitStartPositions();
+            boardManager.SavePlayerUnitStartPositions();
         }
     }
 
@@ -217,11 +226,11 @@ public class GameManager : MonoBehaviour
 
     void PickUpgradeUnit(object sender, UnitType unitType)
     {
-        UM.upgradePanel.UnitChosen -= PickUpgradeUnit;
+        hudManager.upgradePanel.UnitChosen -= PickUpgradeUnit;
         inventory.AddUnit(unitType);
-        AM.PlayUpgradeButtonClip();
-        UM.SetActiveUpgradePanel(false);
-        UM.SetActiveInventoryPanel(true);
+        audioManager.PlayUpgradeButtonClip();
+        hudManager.SetActiveUpgradePanel(false);
+        hudManager.SetActiveInventoryPanel(true);
 
         TextMeshProUGUI amountText = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
         amountText.text = inventory.Units[unitType].ToString();
@@ -229,9 +238,9 @@ public class GameManager : MonoBehaviour
         Image image = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Icon").GetComponent<Image>();
         SetInventoryUnitColour(unitType, image);
 
-        BM.setSelectionEnabled(true);
+        boardManager.SetSelectionEnabled(true);
         isPlaying = false;
-        UM.SetActiveStartButton(false);
+        hudManager.SetActiveStartButton(false);
     }
 
     void LoadLevel()
@@ -241,8 +250,8 @@ public class GameManager : MonoBehaviour
 
         if (level != 0)
         {
-            UM.upgradePanel.UnitChosen += PickUpgradeUnit;
-            UM.ShowUpgradePanel();
+            hudManager.upgradePanel.UnitChosen += PickUpgradeUnit;
+            hudManager.ShowUpgradePanel();
         }
             
     }
@@ -252,27 +261,26 @@ public class GameManager : MonoBehaviour
         if (level < levelUpgradeTypes.Count)
         {
             var upgrades = levelUpgradeTypes[level];
-            UM.upgradePanel.SetUnitOptions(upgrades[0], upgrades[1], upgrades[2]);
+            hudManager.upgradePanel.SetUnitOptions(upgrades[0], upgrades[1], upgrades[2]);
         }
     }
 
     void PrepareBoardForNextLevel()
     {
-        AM.PlayPlanningPhaseClip();
-        BM.ClearBoardUnits();
-        BM.LoadEnemyUnits(levelEnemyStartStates[level]);
-        BM.LoadPlayerUnits();
-        UM.SetActiveStartButton(false);  
+        audioManager.PlayPlanningPhaseClip();
+        boardManager.ClearBoardUnits();
+        boardManager.LoadEnemyUnits(levelEnemyStartStates[level]);
+        boardManager.LoadPlayerUnits();
+        hudManager.SetActiveStartButton(false);  
     }
 
     public void StartLevel()
     {
-        UM.StartRoundButton.SetActive(false);
-        UM.SetActiveInventoryPanel(false);
-        BM.SavePlayerUnitStartPositions();
-        BM.StartRound();
-        AM.PlayRegularButtonClip();
-        AM.PlaySimulationPhaseClip();
+        hudManager.SetActiveInventoryPanel(false);
+        boardManager.SavePlayerUnitStartPositions();
+        boardManager.StartRound();
+        audioManager.PlayRegularButtonClip();
+        audioManager.PlaySimulationPhaseClip();
     }
 
     private void OnGameOver(object sender, bool playerWon)
@@ -290,13 +298,13 @@ public class GameManager : MonoBehaviour
 
     void OnRoundWon()
     {
-        AM.PlayRoundVictoryFanfareClip();
+        audioManager.PlayRoundVictoryFanfareClip();
         StartCoroutine(WaitFor(6f, true));
     }
 
     void OnRoundLost()
     {
-        AM.PlayFailureFanfareClip();
+        audioManager.PlayFailureFanfareClip();
         StartCoroutine(WaitFor(10f, false));
     }
 
@@ -320,7 +328,6 @@ public class GameManager : MonoBehaviour
 
     void OnGameWon()
     {
-        UM.StartRoundButton.SetActive(false);
-        UM.LoadCreditScene();
+        SceneUtils.LoadCreditScene();
     }
 }
