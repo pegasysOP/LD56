@@ -6,12 +6,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
-    public const string GAME_SCENE = "Lewis Test";
-    public const string MENU_SCENE = "Menu";
-    public const string CREDIT_SCENE = "Credits";
-    public const string INSTRUCTION_SCENE = "Instructions";
-
     public UpgradePanel upgradePanel;
     public GameObject StartRoundButton;
     public GameObject InventoryPanel;
@@ -24,16 +18,10 @@ public class UIManager : MonoBehaviour
     {
         BM = FindObjectOfType<BoardManager>(); 
 
-        if(SceneManager.GetActiveScene().name == MENU_SCENE)
+        if(SceneManager.GetActiveScene().name == SceneUtils.MENU_SCENE)
         {
             //   AudioManager.Instance.PlayMenuClip();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public string GetUnitNameText(UnitType unitType)
@@ -60,33 +48,33 @@ public class UIManager : MonoBehaviour
     public void LoadGameScene()
     {
         AudioManager.Instance.PlayRegularButtonClip();
-        SceneManager.LoadScene(GAME_SCENE);
+        SceneUtils.LoadGameScene();
     }
 
     public void LoadMenuScene()
     {
         AudioManager.Instance.PlayMenuClip();
         AudioManager.Instance.PlayRegularButtonClip();
-        SceneManager.LoadScene(MENU_SCENE);
+        SceneUtils.LoadMenuScene();
     }
 
     public void LoadCreditScene()
     {
 
         AudioManager.Instance.PlayVictoryFanfareClip();
-        SceneManager.LoadScene(CREDIT_SCENE);
+        SceneUtils.LoadCreditScene();
     }
 
     public void LoadInstructionScene()
     {
         AudioManager.Instance.PlayMenuClip();
         AudioManager.Instance.PlayRegularButtonClip();
-        SceneManager.LoadScene(INSTRUCTION_SCENE);
+        SceneUtils.LoadInstructionScene();
     }
 
     public void QuitButtonPressed()
     {
-        Application.Quit();
+        SceneUtils.QuitApplication();
     }
 
     public void PickUnitPressed(UnitType type)
