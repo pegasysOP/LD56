@@ -5,17 +5,21 @@ public class HudManager : MonoBehaviour
 {
     public UpgradePanel upgradePanel;
     public Button startRoundButton;
+    public Button unitInfoButton;
     public GameObject inventoryPanel;
     public GameObject instructionPanel;
 
     private void OnEnable()
     {
         startRoundButton.onClick.AddListener(OnStartRoundButtonClick);
+        unitInfoButton.onClick.AddListener(OnUnitInfoButtonClick);
+
     }
 
     private void OnDisable()
     {
         startRoundButton.onClick.RemoveListener(OnStartRoundButtonClick);
+        unitInfoButton.onClick.AddListener(OnUnitInfoButtonClick);
     }
 
     public string GetUnitNameText(UnitType unitType)
@@ -68,18 +72,15 @@ public class HudManager : MonoBehaviour
         BoardManager.Instance.SetSelectionEnabled(false);
     }
 
-    public void SetInformationPanelActive()
+    public void OnUnitInfoButtonClick()
     {
         if (instructionPanel.activeInHierarchy)
         {
-            instructionPanel.SetActive(false);
-            
+            instructionPanel.SetActive(false); 
         }
         else
         {
             instructionPanel.SetActive(true);
-            //upgradePanel.gameObject.SetActive(false);
-            //StartRoundButton.SetActive(false);
         }
     }
 

@@ -2010,6 +2010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePanel: {fileID: 783611630298105551}
   startRoundButton: {fileID: 4373003348793795820}
+  unitInfoButton: {fileID: 1285165315487015983}
   inventoryPanel: {fileID: 7724491577908920062}
   instructionPanel: {fileID: 4106540979148621483}
 --- !u!1 &8038576867303857556
