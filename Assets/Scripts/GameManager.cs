@@ -54,9 +54,9 @@ public class GameManager : MonoBehaviour
 
     void InitializeManagers()
     {
-        hudManager = FindObjectOfType<HudManager>();
-        boardManager = FindObjectOfType<BoardManager>();
-        audioManager = FindObjectOfType<AudioManager>();
+        hudManager = FindFirstObjectByType<HudManager>();
+        boardManager = FindFirstObjectByType<BoardManager>();
+        audioManager = FindFirstObjectByType<AudioManager>();
 
         hudManager.SetActiveUpgradePanel(false);
         hudManager.SetActiveStartButton(false);  
