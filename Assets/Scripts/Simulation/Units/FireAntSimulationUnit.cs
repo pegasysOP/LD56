@@ -66,6 +66,7 @@ public class FireAntSimulationUnit : SimulationUnitBase
             if (dx == dy)
             {
                 unit.SetBurnedCounter(10);
+                unit.Debuff();
                 //In BASE class: Set targeting and movement to be reversed and decrement confused timer
             }
         }
