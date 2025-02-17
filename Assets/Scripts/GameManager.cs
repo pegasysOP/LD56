@@ -329,5 +329,6 @@ public class GameManager : MonoBehaviour
     void OnGameWon()
     {
         SceneUtils.LoadCreditScene();
+        AudioManager.Instance.PlayVictoryFanfareClip();
     }
 }
