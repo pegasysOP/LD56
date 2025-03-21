@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,8 +12,6 @@ public class GameManager : MonoBehaviour
 
     public Sprite[] unitSprites;
     public static Dictionary<UnitType, Sprite> UnitTypeToSprite;
-
-    public Button[] buttons;
 
     HudManager hudManager;
     BoardManager boardManager;
@@ -46,9 +42,12 @@ public class GameManager : MonoBehaviour
     {
         SetupSpriteMap();
         SetupUpgradeConfigurations();
-        SetupEnemyStartStates();
+
         InitializeInventory();
-        SetupInventoryUI();
+        SetupEnemyStartStates();
+
+        hudManager.ShowInventoryPanel(InventoryUnitSelected, inventory.Units);
+
         boardManager.SavePlayerUnitStartPositions();
     }
 
@@ -74,34 +73,6 @@ public class GameManager : MonoBehaviour
             { UnitType.WorkerBee, unitSprites[4] },
             { UnitType.FireAnt, unitSprites[5] }
         };
-    }
-
-    void SetupInventoryUI()
-    {
-        var unitTypes = new List<UnitType>(UnitTypeToSprite.Keys);
-
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            UnitType unitType = unitTypes[i];
-            Sprite unitSprite = UnitTypeToSprite[unitType];
-
-            Image childImage = buttons[i].transform.Find("Unit Icon").GetComponent<Image>();
-            if (childImage != null)
-            {
-                childImage.sprite = unitSprite;
-            }
-
-            SetInventoryUnitColour(unitType, childImage);
-
-            TextMeshProUGUI amountText = buttons[i].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
-            amountText.text = inventory.Units[unitType].ToString();
-
-            TextMeshProUGUI buttonText = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
-            if (buttonText != null)
-            {
-                buttonText.text = hudManager.GetUnitNameText(unitType);
-            }
-        }
     }
 
     void SetupUpgradeConfigurations()
@@ -136,44 +107,26 @@ public class GameManager : MonoBehaviour
         inventory.AddUnit(UnitType.WorkerBee);
     }
 
-    public void HandleUnitSelection(int index)
+    private void InventoryUnitSelected(UnitType unitType)
     {
-        UnitType selectedUnit = (UnitType)index;
-        if (currentDraggingUnit != null || inventory.isInventoryEmpty()) return;
+        if (currentDraggingUnit != null || inventory.IsInventoryEmpty())
+            return;
 
-        if (inventory.CanPlaceUnit(selectedUnit))
-        {
-            boardManager.SpawnNewPlayerUnit(selectedUnit);
-            inventory.PlaceUnit(selectedUnit);
-            CheckIfAllUnitsPlaced();
+        boardManager.SpawnNewPlayerUnit(unitType);
+        inventory.PlaceUnit(unitType);
 
-            TextMeshProUGUI amountText = buttons[index].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
-            amountText.text = inventory.Units[selectedUnit].ToString();
+        hudManager.inventoryPanel.UpdateUnitQuantity(unitType, inventory.GetUnitCount(unitType));
 
-            Image childImage = buttons[GetButtonForUnitType(selectedUnit)].transform.Find("Unit Icon").GetComponent<Image>();
-            SetInventoryUnitColour(selectedUnit, childImage);
-        }
+        CheckIfAllUnitsPlaced();
     }
 
     void CheckIfAllUnitsPlaced()
     {
-        if (inventory.isInventoryEmpty() && !isPlaying)
+        if (inventory.IsInventoryEmpty() && !isPlaying)
         {
             hudManager.SetActiveStartButton(true);  
             isPlaying = true;
             boardManager.SavePlayerUnitStartPositions();
-        }
-    }
-
-    void SetInventoryUnitColour(UnitType unitType, Image image)
-    {
-        if (inventory.GetUnitCount(unitType) == 0)
-        {
-            image.color = new Color(0.5f, 0.5f, 0.5f, 1f);  // Darken the sprite (greyed out)
-        }
-        else
-        {
-            image.color = Color.white;  // Restore to normal color
         }
     }
 
@@ -214,29 +167,13 @@ public class GameManager : MonoBehaviour
         return enemyUnits;
     }
 
-    int GetButtonForUnitType(UnitType type)
-    {
-        if (type == UnitType.QueenBee) return 0;
-        else if (type == UnitType.Beetle) return 1;
-        else if (type == UnitType.Spider) return 2;
-        else if (type == UnitType.Moth) return 3;
-        else if (type == UnitType.WorkerBee) return 4;
-        else return 5;
-    }
-
-    void PickUpgradeUnit(UnitType unitType)
+    private void UpgradeUnitPicked(UnitType unitType)
     {
         inventory.AddUnit(unitType);
         hudManager.HideUpgradePanel();
 
         audioManager.PlayUpgradeButtonClip();
-        hudManager.SetActiveInventoryPanel(true);
-
-        TextMeshProUGUI amountText = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
-        amountText.text = inventory.Units[unitType].ToString();
-        
-        Image image = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Icon").GetComponent<Image>();
-        SetInventoryUnitColour(unitType, image);
+        hudManager.ShowInventoryPanel(InventoryUnitSelected, inventory.Units);
 
         boardManager.SetSelectionEnabled(true);
         isPlaying = false;
@@ -257,7 +194,7 @@ public class GameManager : MonoBehaviour
             return;
 
         var upgrades = levelUpgradeTypes[level];
-        hudManager.ShowUpgradePanel(PickUpgradeUnit, upgrades[0], upgrades[1], upgrades[2]);
+        hudManager.ShowUpgradePanel(UpgradeUnitPicked, upgrades[0], upgrades[1], upgrades[2]);
     }
 
     void PrepareBoardForNextLevel()
@@ -271,9 +208,11 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
-        hudManager.SetActiveInventoryPanel(false);
+        hudManager.HideInventoryPanel();
+
         boardManager.SavePlayerUnitStartPositions();
         boardManager.StartRound();
+
         audioManager.PlayRegularButtonClip();
         audioManager.PlaySimulationPhaseClip();
     }

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class UpgradePanel : MonoBehaviour
 {
-    public UnitSelectionButton button1;
-    public UnitSelectionButton button2;
-    public UnitSelectionButton button3;
+    public UnitButton button1;
+    public UnitButton button2;
+    public UnitButton button3;
 
     public void SetUnitOptions(Action<UnitType> onUnitChosen, UnitType option1, UnitType option2, UnitType option3)
     {

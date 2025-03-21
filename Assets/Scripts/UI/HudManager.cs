@@ -1,13 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HudManager : MonoBehaviour
 {
     public UpgradePanel upgradePanel;
+    public InventoryPanel inventoryPanel;
+
     public Button startRoundButton;
     public Button unitInfoButton;
-    public GameObject inventoryPanel;
+
     public GameObject instructionPanel;
 
     private void OnEnable()
@@ -42,16 +45,22 @@ public class HudManager : MonoBehaviour
             default:
                 return "x";
         }
-    }   
-
-    public void SetActiveInventoryPanel(bool isActive)
-    {
-        inventoryPanel.gameObject.SetActive(isActive);
-    }
-
+    }  
+    
     public void SetActiveStartButton(bool isActive)
     {
         startRoundButton.gameObject.SetActive(isActive);
+    }
+
+    public void ShowInventoryPanel(Action<UnitType> onUnitClicked, Dictionary<UnitType, int> inventoryContents)
+    {
+        inventoryPanel.Init(onUnitClicked, inventoryContents);
+        inventoryPanel.gameObject.SetActive(true);
+    }
+
+    public void HideInventoryPanel()
+    {
+        inventoryPanel.gameObject.SetActive(false);
     }
 
     public void ShowUpgradePanel(Action<UnitType> onUnitChosen, UnitType option1, UnitType option2, UnitType option3)
@@ -59,7 +68,7 @@ public class HudManager : MonoBehaviour
         upgradePanel.SetUnitOptions(onUnitChosen, option1, option2, option3);
         upgradePanel.gameObject.SetActive(true);
 
-        SetActiveInventoryPanel(false);
+        HideInventoryPanel();
         SetActiveStartButton(false);
         BoardManager.Instance.SetSelectionEnabled(false);
     }

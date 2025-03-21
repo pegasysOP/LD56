@@ -3,11 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitSelectionButton : MonoBehaviour
+public class UnitButton : MonoBehaviour
 {
     public Button button;
     public TextMeshProUGUI unitNameText;
-    public Image unitImage;
+    public Image unitIcon;
 
     private UnitType unitType;
     private Action<UnitType> onClick;
@@ -23,7 +23,7 @@ public class UnitSelectionButton : MonoBehaviour
         this.onClick = onClick;
 
         unitNameText.text = GetUnitNameText(unitType);
-        unitImage.sprite = GameManager.UnitTypeToSprite[unitType];
+        unitIcon.sprite = GameManager.UnitTypeToSprite[unitType];
     }
 
     private void OnButtonClick()
@@ -31,10 +31,12 @@ public class UnitSelectionButton : MonoBehaviour
         if (onClick != null)
         {
             onClick(unitType);
-
-            // clear after to avoid duping
-            onClick = null;
         }
+    }
+
+    public UnitType GetUnitType()
+    {
+        return unitType;
     }
 
     // TODO: This should be included in the big data file
