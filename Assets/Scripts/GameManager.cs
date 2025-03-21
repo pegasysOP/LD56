@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         boardManager = FindFirstObjectByType<BoardManager>();
         audioManager = FindFirstObjectByType<AudioManager>();
 
-        hudManager.SetActiveUpgradePanel(false);
+        hudManager.HideUpgradePanel();
         hudManager.SetActiveStartButton(false);  
         boardManager.GameOver += OnGameOver;
     }
@@ -224,12 +224,12 @@ public class GameManager : MonoBehaviour
         else return 5;
     }
 
-    void PickUpgradeUnit(object sender, UnitType unitType)
+    void PickUpgradeUnit(UnitType unitType)
     {
-        hudManager.upgradePanel.UnitChosen -= PickUpgradeUnit;
         inventory.AddUnit(unitType);
+        hudManager.HideUpgradePanel();
+
         audioManager.PlayUpgradeButtonClip();
-        hudManager.SetActiveUpgradePanel(false);
         hudManager.SetActiveInventoryPanel(true);
 
         TextMeshProUGUI amountText = buttons[GetButtonForUnitType(unitType)].transform.Find("Unit Amount Text").GetComponent<TextMeshProUGUI>();
@@ -245,24 +245,19 @@ public class GameManager : MonoBehaviour
 
     void LoadLevel()
     {
-        SetUpgradeUnitsForLevel();
         PrepareBoardForNextLevel();
 
-        if (level != 0)
-        {
-            hudManager.upgradePanel.UnitChosen += PickUpgradeUnit;
-            hudManager.ShowUpgradePanel();
-        }
-            
+        ShowUpgrades();
     }
 
-    void SetUpgradeUnitsForLevel()
+    void ShowUpgrades()
     {
-        if (level < levelUpgradeTypes.Count)
-        {
-            var upgrades = levelUpgradeTypes[level];
-            hudManager.upgradePanel.SetUnitOptions(upgrades[0], upgrades[1], upgrades[2]);
-        }
+        // exclude first level
+        if (level < 1 || level >= levelUpgradeTypes.Count)
+            return;
+
+        var upgrades = levelUpgradeTypes[level];
+        hudManager.ShowUpgradePanel(PickUpgradeUnit, upgrades[0], upgrades[1], upgrades[2]);
     }
 
     void PrepareBoardForNextLevel()

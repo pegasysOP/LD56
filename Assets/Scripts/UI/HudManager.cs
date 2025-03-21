@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,18 +42,7 @@ public class HudManager : MonoBehaviour
             default:
                 return "x";
         }
-    }
-
-    public void PickUnitPressed(UnitType type)
-    {
-        //Spawn a unit in the next avaialble space based on UnitType. Maybe this should be in BM
-        upgradePanel.gameObject.SetActive(false);
-    }
-
-    public void SetActiveUpgradePanel(bool isActive)
-    {
-        upgradePanel.gameObject.SetActive(isActive);
-    }
+    }   
 
     public void SetActiveInventoryPanel(bool isActive)
     {
@@ -64,12 +54,19 @@ public class HudManager : MonoBehaviour
         startRoundButton.gameObject.SetActive(isActive);
     }
 
-    public void ShowUpgradePanel()
+    public void ShowUpgradePanel(Action<UnitType> onUnitChosen, UnitType option1, UnitType option2, UnitType option3)
     {
-        SetActiveUpgradePanel(true);
+        upgradePanel.SetUnitOptions(onUnitChosen, option1, option2, option3);
+        upgradePanel.gameObject.SetActive(true);
+
         SetActiveInventoryPanel(false);
         SetActiveStartButton(false);
         BoardManager.Instance.SetSelectionEnabled(false);
+    }
+
+    public void HideUpgradePanel()
+    {
+        upgradePanel.gameObject.SetActive(false);
     }
 
     public void OnUnitInfoButtonClick()
