@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
     {
         this.unitType = unitType;
 
-        animator.Play(GetIdleClip(), 0, Random.Range(0f, 1f));
+        animator.Play(UnitData.GetIdleClipName(unitType), 0, Random.Range(0f, 1f));
 
         spriteRenderer.flipX = !player;
 
@@ -159,7 +159,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            animator.Play(GetSpecialClip());
+            animator.Play(UnitData.GetSpecialClipName(unitType));
         }
 
         // shoot projectile
@@ -173,7 +173,7 @@ public class Unit : MonoBehaviour
     public void DoJump(bool infinite)
     {
         animator.SetBool("InfiniteJump", infinite);
-        animator.Play(GetJumpClip());
+        animator.Play(UnitData.GetJumpClipName(unitType));
     }
 
     /// <summary>
@@ -192,70 +192,5 @@ public class Unit : MonoBehaviour
             spriteRenderer.flipX = false; // going right
         else 
             spriteRenderer.flipX = true; // going left
-    }
-
-    private string GetIdleClip()
-    {
-        switch (unitType)
-        {
-            case UnitType.Beetle:
-                return "beetle_idle";
-            case UnitType.Moth:
-                return "moth_idle";
-            case UnitType.QueenBee:
-                return "queen_bee_idle";
-            case UnitType.Spider:
-                return "spider_idle";
-            case UnitType.WorkerBee:
-                return "worker_bee_idle";
-            case UnitType.FireAnt:
-                return "fire_ant_idle";
-
-
-            default:
-                return "moth_idle";
-        }
-    }
-
-    private string GetJumpClip()
-    {
-        switch (unitType)
-        {
-            case UnitType.Beetle:
-                return "beetle_jump";
-            case UnitType.Moth:
-                return "moth_jump";
-            case UnitType.QueenBee:
-                return "queen_bee_jump";
-            case UnitType.Spider:
-                return "spider_jump";
-            case UnitType.WorkerBee:
-                return "worker_bee_jump";
-            case UnitType.FireAnt:
-                return "fire_ant_jump";
-
-            default:
-                return "beetle_jump";
-        }
-    }
-
-    private string GetSpecialClip()
-    {
-        switch (unitType)
-        {
-            case UnitType.Beetle:
-                return "beetle_special";
-            case UnitType.Moth:
-                return "moth_special";
-            case UnitType.QueenBee:
-                return "queen_bee_special";
-            case UnitType.Spider:
-                return "spider_special";
-            case UnitType.FireAnt:
-                return "fire_ant_special";
-
-            default:
-                return "beetle_special";
-        }
     }
 }

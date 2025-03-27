@@ -17,7 +17,6 @@ public class HudManager : MonoBehaviour
     {
         startRoundButton.onClick.AddListener(OnStartRoundButtonClick);
         unitInfoButton.onClick.AddListener(OnUnitInfoButtonClick);
-
     }
 
     private void OnDisable()
@@ -25,27 +24,6 @@ public class HudManager : MonoBehaviour
         startRoundButton.onClick.RemoveListener(OnStartRoundButtonClick);
         unitInfoButton.onClick.AddListener(OnUnitInfoButtonClick);
     }
-
-    public string GetUnitNameText(UnitType unitType)
-    {
-        switch (unitType)
-        {
-            case UnitType.Beetle:
-                return "Beetle";
-            case UnitType.Moth:
-                return "Moth";
-            case UnitType.QueenBee:
-                return "Queen Bee";
-            case UnitType.Spider:
-                return "Spider";
-            case UnitType.WorkerBee:
-                return "Worker Bee";
-            case UnitType.FireAnt:
-                return "Fire Ant";
-            default:
-                return "x";
-        }
-    }  
     
     public void SetActiveStartButton(bool isActive)
     {

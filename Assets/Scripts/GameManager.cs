@@ -1,27 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private const int MaxLevels = 5;
-    private int level = 0;
+    public static GameManager Instance { get; private set; }
 
-    private Dictionary<Vector2Int, UnitType>[] levelEnemyStartStates;
-    private List<UnitType[]> levelUpgradeTypes;
+    public UnitData unitData;
 
-    public Sprite[] unitSprites;
-    public static Dictionary<UnitType, Sprite> UnitTypeToSprite;
+    private int currentLevel = 0;
 
-    HudManager hudManager;
-    BoardManager boardManager;
-    AudioManager audioManager;
+    private HudManager hudManager;
+    private BoardManager boardManager;
+    private AudioManager audioManager;
 
     private UnitInventory inventory;
     private GameObject currentDraggingUnit = null;
     private bool isPlaying = false;
-
-    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -40,11 +34,9 @@ public class GameManager : MonoBehaviour
 
     void SetupGameConfigurations()
     {
-        SetupSpriteMap();
-        SetupUpgradeConfigurations();
+        unitData.Init();
 
         InitializeInventory();
-        SetupEnemyStartStates();
 
         hudManager.ShowInventoryPanel(InventoryUnitSelected, inventory.Units);
 
@@ -60,40 +52,6 @@ public class GameManager : MonoBehaviour
         hudManager.HideUpgradePanel();
         hudManager.SetActiveStartButton(false);  
         boardManager.GameOver += OnGameOver;
-    }
-
-    void SetupSpriteMap()
-    {
-        UnitTypeToSprite = new Dictionary<UnitType, Sprite>
-        {
-            { UnitType.QueenBee, unitSprites[0] },
-            { UnitType.Beetle, unitSprites[1] },
-            { UnitType.Spider, unitSprites[2] },
-            { UnitType.Moth, unitSprites[3] },
-            { UnitType.WorkerBee, unitSprites[4] },
-            { UnitType.FireAnt, unitSprites[5] }
-        };
-    }
-
-    void SetupUpgradeConfigurations()
-    {
-        levelUpgradeTypes = new List<UnitType[]>
-        {
-            new UnitType[] { UnitType.Spider, UnitType.Moth, UnitType.Beetle },
-            new UnitType[] { UnitType.QueenBee, UnitType.Beetle, UnitType.WorkerBee },
-            new UnitType[] { UnitType.Moth, UnitType.Spider, UnitType.Beetle },
-            new UnitType[] { UnitType.QueenBee, UnitType.Moth, UnitType.Spider },
-            new UnitType[] { UnitType.Beetle, UnitType.QueenBee, UnitType.WorkerBee }
-        };
-    }
-
-    void SetupEnemyStartStates()
-    {
-        levelEnemyStartStates = new Dictionary<Vector2Int, UnitType>[MaxLevels];
-        for (int i = 0; i < MaxLevels; i++)
-        {
-            levelEnemyStartStates[i] = GetEnemyUnitsForLevel(i);
-        }
     }
 
     void InitializeInventory()
@@ -130,43 +88,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    Dictionary<Vector2Int, UnitType> GetEnemyUnitsForLevel(int level)
-    {
-        var enemyUnits = new Dictionary<Vector2Int, UnitType>();
-
-        switch (level)
-        {
-            case 0:
-                enemyUnits.Add(new Vector2Int(7, 6), UnitType.WorkerBee);
-                break;
-            case 1:
-                enemyUnits.Add(new Vector2Int(6, 3), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(7, 4), UnitType.Beetle);
-                break;
-            case 2:
-                enemyUnits.Add(new Vector2Int(6, 2), UnitType.QueenBee);
-                enemyUnits.Add(new Vector2Int(7, 2), UnitType.Spider);
-                enemyUnits.Add(new Vector2Int(7, 3), UnitType.Moth);
-                break;
-            case 3:
-                enemyUnits.Add(new Vector2Int(6, 2), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(6, 4), UnitType.Beetle);
-                enemyUnits.Add(new Vector2Int(7, 2), UnitType.Moth);
-                enemyUnits.Add(new Vector2Int(7, 4), UnitType.QueenBee);
-                break;
-            case 4:
-                enemyUnits.Add(new Vector2Int(6, 3), UnitType.QueenBee);
-                enemyUnits.Add(new Vector2Int(5, 3), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(6, 2), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(6, 4), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(7, 3), UnitType.WorkerBee);
-                enemyUnits.Add(new Vector2Int(7, 5), UnitType.WorkerBee);
-                break;
-        }
-
-        return enemyUnits;
-    }
-
     private void UpgradeUnitPicked(UnitType unitType)
     {
         inventory.AddUnit(unitType);
@@ -190,18 +111,18 @@ public class GameManager : MonoBehaviour
     void ShowUpgrades()
     {
         // exclude first level
-        if (level < 1 || level >= levelUpgradeTypes.Count)
+        if (currentLevel < 1 || currentLevel >= UnitData.GetLevelCount())
             return;
 
-        var upgrades = levelUpgradeTypes[level];
-        hudManager.ShowUpgradePanel(UpgradeUnitPicked, upgrades[0], upgrades[1], upgrades[2]);
+        UnitType[] options = UnitData.GetLevelUpgrades(currentLevel);
+        hudManager.ShowUpgradePanel(UpgradeUnitPicked, options[0], options[1], options[2]);
     }
 
     void PrepareBoardForNextLevel()
     {
         audioManager.PlayPlanningPhaseClip();
         boardManager.ClearBoardUnits();
-        boardManager.LoadEnemyUnits(levelEnemyStartStates[level]);
+        boardManager.LoadEnemyUnits(UnitData.GetLevelEnemies(currentLevel));
         boardManager.LoadPlayerUnits();
         hudManager.SetActiveStartButton(false);  
     }
@@ -253,8 +174,8 @@ public class GameManager : MonoBehaviour
 
     void GetNextLevel()
     {
-        level++;
-        if (level >= MaxLevels)
+        currentLevel++;
+        if (currentLevel >= UnitData.GetLevelCount())
             OnGameWon();
         else
             LoadLevel();
