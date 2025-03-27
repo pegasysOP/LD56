@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public UnitData unitData;
+    public HudManager hudManager;
 
     private int currentLevel = 0;
 
-    private HudManager hudManager;
     private BoardManager boardManager;
     private AudioManager audioManager;
 
@@ -27,42 +27,26 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        InitializeManagers();
-        SetupGameConfigurations();
+        unitData.Init();
+
+        InitManagers();
+
+        inventory = new UnitInventory();
+        hudManager.ShowInventoryPanel(InventoryUnitSelected, inventory.Units);
+
+        boardManager.SavePlayerUnitStartPositions(); // Sam - not sure why this is done at the start but too tired to check ¯\_(ツ)_/¯
+
         LoadLevel();
     }
 
-    void SetupGameConfigurations()
+    void InitManagers()
     {
-        unitData.Init();
+        hudManager.Init();
 
-        InitializeInventory();
-
-        hudManager.ShowInventoryPanel(InventoryUnitSelected, inventory.Units);
-
-        boardManager.SavePlayerUnitStartPositions();
-    }
-
-    void InitializeManagers()
-    {
-        hudManager = FindFirstObjectByType<HudManager>();
-        boardManager = FindFirstObjectByType<BoardManager>();
         audioManager = FindFirstObjectByType<AudioManager>();
-
-        hudManager.HideUpgradePanel();
-        hudManager.SetActiveStartButton(false);  
+          
+        boardManager = FindFirstObjectByType<BoardManager>();
         boardManager.GameOver += OnGameOver;
-    }
-
-    void InitializeInventory()
-    {
-        if (inventory == null)
-        {
-            inventory = new UnitInventory();
-        }
-
-        inventory.AddUnit(UnitType.WorkerBee);
-        inventory.AddUnit(UnitType.WorkerBee);
     }
 
     private void InventoryUnitSelected(UnitType unitType)

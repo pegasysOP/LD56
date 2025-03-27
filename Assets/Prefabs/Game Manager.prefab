@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitData: {fileID: 5010277570659336898}
+  hudManager: {fileID: 5170602218684435308}
 --- !u!114 &5010277570659336898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,7 +907,7 @@ GameObject:
   - component: {fileID: 5614010665785544699}
   - component: {fileID: 1285165315487015983}
   m_Layer: 5
-  m_Name: UnitInfoButton
+  m_Name: Unit Info Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

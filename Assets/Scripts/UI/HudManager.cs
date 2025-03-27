@@ -25,6 +25,12 @@ public class HudManager : MonoBehaviour
         unitInfoButton.onClick.AddListener(OnUnitInfoButtonClick);
     }
     
+    public void Init()
+    {
+        HideUpgradePanel();
+        SetActiveStartButton(false);
+    }
+
     public void SetActiveStartButton(bool isActive)
     {
         startRoundButton.gameObject.SetActive(isActive);
