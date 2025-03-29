@@ -4,13 +4,11 @@ using UnityEngine.UI;
 public class MainMenuPanel : MonoBehaviour
 {
     public Button startButton;
-    public Button instructionsButton;
     public Button quitButton;
 
     private void OnEnable()
     {
         startButton.onClick.AddListener(OnStartButtonClick);
-        instructionsButton.onClick.AddListener(OnInstructionButtonClick);
         quitButton.onClick.AddListener(OnQuitButtonClick);
 
 #if UNITY_WEBGL
@@ -21,7 +19,6 @@ public class MainMenuPanel : MonoBehaviour
     private void OnDisable()
     {
         startButton.onClick.RemoveListener(OnStartButtonClick);
-        instructionsButton.onClick.RemoveListener(OnInstructionButtonClick);
         quitButton.onClick.RemoveListener(OnQuitButtonClick);
     }
 
@@ -29,13 +26,6 @@ public class MainMenuPanel : MonoBehaviour
     {
         AudioManager.Instance.PlayRegularButtonClip();
         SceneUtils.LoadGameScene();
-    }
-    
-    private void OnInstructionButtonClick()
-    {
-        AudioManager.Instance.PlayMenuClip();
-        AudioManager.Instance.PlayRegularButtonClip();
-        SceneUtils.LoadInstructionScene();
     }
     
     private void OnQuitButtonClick()

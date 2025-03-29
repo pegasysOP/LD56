@@ -10,6 +10,7 @@ public class UnitData : MonoBehaviour
         // GameManager handles the check, trust that we are the only instance if we are being initialized
         Instance = this;
 
+        InitUnitCount();
         InitSpriteMap();
         InitLevels();
         InitUpgrades();
@@ -19,14 +20,29 @@ public class UnitData : MonoBehaviour
 
     private void ValidateData()
     {
+        if (unitSprites.Length != unitCount)
+            throw new System.Exception("Unit sprites count mismatch");
+
         if (levelEnemies.Count != levelUpgrades.Count)
             throw new System.Exception("Level enemies and level upgrades count mismatch");
     }
 
     #region Units
 
+    private int unitCount;
+
     public Sprite[] unitSprites;
     private Dictionary<UnitType, Sprite> unitSpriteMap;
+
+    private void InitUnitCount()
+    {
+        unitCount = System.Enum.GetValues(typeof(UnitType)).Length;
+    }
+
+    public static int GetUnitCount()
+    {
+        return Instance.unitCount;
+    }
 
     private void InitSpriteMap()
     {
@@ -72,6 +88,27 @@ public class UnitData : MonoBehaviour
                 return "Worker Bee";
             case UnitType.FireAnt:
                 return "Fire Ant";
+            default:
+                return "-";
+        }
+    }
+
+    public static string GetUnitDescriptionText(UnitType unitType)
+    {
+        switch (unitType)
+        {
+            case UnitType.Beetle:
+                return "A low damage but tanky melee unit with a special that flings the enemy away, opening up the front lines.";
+            case UnitType.Moth:
+                return "A two range unit with an 'area of effect' special that causes enemies to become confused.";
+            case UnitType.QueenBee:
+                return "A two range unit with a special that heals all friendly worker bees.";
+            case UnitType.Spider:
+                return "A three range glass canon unit with an 'area of effect' special that causes enemies to be slowed.";
+            case UnitType.WorkerBee:
+                return "A simple melee unit with a special attack that does extra damage.";
+            case UnitType.FireAnt:
+                return "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
             default:
                 return "-";
         }

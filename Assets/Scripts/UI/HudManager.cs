@@ -7,11 +7,11 @@ public class HudManager : MonoBehaviour
 {
     public UpgradePanel upgradePanel;
     public InventoryPanel inventoryPanel;
+    public InstructionPanel instructionPanel;
 
     public Button startRoundButton;
     public Button unitInfoButton;
 
-    public GameObject instructionPanel;
 
     private void OnEnable()
     {
@@ -64,13 +64,14 @@ public class HudManager : MonoBehaviour
 
     public void OnUnitInfoButtonClick()
     {
-        if (instructionPanel.activeInHierarchy)
+        if (instructionPanel.gameObject.activeInHierarchy)
         {
-            instructionPanel.SetActive(false); 
+            instructionPanel.gameObject.SetActive(false); 
         }
         else
         {
-            instructionPanel.SetActive(true);
+            instructionPanel.gameObject.SetActive(true);
+            instructionPanel.Init();
         }
     }
 

@@ -14,10 +14,11 @@ public class UnitButton : MonoBehaviour
 
     private void Awake()
     {
-        button.onClick.AddListener(OnButtonClick);
+        // null check in case no button on component
+        button?.onClick.AddListener(OnButtonClick);
     }
 
-    public void Init(UnitType unitType, Action<UnitType> onClick)
+    public void Init(UnitType unitType, Action<UnitType> onClick = null)
     {
         this.unitType = unitType;
         this.onClick = onClick;
